@@ -91,7 +91,12 @@ class APToolbox:
             raise ToolError(f"no such tool: {name}")
         self._counts[name] = self._counts.get(name, 0) + 1
         if self.fault_hook is not None:
-            self.fault_hook(name, args, self._counts[name])
+            try:
+                self.fault_hook(name, args, self._counts[name])
+            except ToolError:
+                raise
+            except Exception as exc:      # an InjectedFault from the engine
+                raise ToolError(str(exc)) from None
         started = time.perf_counter()
         try:
             result = tool.fn(**args)

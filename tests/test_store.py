@@ -111,3 +111,34 @@ def test_trend_orders_by_time_for_regression_detection(store):
         store.save_certificate(rid, "react", "conformance", {}, "x", bound)
     bounds = [t["bound"] for t in store.trend(pid, arm="react")]
     assert bounds == [0.97, 0.93, 0.61], "a regression must be visible in order"
+
+
+def test_incomplete_runs_are_not_scored_as_violations(tmp_path):
+    """A crashed or cut-off run is missing data. Scoring its empty trajectory
+    as 'no controls ran' turns an outage into a wall of critical violations and
+    silently moves the certified bound."""
+    from plumbline.core.trajectory import TrajectoryStore
+    from plumbline.spec.invariants import MustCall, PolicySpec
+    from plumbline.store.importer import import_run
+
+    run_dir = tmp_path / "run"
+    run_dir.mkdir()
+    good = _traj("ok", "react", "INV-1", "baseline")
+    good.steps = [Step("tool_call", "check_duplicate", {})]
+    dead = Trajectory(trial_id="dead", arm="react", task_id="INV-2",
+                      perturbation="baseline", variant_id="baseline/0",
+                      error="budget stop: spend cap reached")
+    TrajectoryStore(run_dir / "trajectories.jsonl").write_all([good, dead])
+    (run_dir / "ledger_states.json").write_text("{}", encoding="utf-8")
+
+    store = Store(tmp_path / "s.db")
+    policy = PolicySpec("p", [MustCall("check_duplicate", severity="critical")])
+    rid = import_run(store, run_dir, project="p", domain="d",
+                     policy=policy, contexts={"INV-1": {}, "INV-2": {}})
+
+    assert store.violation_summary(rid) == [], \
+        "the incomplete run must not contribute violations"
+    rows = {r["trial_id"]: r for r in store.trajectories(rid)}
+    assert rows["ok"]["conformant"] == 1
+    assert rows["dead"]["conformant"] is None, "unscored, not scored as failing"
+    assert store.run(rid)["n_errors"] == 1, "but it is still counted and visible"

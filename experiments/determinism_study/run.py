@@ -89,7 +89,10 @@ def main() -> int:
     perturb_llm = LLMClient(model=args.perturb_model, cache=cache, budget=budget,
                             max_tokens=2048, offline=args.offline)
 
-    cfg = RunConfig(arms=arms, tasks=tasks, perturbations=suite,
+    from agents.ap.tools import APToolbox
+    cfg = RunConfig(toolbox_factory=APToolbox,
+                    ledger_of=lambda tb, task: tb.ledger_state(task.invoice_id),
+                    arms=arms, tasks=tasks, perturbations=suite,
                     trials_per_variant=args.trials,
                     variants_per_perturbation=args.variants,
                     max_workers=args.workers, out_dir=str(out_dir))

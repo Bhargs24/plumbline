@@ -19,10 +19,13 @@ from .spec.invariants import CRITICAL, PolicySpec
 
 def certify(trajectories: list[Trajectory], spec: PolicySpec, contexts: dict,
             ledger_states: dict, *, subject: str = "agent",
-            provenance: dict | None = None) -> Certificate:
+            provenance: dict | None = None, outcome_matches=None) -> Certificate:
+    """`outcome_matches(context, ledger) -> bool` comes from the domain. Without
+    it, outcome correctness is reported as unmeasured rather than assumed."""
     conformance = analyze_conformance(trajectories, spec, contexts)
     consistency = analyze_consistency(trajectories, spec.arg_schemas, ledger_states)
-    outcome = outcome_correctness(trajectories, contexts, ledger_states)
+    outcome = outcome_correctness(trajectories, contexts, ledger_states,
+                                  outcome_matches)
     return Certificate.build(
         subject=subject, policy_name=spec.name,
         conformance=conformance, consistency=consistency, outcome=outcome,

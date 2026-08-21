@@ -24,22 +24,41 @@ GREY, MUTED, RULE = "#6b7280", "#9aa1a9", "#c9ced4"
 
 PERTS = ["baseline", "paraphrase", "distractor", "decoy_tools", "sampling", "tool_fault"]
 
+#: Three series, because the third is the one that matters. `plan_execute_naive`
+#: is the executor with no retry policy, which produced the effect this project
+#: originally published. `plan_execute` is the same executor with the error
+#: handling a production integration has. The gap between them is the finding.
+SERIES = [
+    ("naive",  "runs/parity-study", "plan_execute",  "#e0574f", "deterministic, no retry"),
+    ("retry",  "runs/retry-study",  "plan_execute",  "#2a78d6", "deterministic, 3 retries"),
+    ("react",  "runs/retry-study",  "react",         "#eb6834", "free-form agent"),
+]
 
-def results_svg(run="runs/parity-study") -> str:
+
+def _series_flags():
+    """Outcome correctness per perturbation for each of the three series."""
     from agents.ap.tasks import build_tasks, expected_outcome
     ctx = {t.task_id: t.context for t in build_tasks()}
-    led = json.loads((ROOT / run / "ledger_states.json").read_text(encoding="utf-8"))
-    trajs = [t for t in TrajectoryStore(ROOT / run / "trajectories.jsonl").load()
-             if not t.error]
+    out = {}
+    for key, run, arm, colour, label in SERIES:
+        led = json.loads((ROOT / run / "ledger_states.json").read_text(encoding="utf-8"))
+        trajs = [t for t in TrajectoryStore(ROOT / run / "trajectories.jsonl").load()
+                 if not t.error and t.arm == arm]
 
-    def ok(t):
-        w = expected_outcome(ctx[t.task_id]); g = led.get(t.trial_id) or {}
-        return (bool(g.get("paid")) == w["paid"]
-                and int(g.get("payment_count", 0)) == w["payment_count"]
-                and abs(float(g.get("amount_paid", 0)) - w["amount_paid"]) < 0.005
-                and bool(g.get("exception_raised")) == w["exception_raised"])
+        def ok(t, led=led):
+            w = expected_outcome(ctx[t.task_id]); g = led.get(t.trial_id) or {}
+            return (bool(g.get("paid")) == w["paid"]
+                    and int(g.get("payment_count", 0)) == w["payment_count"]
+                    and abs(float(g.get("amount_paid", 0)) - w["amount_paid"]) < 0.005
+                    and bool(g.get("exception_raised")) == w["exception_raised"])
+        out[key] = {p: [ok(t) for t in trajs if t.perturbation == p] for p in PERTS}
+    return out
 
-    W, H, PAD_L, PAD_R, ROW, TOP = 860, 330, 150, 80, 44, 26
+
+def results_svg() -> str:
+    flags = _series_flags()
+
+    W, H, PAD_L, PAD_R, ROW, TOP = 900, 400, 160, 90, 54, 40
     plot = W - PAD_L - PAD_R
     xmin = 0.60
     x = lambda v: PAD_L + (max(v, xmin) - xmin) / (1 - xmin) * plot
@@ -55,26 +74,28 @@ def results_svg(run="runs/parity-study") -> str:
         cy = TOP + i * ROW + ROW / 2
         o.append(f'<text x="{PAD_L-14}" y="{cy+4:.0f}" text-anchor="end" font-size="13" '
                  f'fill="{GREY}">{p.replace("_", " ")}</text>')
-        for arm, colour, dy in (("plan_execute", BLUE, -8), ("react", ORANGE, 8)):
-            f = [ok(t) for t in trajs if t.arm == arm and t.perturbation == p]
+        for (key, _run, _arm, colour, _lbl), dy in zip(SERIES, (-13, 0, 13)):
+            f = flags[key][p]
             if not f:
                 continue
             w = wilson(sum(f), len(f))
             y = cy + dy
-            o.append(f'<line x1="{x(w.lo):.1f}" y1="{y:.0f}" x2="{x(w.hi):.1f}" y2="{y:.0f}" '
-                     f'stroke="{colour}" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>')
-            o.append(f'<circle cx="{x(w.value):.1f}" cy="{y:.0f}" r="6" fill="{colour}"/>')
+            o.append(f'<line x1="{x(w.lo):.1f}" y1="{y:.0f}" x2="{x(w.hi):.1f}" '
+                     f'y2="{y:.0f}" stroke="{colour}" stroke-width="2.5" '
+                     f'stroke-linecap="round" opacity="0.5"/>')
+            o.append(f'<circle cx="{x(w.value):.1f}" cy="{y:.0f}" r="5.5" '
+                     f'fill="{colour}"/>')
             if p == "tool_fault":
-                o.append(f'<text x="{x(w.hi)+10:.0f}" y="{y+4:.0f}" font-size="13" '
+                o.append(f'<text x="{x(w.hi)+10:.0f}" y="{y+4:.0f}" font-size="12.5" '
                          f'font-weight="600" fill="{colour}">{w.pct:.1f}%</text>')
     o.append(f'<line x1="{PAD_L}" y1="{TOP+len(PERTS)*ROW}" x2="{W-PAD_R}" '
              f'y2="{TOP+len(PERTS)*ROW}" stroke="{RULE}" stroke-width="1"/>')
-    o.append(f'<circle cx="{PAD_L}" cy="14" r="5" fill="{BLUE}"/>'
-             f'<text x="{PAD_L+12}" y="18" font-size="12.5" fill="{GREY}">'
-             f'plan_execute (deterministic executor)</text>')
-    o.append(f'<circle cx="{PAD_L+250}" cy="14" r="5" fill="{ORANGE}"/>'
-             f'<text x="{PAD_L+262}" y="18" font-size="12.5" fill="{GREY}">'
-             f'react (free-form agent)</text>')
+    lx = PAD_L
+    for _key, _run, _arm, colour, label in SERIES:
+        o.append(f'<circle cx="{lx}" cy="16" r="5" fill="{colour}"/>'
+                 f'<text x="{lx+12}" y="20" font-size="12" fill="{GREY}">'
+                 f'{label}</text>')
+        lx += 22 + len(label) * 6.6
     o.append('</svg>')
     return "\n".join(o)
 

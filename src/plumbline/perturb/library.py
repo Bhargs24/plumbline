@@ -22,7 +22,7 @@ import hashlib
 import json
 import random
 
-from .base import Perturbation, Variant
+from .base import InjectedFault, Perturbation, Variant
 
 # --------------------------------------------------------------------------
 
@@ -193,10 +193,9 @@ def _fail_once(target: str, message: str):
     state = {"fired": False}
 
     def hook(name: str, args: dict, call_index: int) -> None:
-        from agents.ap.tools import ToolError
         if name == target and not state["fired"]:
             state["fired"] = True
-            raise ToolError(message)
+            raise InjectedFault(message)
     return hook
 
 

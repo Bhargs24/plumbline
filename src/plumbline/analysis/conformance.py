@@ -157,25 +157,21 @@ def analyze_conformance(trajectories: list[Trajectory], spec: PolicySpec,
 
 
 def outcome_correctness(trajectories: list[Trajectory], contexts: dict,
-                        ledger_states: dict) -> Proportion:
-    """Did the run leave the ledger in the state a correct run would leave it.
+                        ledger_states: dict, matches=None) -> Proportion:
+    """Did the run leave the world in the state a correct run would leave it.
 
-    Judged on the database, not on the closing message. An agent that says it
-    held the invoice for review and then scheduled the payment anyway is a
-    failure, and only the ledger reveals it.
+    Judged on the system of record, not on the closing message. An agent that
+    says it held the invoice for review and then scheduled the payment anyway is
+    a failure, and only the ledger reveals it.
+
+    `matches(context, ledger) -> bool` is supplied by the DOMAIN. This module
+    must not know what an invoice is: it previously imported one specific
+    domain's grader directly, which meant the generic analysis layer crashed on
+    any other domain. A missing grader yields an empty proportion rather than a
+    guess, so a report says "not measured" instead of inventing a number.
     """
-    from agents.ap.tasks import expected_outcome
-    ok = []
-    for t in trajectories:
-        want = expected_outcome(contexts.get(t.task_id, {}))
-        got = ledger_states.get(t.trial_id)
-        if got is None:
-            ok.append(False)
-            continue
-        ok.append(
-            bool(got.get("paid")) == want["paid"]
-            and int(got.get("payment_count", 0)) == want["payment_count"]
-            and abs(float(got.get("amount_paid", 0)) - want["amount_paid"]) < 0.005
-            and bool(got.get("exception_raised")) == want["exception_raised"]
-        )
+    if matches is None:
+        return wilson(0, 0)
+    ok = [bool(matches(contexts.get(t.task_id, {}), ledger_states.get(t.trial_id)))
+          for t in trajectories]
     return wilson(sum(ok), len(ok))

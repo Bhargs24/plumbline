@@ -48,3 +48,14 @@ class Perturbation:
 
 class EquivalenceCheckFailed(Exception):
     pass
+
+
+class InjectedFault(Exception):
+    """A fault deliberately injected at the tool boundary.
+
+    Generic on purpose. The perturbation engine must not import a domain's
+    exception type, so a toolbox converts this into whatever error its own
+    tools raise. The agent then observes a genuine error from a genuine call
+    and cannot distinguish an injected fault from a real one, which is the
+    whole point.
+    """

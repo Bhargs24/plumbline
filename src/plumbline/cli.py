@@ -104,6 +104,62 @@ def cmd_parity(args) -> int:
     return 0
 
 
+def cmd_demo(args) -> int:
+    """Seed the store from the committed runs and start the console.
+
+    The point of this command is that it needs no API key. Every study in the
+    repository ships its trajectories, so a stranger can see the whole tool
+    working on real data thirty seconds after cloning.
+    """
+    from .store import Store
+    from .store.importer import import_run
+    from agents.ap.policy import AP_POLICY
+    from agents.ap.tasks import build_tasks, expected_outcome
+
+    contexts = {t.task_id: t.context for t in build_tasks()}
+
+    def outcome_ok(ctx, ledger):
+        if not ctx or ledger is None:
+            return False
+        w = expected_outcome(ctx)
+        return (bool(ledger.get("paid")) == w["paid"]
+                and int(ledger.get("payment_count", 0)) == w["payment_count"]
+                and abs(float(ledger.get("amount_paid", 0))
+                        - w["amount_paid"]) < 0.005
+                and bool(ledger.get("exception_raised")) == w["exception_raised"])
+
+    root = Path(__file__).resolve().parents[2]
+    db = Path(args.db)
+    if db.exists() and not args.reset:
+        print(f"store already exists at {db}; pass --reset to rebuild it")
+    else:
+        if db.exists():
+            db.unlink()
+        store = Store(db)
+        seeded = 0
+        for d, label in (("runs/parity-study",
+                          "no-retry executor (the retracted result)"),
+                         ("runs/retry-study",
+                          "production executor with retry policy")):
+            path = root / d
+            if not (path / "trajectories.jsonl").exists():
+                continue
+            rid = import_run(store, path, project="AP controls",
+                             domain="accounts_payable", label=label,
+                             policy=AP_POLICY, contexts=contexts,
+                             outcome_fn=outcome_ok)
+            print(f"  seeded {label}  ->  {rid}")
+            seeded += 1
+        if not seeded:
+            print("no committed runs found", file=sys.stderr)
+            return 1
+
+    if args.no_serve:
+        return 0
+    args.host, args.port = "127.0.0.1", args.port
+    return cmd_serve(args)
+
+
 def cmd_serve(args) -> int:
     """Start the console and API."""
     import os
@@ -232,6 +288,14 @@ def main(argv=None) -> int:
     w.add_argument("--fragment", action="store_true",
                    help="emit body content only, for embedding")
     w.set_defaults(fn=cmd_report)
+
+    d = sub.add_parser("demo", help="seed the store from committed runs and "
+                                    "open the console. No API key needed.")
+    d.add_argument("--port", type=int, default=8912)
+    d.add_argument("--db", default="plumbline.db")
+    d.add_argument("--reset", action="store_true", help="rebuild the store")
+    d.add_argument("--no-serve", action="store_true", help="seed only")
+    d.set_defaults(fn=cmd_demo)
 
     v = sub.add_parser("serve", help="start the web console and REST API")
     v.add_argument("--host", default="127.0.0.1")

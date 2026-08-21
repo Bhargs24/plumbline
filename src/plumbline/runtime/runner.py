@@ -30,7 +30,13 @@ from .budget import Budget, BudgetExceeded
 
 @dataclass
 class RunConfig:
-    arms: list                       # list[Arm]
+    #: Builds a fresh toolbox per trial. Supplied by the domain so the runner
+    #: stays domain-free; a per-trial factory (not a shared instance) is what
+    #: keeps trials from observing each other's writes.
+    toolbox_factory: object = None
+    #: Maps a task to its observable end state, for outcome scoring.
+    ledger_of: object = None
+    arms: list = None                # list[Arm]
     tasks: list                      # list[Task]
     perturbations: list              # list[Perturbation]
     trials_per_variant: int = 1
@@ -109,8 +115,9 @@ def generate_variants(cfg: RunConfig, perturb_llm) -> tuple[dict, int]:
 
 def run_study(cfg: RunConfig, agent_llm, perturb_llm, *,
               on_progress=None, reuse_variants=None) -> RunResult:
-    from agents.ap.tools import APToolbox
-
+    if cfg.toolbox_factory is None:
+        raise ValueError("RunConfig.toolbox_factory is required: the runner "
+                         "does not know what tools your domain has")
     started = time.perf_counter()
     result = RunResult(budget=agent_llm.budget)
     if reuse_variants:
@@ -132,7 +139,7 @@ def run_study(cfg: RunConfig, agent_llm, perturb_llm, *,
 
     def one(arm, task, variant, k):
         trial_key = f"{arm.name}/{task.task_id}/{variant.variant_id}/{k}"
-        toolbox = APToolbox(fault_hook=variant.fault_hook)
+        toolbox = cfg.toolbox_factory(fault_hook=variant.fault_hook)
         try:
             traj = arm.run(prompt=variant.prompt, toolbox=toolbox, llm=agent_llm,
                            trial_key=trial_key, temperature=variant.temperature,
@@ -149,7 +156,9 @@ def run_study(cfg: RunConfig, agent_llm, perturb_llm, *,
                               error=f"{type(exc).__name__}: {exc}")
             result.errors.append({"trial": trial_key, "error": str(exc),
                                   "trace": traceback.format_exc(limit=3)})
-        return traj, toolbox.ledger_state(task.invoice_id)
+        ledger = (cfg.ledger_of(toolbox, task) if cfg.ledger_of
+                  else toolbox.ledger_state(task.task_id))
+        return traj, ledger
 
     with ThreadPoolExecutor(max_workers=cfg.max_workers) as pool:
         futures = {pool.submit(one, *j): j for j in jobs}

@@ -12,11 +12,28 @@ live model.
 """
 from __future__ import annotations
 
-from plumbline.certify import certify, compare_arms
+from plumbline.certify import certify as _certify, compare_arms
 from plumbline.core.trajectory import Step, Trajectory
 
 from agents.ap.policy import AP_POLICY
-from agents.ap.tasks import build_tasks
+from agents.ap.tasks import build_tasks, expected_outcome
+
+
+def _outcome_matches(ctx, ledger):
+    if not ctx or ledger is None:
+        return False
+    w = expected_outcome(ctx)
+    return (bool(ledger.get("paid")) == w["paid"]
+            and int(ledger.get("payment_count", 0)) == w["payment_count"]
+            and abs(float(ledger.get("amount_paid", 0)) - w["amount_paid"]) < 0.005
+            and bool(ledger.get("exception_raised")) == w["exception_raised"])
+
+
+def certify(*a, **kw):
+    """Outcome scoring is supplied by the domain; the analysis core no longer
+    imports one. Production wires this the same way."""
+    kw.setdefault("outcome_matches", _outcome_matches)
+    return _certify(*a, **kw)
 
 TASKS = {t.task_id: t for t in build_tasks()}
 CONTEXTS = {k: v.context for k, v in TASKS.items()}
