@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="860" height="330" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+<line x1="150" y1="26" x2="150" y2="290" stroke="#c9ced4" stroke-width="1"/>
+<text x="150" y="310" text-anchor="middle" font-size="12" fill="#9aa1a9">60%</text>
+<line x1="308" y1="26" x2="308" y2="290" stroke="#c9ced4" stroke-width="1"/>
+<text x="308" y="310" text-anchor="middle" font-size="12" fill="#9aa1a9">70%</text>
+<line x1="465" y1="26" x2="465" y2="290" stroke="#c9ced4" stroke-width="1"/>
+<text x="465" y="310" text-anchor="middle" font-size="12" fill="#9aa1a9">80%</text>
+<line x1="622" y1="26" x2="622" y2="290" stroke="#c9ced4" stroke-width="1"/>
+<text x="622" y="310" text-anchor="middle" font-size="12" fill="#9aa1a9">90%</text>
+<line x1="780" y1="26" x2="780" y2="290" stroke="#c9ced4" stroke-width="1"/>
+<text x="780" y="310" text-anchor="middle" font-size="12" fill="#9aa1a9">100%</text>
+<text x="136" y="52" text-anchor="end" font-size="13" fill="#6b7280">baseline</text>
+<line x1="690.8" y1="40" x2="780.0" y2="40" stroke="#2a78d6" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="40" r="6" fill="#2a78d6"/>
+<line x1="690.8" y1="56" x2="780.0" y2="56" stroke="#eb6834" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="56" r="6" fill="#eb6834"/>
+<text x="136" y="96" text-anchor="end" font-size="13" fill="#6b7280">paraphrase</text>
+<line x1="690.8" y1="84" x2="780.0" y2="84" stroke="#2a78d6" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="84" r="6" fill="#2a78d6"/>
+<line x1="690.8" y1="100" x2="780.0" y2="100" stroke="#eb6834" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="100" r="6" fill="#eb6834"/>
+<text x="136" y="140" text-anchor="end" font-size="13" fill="#6b7280">distractor</text>
+<line x1="690.8" y1="128" x2="780.0" y2="128" stroke="#2a78d6" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="128" r="6" fill="#2a78d6"/>
+<line x1="636.0" y1="144" x2="775.2" y2="144" stroke="#eb6834" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="752.8" cy="144" r="6" fill="#eb6834"/>
+<text x="136" y="184" text-anchor="end" font-size="13" fill="#6b7280">decoy tools</text>
+<line x1="690.8" y1="172" x2="780.0" y2="172" stroke="#2a78d6" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="172" r="6" fill="#2a78d6"/>
+<line x1="678.9" y1="188" x2="780.0" y2="188" stroke="#eb6834" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="188" r="6" fill="#eb6834"/>
+<text x="136" y="228" text-anchor="end" font-size="13" fill="#6b7280">sampling</text>
+<line x1="690.8" y1="216" x2="780.0" y2="216" stroke="#2a78d6" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="216" r="6" fill="#2a78d6"/>
+<line x1="678.9" y1="232" x2="780.0" y2="232" stroke="#eb6834" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="780.0" cy="232" r="6" fill="#eb6834"/>
+<text x="136" y="272" text-anchor="end" font-size="13" fill="#6b7280">tool fault</text>
+<line x1="307.9" y1="260" x2="605.7" y2="260" stroke="#2a78d6" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="484.7" cy="260" r="6" fill="#2a78d6"/>
+<text x="616" y="264" font-size="13" font-weight="600" fill="#2a78d6">81.2%</text>
+<line x1="631.2" y1="276" x2="775.0" y2="276" stroke="#eb6834" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+<circle cx="751.9" cy="276" r="6" fill="#eb6834"/>
+<text x="785" y="280" font-size="13" font-weight="600" fill="#eb6834">98.2%</text>
+<line x1="150" y1="290" x2="780" y2="290" stroke="#c9ced4" stroke-width="1"/>
+<circle cx="150" cy="14" r="5" fill="#2a78d6"/><text x="162" y="18" font-size="12.5" fill="#6b7280">plan_execute (deterministic executor)</text>
+<circle cx="400" cy="14" r="5" fill="#eb6834"/><text x="412" y="18" font-size="12.5" fill="#6b7280">react (free-form agent)</text>
+</svg>

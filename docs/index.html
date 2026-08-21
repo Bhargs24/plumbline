@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plumbline — conformance-under-perturbation testing for LLM agents</title>
+<meta name="description" content="738 runs comparing a deterministic executor against a free-form agent. The perturbations everyone tests for did nothing. The one nobody tests for broke the deterministic one.">
+<meta property="og:title" content="Plumbline">
+<meta property="og:description" content="The failure everyone tests for wasn't there. The one nobody tests for was.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Archivo:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f8f8f6; --card:#fffffe; --sunk:#efefea; --rule:#e3e3dc;
+  --ink:#16181c; --ink-2:#494c52; --ink-3:#7b7e84;
+  --accent:#1b5e8f; --blue:#2a78d6; --orange:#eb6834;
+  --serif:"Source Serif 4",ui-serif,Georgia,serif;
+  --sans:Archivo,ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#131417; --card:#1a1c20; --sunk:#1f2126; --rule:#2c2f35;
+    --ink:#ecedee; --ink-2:#a8abb1; --ink-3:#777b82;
+    --accent:#6aa9d4; --blue:#3987e5; --orange:#d95926;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#131417; --card:#1a1c20; --sunk:#1f2126; --rule:#2c2f35;
+  --ink:#ecedee; --ink-2:#a8abb1; --ink-3:#777b82;
+  --accent:#6aa9d4; --blue:#3987e5; --orange:#d95926;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+  font-size:17px;line-height:1.65}
+.wrap{max-width:46rem;margin:0 auto;padding:4rem 1.5rem 6rem}
+.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 1rem}
+h1{font-family:var(--sans);font-weight:700;font-size:clamp(2.1rem,5.5vw,3.2rem);
+  line-height:1.06;letter-spacing:-.025em;margin:0 0 1rem;text-wrap:balance}
+.deck{font-size:1.12rem;color:var(--ink-2);margin:0 0 2.5rem;max-width:34rem}
+h2{font-family:var(--sans);font-weight:600;font-size:1.3rem;margin:3.5rem 0 .5rem;
+  letter-spacing:-.01em}
+p{color:var(--ink-2);margin:.9rem 0}
+strong{color:var(--ink);font-weight:600}
+figure{margin:2rem 0 .5rem}
+figure img{width:100%;height:auto;display:block}
+figcaption{font-size:.82rem;color:var(--ink-3);margin-top:.75rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:5px;
+  overflow:hidden;margin:2rem 0}
+.stat{background:var(--card);padding:1.1rem 1.2rem}
+.stat .n{font-family:var(--sans);font-size:1.75rem;font-weight:700;
+  letter-spacing:-.02em;line-height:1;color:var(--ink)}
+.stat .l{font-size:.75rem;color:var(--ink-3);margin-top:.35rem;
+  font-family:var(--sans)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  gap:1rem;margin:2rem 0}
+a.card{display:block;background:var(--card);border:1px solid var(--rule);
+  border-radius:5px;padding:1.25rem;text-decoration:none;color:inherit;
+  transition:border-color .15s}
+a.card:hover{border-color:var(--accent)}
+a.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a.card .t{font-family:var(--sans);font-weight:600;font-size:1rem;color:var(--ink);
+  margin-bottom:.3rem}
+a.card .d{font-size:.85rem;color:var(--ink-3);line-height:1.5}
+pre{font-family:var(--mono);font-size:.76rem;line-height:1.65;background:var(--card);
+  border:1px solid var(--rule);border-radius:5px;padding:1rem 1.15rem;
+  overflow-x:auto;color:var(--ink-2)}
+.note{background:var(--sunk);border-radius:5px;padding:1.1rem 1.3rem;
+  font-size:.9rem;color:var(--ink-2);margin:1.5rem 0}
+a{color:var(--accent)}
+footer{margin-top:4rem;padding-top:1.25rem;border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:.72rem;color:var(--ink-3);line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="eyebrow">Plumbline · a measurement</p>
+<h1>The failure everyone tests for wasn't there. The one nobody tests for was.</h1>
+<p class="deck">Two accounts-payable automations. Identical tasks, tools, model, inputs and perturbations. The only difference is who decides which step runs next.</p>
+
+<div class="stats">
+  <div class="stat"><div class="n">738</div><div class="l">runs, all committed</div></div>
+  <div class="stat"><div class="n">17.0</div><div class="l">point gap</div></div>
+  <div class="stat"><div class="n">0.0029</div><div class="l">p-value</div></div>
+  <div class="stat"><div class="n">$11.02</div><div class="l">total spend</div></div>
+</div>
+
+<figure>
+  <img src="assets/results.svg" alt="Outcome correctness by perturbation for both architectures with 95% confidence intervals. Every condition sits at 100% except tool_fault, where the deterministic executor falls to 81.2% while the free-form agent holds at 98.2%.">
+  <figcaption>Paraphrasing, distractor text, decoy tools and sampling variation broke neither system. Only a transient tool error did, and it broke the deterministic one.</figcaption>
+</figure>
+
+<h2>What happened</h2>
+
+<p>Invoice <code>INV-7002</code> is clean. Every check passes and the correct action is to pay $4,500. A transient error was injected into one tool call.</p>
+
+<pre>plan_execute  (deterministic)          react  (free-form agent)
+────────────────────────────────       ────────────────────────────────
+match_purchase_order   ✗ 503           check_vendor_status ✗ not found
+check_duplicate                        check_vendor_status ✓ (retried)
+flag_exception         ← WRONG         schedule_payment $4,500 ✓
+
+held a clean invoice for review        paid correctly</pre>
+
+<p>The deterministic executor hit a transient network error and stopped. The agent hit its own error, <strong>improvised a retry nobody specified</strong>, and got it right.</p>
+
+<div class="note"><strong>The caveat, before you ask.</strong> The fail-closed behaviour is a design choice in this executor, not a property of deterministic systems. The honest reading is narrower: a deterministic system does exactly what its author anticipated and nothing else. It handled every perturbation it was written for and failed on the one it was not. Determinism does not buy reliability. It buys predictability, and it moves the failure from the model to the specification.</div>
+
+<h2>Read it</h2>
+
+<div class="cards">
+  <a class="card" href="report.html">
+    <div class="t">The full report</div>
+    <div class="d">Every number with its confidence interval, the trajectory diff, and the parity verdict.</div>
+  </a>
+  <a class="card" href="companion.html">
+    <div class="t">The Companion</div>
+    <div class="d">55 pages, 52 chapters. From what a machine learning model is to why this result came out this way.</div>
+  </a>
+  <a class="card" href="The-Plumbline-Companion.pdf">
+    <div class="t">Companion as PDF</div>
+    <div class="d">The same guide, print-formatted and searchable.</div>
+  </a>
+  <a class="card" href="https://github.com/Bhargs24/plumbline">
+    <div class="t">The source</div>
+    <div class="d">70 tests, CI, and all 738 trajectories committed so every number re-derives.</div>
+  </a>
+</div>
+
+<h2>Check it yourself</h2>
+
+<p>The evidence is in the repository. These commands read stored trajectories and make no model calls, so they need no API key.</p>
+
+<pre>git clone https://github.com/Bhargs24/plumbline &amp;&amp; cd plumbline
+pip install -e ".[dev]"
+plumbline parity runs/parity-study plan_execute react</pre>
+
+<p>CI runs exactly this on every push. If the committed evidence ever stops reproducing the published numbers, the build goes red.</p>
+
+<footer>
+Plumbline · built by Bhargav Raghavendra · Apache-2.0<br>
+738 runs on claude-haiku-4-5 · one domain, one model, one policy · perturbations are a chosen finite set, so passing them is evidence rather than proof
+</footer>
+
+</div>
+</body>
+</html>
