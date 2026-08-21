@@ -2,6 +2,9 @@
 
 **Conformance-under-perturbation testing for LLM agents.**
 
+*A plumb line does not measure a wall. It gives you a reference that is true, so
+the wall's deviation from it becomes visible and measurable.*
+
 Your agent passed its evals. That tells you it produced acceptable answers on a
 fixed test set. It does not tell you whether it will still run your controls when
 someone rewords the request.
