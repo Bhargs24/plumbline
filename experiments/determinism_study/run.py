@@ -174,6 +174,26 @@ def main() -> int:
         (out_dir / "comparison.json").write_text(
             json.dumps(comparisons, indent=2), encoding="utf-8")
 
+        # The migration view. Treat the first arm as the incumbent being
+        # replaced and every other arm as a candidate replacement. This asks a
+        # different question from the certificates above: not "did each system
+        # obey its own rules" but "does the replacement do what the incumbent
+        # did", which is what actually gates retiring the incumbent.
+        from plumbline.certify import prove_parity
+        completed = [t for t in result.trajectories if not t.error]
+        for other in names[1:]:
+            try:
+                parity = prove_parity(completed, incumbent=base,
+                                      replacement=other,
+                                      ledger_states=result.ledger_states,
+                                      spec=AP_POLICY)
+            except ValueError as exc:
+                print(f"  parity {base} vs {other}: {exc}")
+                continue
+            print("\n" + parity.render())
+            (out_dir / f"parity-{base}-vs-{other}.json").write_text(
+                json.dumps(parity.to_dict(), indent=2), encoding="utf-8")
+
     summary = {
         "certified_bound": {k: v.certified_bound for k, v in certs.items()},
         "grade": {k: v.grade for k, v in certs.items()},

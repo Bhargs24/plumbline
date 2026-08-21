@@ -344,3 +344,35 @@ def test_divergence_only_under_perturbation_is_localized_to_it():
     assert "Not safe to retire" in r.verdict() or "Materially different" in r.verdict()
     args = [d for d in r.divergences if d.kind == "arg"]
     assert args and "amount" in args[0].expected
+
+
+def test_parity_needs_both_sides_and_says_so():
+    from plumbline.certify import prove_parity
+    import pytest as _pytest
+    t = good_pay("only", CLEAN, "baseline", 4500.00)
+    t.arm = "incumbent"
+    with _pytest.raises(ValueError, match="both"):
+        prove_parity([t], incumbent="incumbent", replacement="missing",
+                     ledger_states={"only": _ledger(True, 1, 4500.0)})
+
+
+def test_unpaired_runs_are_excluded_not_counted_as_divergences():
+    """An API outage killed 82 runs in the first study and they were scored as
+    total behavioral divergence. A run with no counterpart is missing data, not
+    evidence."""
+    from plumbline.certify import prove_parity
+    trajs, ledgers = [], {}
+    steps = _checks(CLEAN, "V-101") + [
+        _tc("schedule_payment", invoice_id=CLEAN, amount=4500.0, vendor_id="V-101")]
+    for i in range(4):
+        trajs.append(_pair(f"i{i}", "incumbent", CLEAN, "baseline", steps, ledgers,
+                           _ledger(True, 1, 4500.0), f"baseline/{i}"))
+    for i in range(2):      # replacement only ran half of them
+        trajs.append(_pair(f"r{i}", "replacement", CLEAN, "baseline", list(steps),
+                           ledgers, _ledger(True, 1, 4500.0), f"baseline/{i}"))
+    trajs.append(_pair("orphan", "replacement", CLEAN, "baseline", list(steps),
+                       ledgers, _ledger(True, 1, 4500.0), "baseline/99"))
+    r = prove_parity(trajs, incumbent="incumbent", replacement="replacement",
+                     ledger_states=ledgers, spec=AP_POLICY)
+    assert r.n_pairs == 2 and r.unpaired == 1
+    assert r.divergences == []

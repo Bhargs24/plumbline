@@ -74,6 +74,36 @@ def cmd_compare(args) -> int:
     return 0
 
 
+def cmd_parity(args) -> int:
+    """Prove that a replacement behaves like the incumbent it would retire."""
+    from .certify import prove_parity
+    run_dir = Path(args.run_dir)
+    trajs, ledgers = _load(run_dir)
+    spec, _ = _policy_and_contexts()
+
+    if args.exclude_errors:
+        before = len(trajs)
+        trajs = [t for t in trajs if not t.error]
+        dropped = before - len(trajs)
+        if dropped:
+            print(f"excluded {dropped} run(s) that did not complete\n",
+                  file=sys.stderr)
+
+    report = prove_parity(trajs, incumbent=args.incumbent,
+                          replacement=args.replacement,
+                          ledger_states=ledgers, spec=spec)
+    if args.json:
+        print(json.dumps(report.to_dict(), indent=2))
+    else:
+        print(report.render())
+    if args.out:
+        p = Path(args.out) / f"parity-{args.incumbent}-vs-{args.replacement}.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")
+        print(f"\nwritten to {p}", file=sys.stderr)
+    return 0
+
+
 def cmd_show(args) -> int:
     trajs, ledgers = _load(Path(args.run_dir))
     matches = [t for t in trajs if args.trial in t.trial_id]
@@ -119,6 +149,19 @@ def main(argv=None) -> int:
     p.add_argument("arm_a")
     p.add_argument("arm_b")
     p.set_defaults(fn=cmd_compare)
+
+    q = sub.add_parser("parity",
+                       help="prove a replacement matches the incumbent it "
+                            "would retire, including under perturbation")
+    q.add_argument("run_dir")
+    q.add_argument("incumbent", help="the system being replaced")
+    q.add_argument("replacement", help="the system replacing it")
+    q.add_argument("--exclude-errors", action="store_true",
+                   help="drop runs that did not complete, e.g. after an API "
+                        "outage, rather than scoring them as divergences")
+    q.add_argument("--json", action="store_true")
+    q.add_argument("--out", default=None)
+    q.set_defaults(fn=cmd_parity)
 
     s = sub.add_parser("show", help="print a stored trajectory step by step")
     s.add_argument("run_dir")
