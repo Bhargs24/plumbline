@@ -8,3 +8,5 @@ venv/
 runs/
 *.sqlite
 .cache/
+runs-study.log
+runs/

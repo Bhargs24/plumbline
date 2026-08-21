@@ -196,7 +196,9 @@ def test_unknown_model_raises_rather_than_costing_nothing():
 def test_budget_cap_actually_fires():
     from plumbline.runtime.budget import Budget, BudgetExceeded
     import pytest as _pytest
-    b = Budget(max_usd=0.01)
+    # ledger_path=None: a test must never journal fake spend into the real
+    # ledger, which would inflate the production cap.
+    b = Budget(max_usd=0.01, ledger_path=None)
     b.record("claude-haiku-4-5", 1_000_000, 1_000_000)   # $6.00
     assert b.spent_usd > 0.01
     with _pytest.raises(BudgetExceeded):
@@ -299,3 +301,16 @@ def test_summary_separates_session_from_total(tmp_path):
     assert s["session_usd"] < 0.01
     assert s["total_usd"] > 0.49
     assert s["prompt_cache_engaged"] is False
+
+
+def test_tests_never_touch_the_real_ledger():
+    """Guard against the mistake above recurring: a Budget with no explicit
+    ledger writes to the shared default, so any test using one must opt out."""
+    import inspect, re
+    import tests.test_core as mod
+    src = inspect.getsource(mod)
+    for m in re.finditer(r"Budget\(([^)]*)\)", src):
+        args = m.group(1)
+        if "{args}" in args:
+            continue                      # this test's own message string
+        assert "ledger_path" in args, "Budget(...) must set ledger_path in tests"
