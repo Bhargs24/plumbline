@@ -116,15 +116,23 @@ class Trajectory:
     def path_str(self) -> str:
         return " -> ".join(f"{k}:{n}" for k, n in self.path()) or "(no control steps)"
 
-    def calls(self, name: str) -> list[Step]:
-        return [s for s in self.control_steps() if s.name == name]
+    def calls(self, name: str, require_success: bool = True) -> list[Step]:
+        """Calls to `name`. By default only ones that actually completed.
 
-    def called(self, name: str) -> bool:
-        return any(s.name == name for s in self.control_steps())
+        Invariants are claims about effects, so a call that raised did not
+        happen. An agent that invoked `check_vendor_status` with a bad argument,
+        got an error, and moved on has NOT run the vendor check, and counting it
+        as run is how a harness certifies a control that never executed.
+        """
+        return [s for s in self.control_steps()
+                if s.name == name and not (require_success and s.failed)]
 
-    def first_index_of(self, name: str) -> int:
+    def called(self, name: str, require_success: bool = True) -> bool:
+        return bool(self.calls(name, require_success))
+
+    def first_index_of(self, name: str, require_success: bool = True) -> int:
         for i, s in enumerate(self.control_steps()):
-            if s.name == name:
+            if s.name == name and not (require_success and s.failed):
                 return i
         return -1
 

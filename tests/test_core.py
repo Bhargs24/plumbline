@@ -201,3 +201,44 @@ def test_budget_cap_actually_fires():
     assert b.spent_usd > 0.01
     with _pytest.raises(BudgetExceeded):
         b.check()
+
+
+# ------------------------------------------------- failed calls are not calls
+def _traj_with_failure():
+    """A run where the vendor check was invoked with a bad argument, raised,
+    and was never retried. Observed live in the first smoke test."""
+    return Trajectory("f", task_id="T", steps=[
+        Step("tool_call", "fetch", {}),
+        Step("tool_call", "check_vendor_status", {"vendor_id": "Ridgeline Components"},
+             error="vendor Ridgeline Components not found"),
+        Step("tool_call", "pay", {"amount": 10.0}),
+    ])
+
+
+def test_failed_control_does_not_satisfy_must_call():
+    t = _traj_with_failure()
+    assert t.called("check_vendor_status") is False
+    assert t.called("check_vendor_status", require_success=False) is True
+    assert MustCall("check_vendor_status").check(t, {}) is not None
+
+
+def test_failed_precondition_does_not_satisfy_ordering():
+    t = _traj_with_failure()
+    v = Ordering("check_vendor_status", then="pay").check(t, {})
+    assert v is not None, "a check that raised cannot license the payment that follows"
+
+
+def test_failed_payment_attempt_does_not_count_toward_call_limit():
+    t = Trajectory("g", task_id="T", steps=[
+        Step("tool_call", "pay", {}, error="503 upstream unavailable"),
+        Step("tool_call", "pay", {}),
+    ])
+    assert CallAtMost("pay", 1).check(t, {}) is None, "the retry is the only real payment"
+
+
+def test_failed_call_with_wrong_amount_is_not_an_arg_violation():
+    t = Trajectory("h", task_id="T", steps=[
+        Step("tool_call", "pay", {"amount": 999.0}, error="timeout"),
+        Step("tool_call", "pay", {"amount": 49.0}),
+    ])
+    assert ArgEquals("pay", "amount", "expected").check(t, {"expected": 49.0}) is None

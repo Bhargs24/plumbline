@@ -151,6 +151,8 @@ class Ordering(Invariant):
     def check(self, traj, context):
         first_at = None
         for i, s in enumerate(traj.control_steps()):
+            if s.failed:
+                continue          # a call that raised did not happen
             if s.name == self.first and first_at is None:
                 first_at = i
             if s.name == self.then and first_at is None:
@@ -175,7 +177,8 @@ class CallAtMost(Invariant):
 
     def check(self, traj, context):
         ctrl = traj.control_steps()
-        calls = [i for i, s in enumerate(ctrl) if s.name == self.tool]
+        calls = [i for i, s in enumerate(ctrl)
+                 if s.name == self.tool and not s.failed]
         if len(calls) > self.limit:
             return self._v(
                 f"{self.tool} called {len(calls)} times, limit is {self.limit}",
@@ -206,7 +209,7 @@ class ArgEquals(Invariant):
     def check(self, traj, context):
         expected = context.get(self.from_context)
         for i, s in enumerate(traj.control_steps()):
-            if s.name != self.tool:
+            if s.name != self.tool or s.failed:
                 continue
             if self.arg not in s.args:
                 return self._v(f"{self.tool} called without {self.arg}", i, self.tool)
@@ -233,7 +236,9 @@ class ArgSatisfies(Invariant):
 
     def check(self, traj, context):
         for i, s in enumerate(traj.control_steps()):
-            if s.name == self.tool and not self.predicate(s.args, context):
+            if s.failed or s.name != self.tool:
+                continue
+            if not self.predicate(s.args, context):
                 return self._v(f"{self.tool} args {s.args} violate {self.id}", i, self.tool)
         return None
 
