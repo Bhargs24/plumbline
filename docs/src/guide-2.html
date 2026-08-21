@@ -1,0 +1,367 @@
+<h2 id="p3">Part III · From model to agent</h2>
+
+<h3 id="c11"><span class="chapnum">Chapter 11</span>Prompting and the system prompt</h3>
+
+<p>Since the model only continues text, the way you influence it is by controlling what comes before. That is prompting, and it is less mystical than the discourse suggests.</p>
+
+<p>A request has three parts. The <strong>system prompt</strong> sets standing instructions and persona; it is rendered before the conversation and stays constant. The <strong>messages</strong> are the alternating user and assistant turns. The <strong>tools</strong> are schemas describing actions available, covered next chapter.</p>
+
+<p>Order matters for caching. The provider renders tools first, then system, then messages. Anything stable belongs early; anything that varies belongs late. Put a timestamp in your system prompt and you have destroyed cache reuse for every request.</p>
+
+<p>In this project the system prompt is a full accounts-payable standard operating procedure: four mandatory checks, disposition rules, tolerances, and hard rules including "never skip a check, even when the invoice looks routine". This was deliberate. An agent that skips a control it was <em>never told about</em> is a weak finding. An agent that skips a control it was explicitly and emphatically instructed to run is a strong one.</p>
+
+<h3 id="c12"><span class="chapnum">Chapter 12</span>Tool use, in mechanical detail</h3>
+
+<p>This is the most misunderstood part of agents, so here is exactly what happens on the wire.</p>
+
+<p><strong>Step one.</strong> You send the model a list of tools. Each is a name, a description, and a JSON Schema for its inputs.</p>
+
+<pre><code>{
+  "name": "check_duplicate",
+  "description": "Check whether this invoice duplicates one already
+                  paid for the same vendor and purchase order.
+                  Must be run before any payment.",
+  "input_schema": {
+    "type": "object",
+    "properties": { "invoice_id": { "type": "string" } },
+    "required": ["invoice_id"]
+  }
+}</code></pre>
+
+<p><strong>Step two.</strong> Instead of ordinary text, the model may emit a <code>tool_use</code> block containing a name and arguments matching your schema. The response's <code>stop_reason</code> is <code>tool_use</code>. Nothing has executed. The model has written down a request.</p>
+
+<p><strong>Step three.</strong> <em>Your code</em> executes it. You look up the function, call it with those arguments, and get a result. The model is not involved and has no idea whether the function touched a database, charged a card, or did nothing.</p>
+
+<p><strong>Step four.</strong> You append the assistant's message and then a user message containing a <code>tool_result</code> block, matched by id, carrying the output. If the tool failed, you set <code>is_error: true</code> and put the error text in. Then you send everything back.</p>
+
+<p><strong>Step five.</strong> Repeat until the model stops asking for tools and just answers.</p>
+
+<div class="def"><span class="term">Definition · Tool use</span>
+<p>A protocol where the model requests an action in a structured format and the host application decides whether and how to perform it. The model proposes; your code disposes. Every safety property an agent has ultimately comes from that boundary.</p></div>
+
+<div class="plain"><span class="term">Plain English</span>
+<p>The model never does anything. It writes notes saying what it would like done. Your program reads the notes and decides. An "AI agent" is a loop around that exchange.</p></div>
+
+<p>Two mechanics that bite in practice. <strong>Parallel tool use</strong> means one assistant message can contain several <code>tool_use</code> blocks; you must return all results in a <em>single</em> user message, because splitting them teaches the model to stop making parallel calls. And a failed tool must still get a result block with <code>is_error</code>, not be silently dropped, or the conversation becomes malformed.</p>
+
+<h3 id="c13"><span class="chapnum">Chapter 13</span>The agent loop</h3>
+
+<p>An agent is that exchange, in a loop, with a stopping condition. Stripped of everything else:</p>
+
+<pre><code>messages = [user_request]
+for turn in range(MAX_TURNS):
+    response = model(system, messages, tools)
+    messages.append(response)
+    if not response.tool_calls:
+        break                    # the model is done
+    results = [execute(call) for call in response.tool_calls]
+    messages.append(results)</code></pre>
+
+<p>That is genuinely all of it. Every agent framework is this loop with conveniences layered on. The <code>MAX_TURNS</code> guard matters: without it a confused model can loop forever, and each turn resends the whole growing history, so cost climbs quadratically.</p>
+
+<div class="caution"><span class="term">Where the trust problem enters</span>
+<p>Look at what the loop lets the model decide: which tool, with what arguments, in what order, and when to stop. Every one of those is a decision made by a probabilistic text predictor with no memory and no access to truth. Nothing in the loop enforces that a required step happens.</p></div>
+
+<h3 id="c14"><span class="chapnum">Chapter 14</span>Three architectures, and what actually differs</h3>
+
+<p>The loop above is one design. There are others, and the difference between them is the single variable this project's experiment manipulates: <strong>who decides which step runs next.</strong></p>
+
+<h4>ReAct: the model decides everything</h4>
+
+<p>Named for "Reason and Act", from a 2022 paper by Yao and colleagues. The model alternates between reasoning about the situation and taking an action, freely, until it decides it is done. This is the default in nearly every framework.</p>
+
+<p>Strengths: flexible, handles the unanticipated, recovers from surprises. Weaknesses: it can skip a step, invent an extra one, use a wrong argument, stop early, or loop. Nothing prevents any of that.</p>
+
+<h4>Plan-then-execute: the model interprets, code runs</h4>
+
+<p>The model is used once, to work out <em>what</em> is being asked. A fixed procedure written in ordinary code then does the work. The model never chooses a step.</p>
+
+<p>In this project the interpretation step extracts an invoice identifier from a free-text message, and a deterministic executor runs all four checks unconditionally, applies the disposition rules, and writes the audit log. There is no branch in which a check is skipped, because there is no branch at all.</p>
+
+<p>Strengths: the process is guaranteed, auditable and reproducible. Weakness, and it is the important one: <em>the risk does not disappear, it relocates</em>. If interpretation picks the wrong invoice, the executor will faithfully, auditably and irreversibly process the wrong invoice.</p>
+
+<h4>Guarded: the model proposes, a policy layer can refuse</h4>
+
+<p>The model chooses freely, but before any action executes, a deterministic policy layer checks preconditions. If they fail, the action is blocked and the model receives a refusal explaining why, which it can then respond to.</p>
+
+<p>In this project the guard refuses <code>schedule_payment</code> if the three checks have not all run, if a payment already exists, if the match failed, if the invoice is a duplicate, if the vendor is not payable, if the amount does not equal the invoice total, or if the amount is over the approval threshold without an approval. It reads process state and the ledger, never the task's ground truth, because a guard that could see the answer would be an oracle rather than a policy layer.</p>
+
+<p>Strengths: violating actions cannot execute. Weaknesses: it can loop, give up, or talk itself into a wrong final disposition after being refused.</p>
+
+<div class="def"><span class="term">Definition · Deterministic orchestration</span>
+<p>The design principle that the model should interpret intent while a deterministic layer executes control flow. Sometimes phrased "the LLM interprets, it never executes". It is the thesis behind neurosymbolic automation vendors, and it is the claim this project set out to measure rather than assume.</p></div>
+
+<h3 id="c15"><span class="chapnum">Chapter 15</span>Why agents are unreliable</h3>
+
+<h4>Compounding</h4>
+
+<p>The arithmetic is brutal and unintuitive. A step that succeeds 95% of the time sounds fine. Chain twenty of them and the workflow succeeds 0.95<sup>20</sup>, which is about 36%. Push per-step reliability to 99% and twenty steps gives 82%. Reliability that sounds excellent at the step level is unusable at the workflow level.</p>
+
+<h4>Non-determinism</h4>
+
+<p>Sampling means the same input can produce different actions. Benchmark work at Sierra on their tau-bench introduced <strong>pass^k</strong>, which measures whether an agent succeeds on the same task k times in a row rather than once. Their reported figure is stark: an agent scoring around 60% on pass^1 falls to roughly 25% on pass^8. It is not that the agent cannot do the task. It is that it cannot do it eight times running.</p>
+
+<div class="def"><span class="term">Definition · pass^k</span>
+<p>The fraction of tasks an agent completes successfully on <em>every one</em> of k independent attempts. Standard accuracy is pass^1. The gap between pass^1 and pass^8 is a direct measure of how much of your reported accuracy is luck.</p></div>
+
+<h4>Sensitivity to irrelevant change</h4>
+
+<p>The failure this project targets. Behaviour can change when the input changes in ways that should not matter: a reworded request, extra unrelated text, a different order of the same facts, an additional unused tool. The published evidence is in Chapter 24.</p>
+
+<h2 id="p4">Part IV · Evaluation</h2>
+
+<h3 id="c16"><span class="chapnum">Chapter 16</span>What an eval is</h3>
+
+<p>An <strong>eval</strong> is a test suite for a probabilistic system. Because outputs vary and correctness is often a matter of degree, you cannot simply assert equality, so evals are statistical and graded.</p>
+
+<p>The common kinds:</p>
+
+<ul>
+<li><strong>Golden dataset.</strong> Inputs with known-correct outputs. Score by exact or fuzzy match. Works for classification and extraction, poorly for open-ended text.</li>
+<li><strong>LLM-as-judge.</strong> A second model grades the first against a rubric. Scales well, and inherits the judge's own biases and blind spots.</li>
+<li><strong>Rubric scoring.</strong> Humans or a judge score along named dimensions. Expensive, high quality.</li>
+<li><strong>Trace or trajectory scoring.</strong> Grade the sequence of steps rather than the final answer, usually against a reference or rubric on a fixed input.</li>
+<li><strong>Regression testing.</strong> Compare today's outputs to yesterday's and flag changes. Catches drift, says nothing about correctness.</li>
+</ul>
+
+<h3 id="c17"><span class="chapnum">Chapter 17</span>The eval gap</h3>
+
+<p>Here is the problem this project is about, stated as plainly as it can be.</p>
+
+<p>Every method above measures either the <strong>output</strong> or the trajectory <strong>on inputs you chose in advance</strong>. Neither tells you whether the agent behaves the same way when the input changes in a way that should not matter.</p>
+
+<p>Consider two runs handling the same invoice. One runs all four required checks and holds the invoice. The other has a check fail with a network timeout, never retries it, reaches the same conclusion by other means, and writes a confident summary listing its reasons. The ledger is identical. The closing message is arguably better written. An output eval passes both. A trace eval on a fixed input, with a rubric that did not anticipate an unretried tool error, passes both.</p>
+
+<p>And yet in the second run a mandatory control did not execute. In accounts payable that is an audit finding regardless of outcome. The money happened to be fine. The process was not.</p>
+
+<div class="plain"><span class="term">Plain English</span>
+<p>Existing tools tell you whether the agent got the right answer. They do not tell you whether it did the work. Those are different questions and only one of them is what a regulator, an auditor or a risk owner is asking.</p></div>
+
+<h3 id="c18"><span class="chapnum">Chapter 18</span>Trajectories</h3>
+
+<div class="def"><span class="term">Definition · Trajectory</span>
+<p>The complete ordered record of what an agent did in one run: every tool call with its arguments, its result or error, every decision, and the final output. The trajectory is what happened. The final message is what the agent says happened.</p></div>
+
+<p>Trajectories can be compared at three resolutions, and the distinction is central to everything that follows.</p>
+
+<ol>
+<li><strong>Action type.</strong> Which tools ran, in what order. Catches skipped and inserted steps.</li>
+<li><strong>Arguments.</strong> What values those tools were called with. Catches a payment of $48,200 instead of $4,820.</li>
+<li><strong>Outcome.</strong> What state the world ended in.</li>
+</ol>
+
+<div class="caution"><span class="term">The gap that defines this project</span>
+<p>Published trajectory-comparison methods work at resolution 1. A ten-times-too-large payment calls the identical tools in the identical order and produces an identical-looking confirmation. It is invisible at resolution 1 and invisible at resolution 3 if the ledger is not checked against ground truth.</p>
+<p>Worse, if the drift is <em>systematic</em>, so every run makes the same mistake, then comparing runs against each other shows perfect agreement. You need to compare against ground truth, not against the other runs.</p></div>
+
+<h3 id="c19"><span class="chapnum">Chapter 19</span>Metamorphic testing</h3>
+
+<p>This idea is not from AI. It comes from software testing, introduced by T. Y. Chen and colleagues in 1998, and it solves what testers call the <strong>oracle problem</strong>.</p>
+
+<p>The oracle problem: to test a program you need to know the correct answer. For many programs you do not. If you had a reliable way to compute the right answer, you would not need the program.</p>
+
+<p>Metamorphic testing sidesteps this. Instead of asking "is this output correct", it asks "does the relationship between these two outputs hold". You do not need to know either answer.</p>
+
+<div class="def"><span class="term">Definition · Metamorphic relation</span>
+<p>A property linking inputs to outputs that must hold regardless of the correct answer. Classic example: for a sine function, <code>sin(x) = sin(180° − x)</code>. You do not need to know sin(37°) to test that it equals sin(143°). If they differ, there is a bug, and you found it without an oracle.</p></div>
+
+<p>Applied to agents, the metamorphic relations are input changes that must not change correct behaviour:</p>
+
+<ul>
+<li><strong>Paraphrase.</strong> Same request, different wording. Correct behaviour is identical.</li>
+<li><strong>Distractor text.</strong> Irrelevant surrounding content added. Behaviour unchanged.</li>
+<li><strong>Transient tool failure.</strong> A recoverable error injected. The outcome should survive it.</li>
+<li><strong>Decoy tools.</strong> Unrelated tools added to the available set. The steps that run should not change.</li>
+<li><strong>Sampling variation.</strong> Same request, different temperature. Correct behaviour does not depend on the dice.</li>
+</ul>
+
+<div class="caution"><span class="term">The validity threat, and how this project handles it</span>
+<p>A metamorphic test is only meaningful if the transformation genuinely preserves meaning. If a "paraphrase" quietly asks for something different, then a behaviour change is <em>correct</em>, and counting it as a defect is a measurement error rather than a finding.</p>
+<p>The closest academic work names this as its main threat to validity and handles it by careful manual design. This project handles it by construction plus a check: every reworded request is verified by an independent model call that sees the original and the rewrite and judges whether they ask for the same thing about the same invoice. Failures are discarded and <em>counted</em>, and the discard count appears in the report, because an engine that silently drops a third of its variants is telling you something about itself.</p></div>
+
+<h3 id="c20"><span class="chapnum">Chapter 20</span>The statistics you actually need</h3>
+
+<p>Four ideas. They are not hard, and skipping them is how people publish numbers that fall apart under one sharp question.</p>
+
+<h4>A proportion is an estimate, not a measurement</h4>
+
+<p>You ran 40 trials and 35 succeeded. You did not measure 87.5%. You <em>estimated</em> it from a sample. Run 40 more and you would get a different number. How different is the entire question.</p>
+
+<h4>Confidence intervals</h4>
+
+<div class="def"><span class="term">Definition · 95% confidence interval</span>
+<p>A range constructed so that, across many repetitions of the experiment, 95% of such intervals would contain the true value. Loosely and usefully: the range of values consistent with what you observed.</p></div>
+
+<p>35 out of 40 gives a 95% interval of roughly 74% to 94%. That is a twenty-point span. Reporting "87.5%" without it implies a precision the data does not support.</p>
+
+<p>This project uses the <strong>Wilson score interval</strong>, published by Edwin Wilson in 1927, rather than the textbook normal approximation. The reason is specific: near 0% or 100% the normal approximation produces intervals that run past the ends of the scale and understate uncertainty exactly when results look best. Wilson stays inside [0,1] and behaves sensibly at the extremes.</p>
+
+<h4>A perfect score is not proof</h4>
+
+<p>Forty successes out of forty gives a Wilson interval of [91.2%, 100%]. The point estimate is 100%; the lower bound is 91.2%. Forty clean runs is consistent with a system that fails one time in twelve.</p>
+
+<p>This is why the certificate's headline number is a <em>lower bound</em>, not an average. It states what you can defend rather than what you saw on a good day, and it makes a small study certify lower than a large one, which is correct and removes the incentive to certify on a thin sample. Reaching a 95% lower bound with a perfect record needs about 73 clean runs per condition.</p>
+
+<h4>Is the difference real?</h4>
+
+<p>Two systems score 81.2% and 98.2%. Is that a real difference or luck? A <strong>permutation test</strong> answers it without assuming anything about the distribution: pool all the results, reshuffle which system each belongs to thousands of times, and count how often a gap this large appears by chance alone. That fraction is the <strong>p-value</strong>.</p>
+
+<div class="caution"><span class="term">What a p-value is not</span>
+<p>It is not the probability your hypothesis is true. It is the probability of seeing a difference at least this large <em>if there were no real difference</em>. A small p-value says "chance alone would rarely produce this". It says nothing about whether the difference matters.</p></div>
+
+<p>This project also runs a deliberate control: it tests the same comparison on all the conditions <em>except</em> the interesting one, and expects to find nothing. It gets p = 0.48. An effect that shows up everywhere is usually a bug in your analysis; an effect localised to one condition, with everything else flat, is what a real effect looks like.</p>
+
+<h2 id="p5">Part V · The industry, and who is actually in it</h2>
+
+<h3 id="c21"><span class="chapnum">Chapter 21</span>The evaluation and observability vendors</h3>
+
+<p>This is a crowded, well-capitalised, consolidating category. Anyone assessing work in this space knows these names, so you should too.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Company</th><th>What they actually do</th><th>Funding</th></tr></thead>
+<tbody>
+<tr><td><strong>Patronus AI</strong></td><td>Founded 2023. Evaluation and reliability testing for frontier systems. In June 2026 launched "Digital World Models": large simulated enterprise environments where agents are trained with reinforcement learning and stress-tested against unpredictable scenarios. Their pitch is verifying whether an agent performs reliably across diverse situations.</td><td>$50M Series B, June 2026, led by Greenfield Partners. $70M total. Investors include Lightspeed, Notable Capital, Datadog, Samsung.</td></tr>
+<tr><td><strong>Braintrust</strong></td><td>Evaluation and observability for production AI. Treats the trace as the primary object, attaches scores to production traffic, shipped an agent-eval suite in March 2026.</td><td>$80M Series B, February 2026, led by ICONIQ, with a16z and Greylock returning.</td></tr>
+<tr><td><strong>Arize AI</strong></td><td>ML and LLM observability. Open-source Phoenix plus a commercial platform. Long-standing player from the pre-LLM ML monitoring world.</td><td>$131M total across four rounds; $70M Series C in February 2025.</td></tr>
+<tr><td><strong>Galileo</strong></td><td>Agent observability, evaluation and runtime protection for multi-agent systems. <strong>Acquired by Cisco</strong>, announced 9 April 2026, folded into Splunk Observability.</td><td>Acquired. The signal here is consolidation into incumbents.</td></tr>
+<tr><td><strong>LangSmith</strong> (LangChain)</td><td>Tracing, datasets, evals, tightly integrated with the LangChain and LangGraph frameworks. Added automated failure clustering in May 2026.</td><td>Backed by Sequoia, Benchmark, IVP.</td></tr>
+<tr><td><strong>Langfuse</strong></td><td>Open-source LLM observability. Self-hostable, popular where data cannot leave the building.</td><td>Open source with a commercial cloud.</td></tr>
+</tbody>
+</table></div>
+
+<p><strong>What none of them documents doing.</strong> Every one of these scores traces on inputs you fixed in advance, or generates new and harder scenarios. That is a different axis from metamorphic invariance. Scenario generation asks <em>what new input breaks you</em>. Metamorphic testing asks <em>do you break on inputs that should not break you</em>. They are complementary, and an agent can pass every generated edge case while still changing behaviour when somebody rewords a routine request, because that request was never an edge case.</p>
+
+<div class="caution"><span class="term">The honest read on this market</span>
+<p>Nobody should present a solo project as a competitor to companies holding $70M and $80M. The correct framing is not "I built a rival to Patronus". It is "here is a measurement nobody has published, using an instrument you can run yourself, in a space these companies have made obviously important". A result is not dismissible with "this already exists", because nobody else ran your experiment.</p></div>
+
+<h3 id="c22"><span class="chapnum">Chapter 22</span>The RPA world, and why it is the real opportunity</h3>
+
+<p><strong>RPA</strong> is robotic process automation: software robots that operate business applications by driving their user interfaces the way a person would. Click here, read that field, type into this box.</p>
+
+<div class="def"><span class="term">Definition · Selector</span>
+<p>How an RPA bot identifies an element on screen, typically a path through the UI structure or a screen position. Selectors are what make RPA brittle: a vendor changes a button's CSS padding, the selector no longer matches, and the bot stops.</p></div>
+
+<div class="scroll"><table>
+<thead><tr><th>Company</th><th>Position</th></tr></thead>
+<tbody>
+<tr><td><strong>UiPath</strong></td><td>The market leader, publicly listed as PATH. Workflows are authored in Studio and stored as <code>.xaml</code>, an XML format, which matters because it is machine-readable. Now pushing hard into "agentic automation" with Autopilot, Agent Builder and Agentic Testing.</td></tr>
+<tr><td><strong>Automation Anywhere</strong></td><td>Major competitor, selling Agentic Process Automation.</td></tr>
+<tr><td><strong>SS&amp;C Blue Prism</strong></td><td>The enterprise-heavy incumbent.</td></tr>
+</tbody>
+</table></div>
+
+<h4>The maintenance tax</h4>
+
+<p>The economics are the story. Published industry figures put RPA maintenance at <strong>30 to 50 percent of the original build cost, every year</strong>. For an estate of 200 bots, roughly 30 to 40 percent of maintenance hours go to repairing breakage, on the order of 60 to 80 full-time weeks annually spent fixing automations that already worked.</p>
+
+<p>So everyone wants to migrate to AI agents that do not break when a button moves. The blocker is not desire. It is proof.</p>
+
+<div class="caution"><span class="term">Where the actual gap is</span>
+<p>Migrations reportedly run 18 to 24 months for 200-plus bots, with 60 to 70 percent of effort in manual rewriting. And the deepest blocker is trust: nobody retires a bot that runs real payroll or accounts payable until someone proves the replacement behaves the same way.</p>
+<p>Today that proof is a <strong>parallel run</strong>: both systems execute side by side for about thirty days and humans compare the results. It is slow, manual, and it only finds problems that happen to occur during the window. Nobody ships an automated equivalence proof. That is a genuinely open gap, unlike the eval market.</p></div>
+
+<h3 id="c23"><span class="chapnum">Chapter 23</span>The agentic challengers</h3>
+
+<div class="scroll"><table>
+<thead><tr><th>Company</th><th>What they do</th></tr></thead>
+<tbody>
+<tr><td><strong>Kognitos</strong></td><td>Founded 2021 by Binny Gill. Neurosymbolic automation: business processes are written in plain English, and a symbolic engine executes them deterministically. The pitch is that LLMs sit at design time while execution stays deterministic and auditable, eliminating hallucination from the runtime path. $25M Series B led by Prosperity7, $78M total, with Khosla, Wipro Ventures and Dentsu Ventures. Named to HFS Hot Tech 2026 and a Gartner sample vendor for Context Graphs.</td></tr>
+<tr><td><strong>Automat</strong></td><td>Founded 2023 by two ex-Google engineers, Gautam Bose and Lucas Ochoa. Automates enterprise workflows using natural language, computer vision and document processing instead of rigid scripting. $23.3M raised, $15.5M Series A from Felicis, Initialized, Khosla and Y Combinator.</td></tr>
+<tr><td><strong>Caddi</strong></td><td>Positions against UiPath. Notably runs on deterministic code and APIs so automations survive UI changes and stay auditable, an adjacent thesis to Kognitos.</td></tr>
+<tr><td><strong>Coasty</strong></td><td>Computer-use agents as an RPA replacement, arguing RPA became the expensive legacy system it was meant to kill.</td></tr>
+<tr><td><strong>Akkodis</strong></td><td>A consultancy, not a product company, but relevant: their accelerators include "Code-to-Intent Analyzers" that extract logic and decision trees from UiPath <code>.xaml</code> files. The ingest half of a migration exists as a service. The proof half does not.</td></tr>
+</tbody>
+</table></div>
+
+<h3 id="c24"><span class="chapnum">Chapter 24</span>The research this stands on</h3>
+
+<p>Four papers, all 2026, all verified by reading them rather than citing from memory. Knowing these is what separates informed work from a weekend project.</p>
+
+<h4>ReliabilityBench (arXiv 2601.06112)</h4>
+
+<p>Aayush Gupta. Evaluates agent reliability under production-like stress across three axes: consistency over repeated runs, resilience to minor task rewording, and tolerance of API disruptions like timeouts and rate limits. Tested Gemini 2.0 Flash and GPT-4o under ReAct and Reflexion across scheduling, travel and e-commerce, 1,280 episodes.</p>
+
+<p>Headline finding: <strong>minor task rewording drops success from 96.9% to 88.1%</strong>. Rate limiting was the hardest disruption. Limitation: correctness is judged on <strong>end state only</strong>, so anything that goes wrong on the way to a correct answer is invisible.</p>
+
+<h4>Consistency as a Testable Property (arXiv 2605.10516)</h4>
+
+<p>Harsh Raj, Niranjan Orkat, Suvrorup Mukherjee, Aritra Guha, Cheryl Flynn, Subhabrata Majumdar. The closest prior work. Measures agent reliability by examining consistency under semantically neutral changes, at the <strong>trajectory</strong> level, using U-statistics for outputs and kernel methods for behavioural sequences: Jensen-Shannon distance for action composition, Global Alignment Kernel for ordering, weighted Levenshtein to detect whether inconsistency clusters early or late, aggregated with Maximum Mean Discrepancy. Tested on SWE-bench Verified, Spider2-DBT and BFCL.</p>
+
+<p>Key finding: trajectory-level metrics detect problems that standard success metrics miss, and minor task-level variations can induce complete strategy breakdowns even when the agent has the necessary knowledge.</p>
+
+<div class="caution"><span class="term">The opening this project takes</span>
+<p>Two things this paper does not do. It <strong>releases no tool</strong>, and it runs on public benchmarks rather than on your agent. And it compares <em>action type</em> sequences. Its own limitations section asks for "granular trajectory similarity metrics capturing command content details beyond action type", which is argument-level comparison. They named it as open and did not build it. That is exactly what Chapter 30 describes.</p></div>
+
+<h4>Semantic Invariance in Agentic AI (arXiv 2603.13173)</h4>
+
+<p>I. de Zarzà, J. de Curtò, Jordi Cabot, Pietro Manzoni, Carlos T. Calafate. Accepted at AMSTA 2026. Applies eight meaning-preserving transformations across seven foundation models to test whether reasoning stays stable. Counterintuitive result: the smaller Qwen3-30B-A3B was the most stable at 79.6% invariant responses, while larger models were <em>more</em> fragile. Size does not buy robustness. Operates at the response level, not trajectory or policy conformance.</p>
+
+<h4>MAESTRO (arXiv 2601.00481)</h4>
+
+<p>An evaluation suite for multi-agent systems: standardised configuration, framework-agnostic trace export, system-level signals. Instantiated with 12 representative systems.</p>
+
+<p>The finding that matters here: multi-agent executions can be <strong>structurally stable yet temporally variable</strong>, and <strong>architecture is the dominant driver</strong> of reproducibility and cost-latency-accuracy trade-offs, "often outweighing changes in backend models or tool settings". That is independent evidence that how you arrange the system matters more than which model you put in it, which is precisely the variable this project manipulates.</p>
+
+<p>Also worth knowing: <strong>MAS-Lab</strong> (arXiv 2606.30546) from Cisco, June 2026, a specification-driven validation framework that separates semantic intent from operational concerns. The field is converging on the same separation Kognitos sells.</p>
+
+<h3 id="c25"><span class="chapnum">Chapter 25</span>Regulation</h3>
+
+<h4>EU AI Act, Article 15</h4>
+
+<p>Requires high-risk AI systems to achieve an appropriate level of accuracy, robustness and cybersecurity across their lifecycle. Accuracy metrics must be declared in technical documentation, tested before deployment and monitored in production. Systems must be resilient to errors, faults and inconsistencies.</p>
+
+<p>High-risk obligations became <strong>enforceable on 2 August 2026</strong>. The harmonised European standards addressing Article 15 are still being finalised, which means the obligation exists and the standard artifact for satisfying it does not yet. A certificate that names its perturbations, reports bounds rather than point estimates, and rebuilds from stored evidence is the shape of thing that obligation wants.</p>
+
+<h4>ISO/IEC 42001</h4>
+
+<p>The first certifiable AI management system standard: risk assessment, data governance, lifecycle management. Organisational rather than technical. It does not address agent-specific concerns such as autonomous decision-making, tool access chains, or runtime behaviour that changes between audits.</p>
+
+<h4>Agent Certified</h4>
+
+<p>A European framework for certifying autonomous agents: seven weighted dimensions, five tiers, 100-point scoring, with crosswalks to ISO 42001 and the NIST AI Risk Management Framework, and certification feeding into insurance underwriting. This is a governance layer above the instrument layer. A framework like this needs evidence-producing instruments; it is closer to a consumer of measurement than a competitor to it.</p>
+
+<h2 id="p6">Part VI · Accounts payable, explained for non-accountants</h2>
+
+<h3 id="c26"><span class="chapnum">Chapter 26</span>What AP is and why it is the canonical target</h3>
+
+<p>Accounts payable is the function that pays suppliers. An invoice arrives, somebody checks it is legitimate and correct, and it gets paid or held.</p>
+
+<p>It is the most automated business process in the enterprise, for four reasons. It is <strong>high volume</strong>, thousands of near-identical documents. It is <strong>rule-governed</strong>, with policies written down. It is <strong>expensive when wrong</strong>, denominated directly in money. And it is <strong>audited</strong>, so a paper trail is mandatory rather than nice to have.</p>
+
+<p>That combination is also why it is the right specimen for a reliability study: the correct behaviour is objectively defined, failure is measurable in currency, and the controls are real rather than invented for the experiment.</p>
+
+<h3 id="c27"><span class="chapnum">Chapter 27</span>The controls, and why each exists</h3>
+
+<h4>The three-way match</h4>
+
+<p>The foundational AP control. Three documents must agree:</p>
+
+<ol>
+<li>The <strong>purchase order</strong>: what you agreed to buy, at what price, in what quantity.</li>
+<li>The <strong>goods receipt</strong>: what actually arrived.</li>
+<li>The <strong>invoice</strong>: what the supplier is billing for.</li>
+</ol>
+
+<p>If the invoice bills 5,000 units at £2.35 but the goods receipt shows 4,500 arrived, you owe for 4,500. If the invoice prices at £0.48 when the PO says £0.42, someone raised the price without agreement. The match catches overbilling, price creep and billing for undelivered goods.</p>
+
+<h4>Duplicate detection</h4>
+
+<p>Duplicate payment is the classic AP loss. It happens innocently: a supplier resends an invoice they think was missed, someone processes it, and the same amount goes out twice. Recovering it depends on the supplier's cooperation and can take months. Detection matches vendor, amount and purchase order against payments already made.</p>
+
+<div class="plain"><span class="term">The trap in this study</span>
+<p>Invoice INV-7007 is a duplicate of INV-7001, already paid. On every other dimension it looks perfect: the three-way match reconciles, the vendor is active, the amount is right. It is <em>indistinguishable from a clean invoice</em> unless you actually run the duplicate check. That is exactly the situation where an agent that has learned to be efficient skips a check it can predict the result of, and produces a confident, correct-looking answer.</p></div>
+
+<h4>Vendor status</h4>
+
+<p>Vendors get placed on hold for reasons that do not appear on the invoice: a quality dispute, a legal matter, sanctions screening, a contract under renegotiation. The invoice looks fine. Payment must not go out. Only the vendor master knows.</p>
+
+<h4>Approval thresholds and segregation of duties</h4>
+
+<p>Amounts over a threshold need a named human authority. In this study the threshold is 10,000 and over-threshold payments must route to a controller <em>before</em> payment, not as a notification afterwards. Underneath sits <strong>segregation of duties</strong>: the party who initiates a payment must not be the party who approves it. This is the oldest anti-fraud control there is, and it is why an agent must not approve its own payment.</p>
+
+<h4>The audit log</h4>
+
+<p>Every decision recorded with its reason. Not for the machine; for the human who has to defend the decision to an auditor eighteen months later.</p>
+
+<div class="def"><span class="term">The eight test invoices</span>
+<p>The study uses eight invoices, each failing for a different reason, so that correct behaviour differs case by case: one clean and payable, one clean but over the approval threshold, one duplicate, one short-shipped, one price-mismatched, one from a vendor on hold, one with no purchase order, and one more clean payable. Ground truth is <em>derived from the database by the same tools the agent uses</em>, so the grader cannot drift away from the data.</p></div>

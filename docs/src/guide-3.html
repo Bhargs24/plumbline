@@ -1,0 +1,370 @@
+<h2 id="p7">Part VII · Plumbline, the system</h2>
+
+<h3 id="c28"><span class="chapnum">Chapter 28</span>The thesis and the architecture</h3>
+
+<p>A plumb line does not measure a wall. It gives you a reference that is true, so the wall's deviation from it becomes visible and measurable. That is the whole design idea: establish what the agent's nominal behaviour is, then measure departure from it under conditions that should not cause any.</p>
+
+<p>The tool asks you to declare what must always be true of a run, then attacks those claims with meaning-preserving input changes, and reports which claim broke, under which change, at which named step, how often, and with what confidence interval. The output is a bug report with statistics attached, not a score.</p>
+
+<pre><code>src/plumbline/
+  core/       trajectory model, typed argument comparison, sequence alignment
+  spec/       the invariant DSL
+  adapters/   Claude client: trial-keyed cache, budget accounting
+  perturb/    the perturbation library and the equivalence guard
+  runtime/    parallel runner, response cache, cumulative spend cap
+  analysis/   conformance, consistency, equivalence, Wilson, permutation tests
+  report/     the certificate and the HTML report
+agents/ap/    the system under test: sqlite tools, policy, three architectures
+experiments/  the study</code></pre>
+
+<p>The layering matters. <code>core</code> knows nothing about accounts payable. <code>agents/ap</code> is a specimen, not the product. You could point the instrument at a different agent by supplying a different policy specification and adapter.</p>
+
+<h3 id="c29"><span class="chapnum">Chapter 29</span>Trajectories in code</h3>
+
+<p>A <code>Step</code> records one observable event: kind, name, arguments, output, error, latency, token counts. A <code>Trajectory</code> is an ordered list of steps plus metadata: which arm produced it, which task, which perturbation, which exact variant, which model.</p>
+
+<p>Two design decisions are load-bearing.</p>
+
+<h4>A failed call did not happen</h4>
+
+<p>If a tool raises, the step is recorded but does not count as the control having run. This sounds obvious and was originally wrong, and the bug is instructive enough that Chapter 40 covers it in full. An agent that invoked the vendor check with a bad argument, got an error, and moved on has <em>not</em> run the vendor check. A harness that counts it as run certifies a control that never executed, which is worse than no harness.</p>
+
+<h4>Deliberation is not behaviour</h4>
+
+<p>Comparing two <em>different architectures</em> needs a distinction between steps that touched the world and steps that were internal bookkeeping. The plan-execute system records an <code>interpret_request</code> decision that the ReAct system has no analogue for; the guarded system records <code>blocked:</code> entries for actions it refused. Counting those made two systems that did exactly the same things look 0% alike. Equivalence therefore compares <strong>effect paths</strong>: tool calls only.</p>
+
+<h3 id="c30"><span class="chapnum">Chapter 30</span>Typed argument comparison</h3>
+
+<p>This is the technical contribution, and it is the thing the closest paper listed as future work.</p>
+
+<p>Comparing tool arguments with a single equality operator produces both false alarms and misses. <code>"INV-1029"</code> versus <code>"inv-1029 "</code> is not a divergence. <code>amount=49.0</code> versus <code>amount=490.0</code> is the most expensive divergence in the system. One operator cannot tell those apart, so comparison is <strong>typed per field</strong>.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Policy</th><th>Applies to</th><th>Rule</th></tr></thead>
+<tbody>
+<tr><td><code>EXACT</code></td><td>identifiers, account codes, enum-like values</td><td>Normalise whitespace and case, then demand equality. Any difference is a different referent.</td></tr>
+<tr><td><code>NUMERIC</code></td><td>money, quantities, thresholds</td><td>Explicit absolute and relative tolerance, <strong>defaulting to zero</strong>. On a payment instruction, "close enough" is the defect.</td></tr>
+<tr><td><code>TEXT</code></td><td>free-text reasons and notes</td><td>Normalised and compared, but at low severity, because rewording a note is not the same class of defect as changing an amount.</td></tr>
+<tr><td><code>IGNORE</code></td><td>timestamps, request ids, idempotency keys</td><td>Legitimately allowed to vary. Declaring these explicitly is what keeps the signal clean.</td></tr>
+<tr><td><code>SET</code></td><td>collections whose order carries no meaning</td><td>Compare as sets.</td></tr>
+</tbody>
+</table></div>
+
+<p>Unclassified fields fall back to a deliberate bias: numbers get zero-tolerance numeric, everything else gets exact. An unclassified field that changes should surface and be triaged, not silently forgiven.</p>
+
+<div class="caution"><span class="term">The comparison that only works against ground truth</span>
+<p>Argument checks compare against the <em>task's true value</em>, not against other runs. This matters enormously. If every run pays $48,200 instead of $4,820, then comparing runs to each other shows perfect consistency. Only ground truth catches a systematic error. There is a test for exactly this case: eight runs, identical paths, identical arguments, 100% consistency, 0% conformance.</p></div>
+
+<h3 id="c31"><span class="chapnum">Chapter 31</span>Sequence alignment, and why naive comparison lies</h3>
+
+<p>Suppose the reference path is <code>fetch → match → dup → pay</code> and a run omits <code>dup</code>. Compare position by position and you get: at step 2, expected <code>dup</code>, got <code>pay</code>. That reads as a <em>substitution</em>, as though the agent swapped one check for another. It did not. It <strong>skipped</strong> a control, and everything after shifted up by one.</p>
+
+<p>The distinction is not cosmetic. A skipped control is a policy violation. A substituted one is a routing error. They have different causes and different fixes.</p>
+
+<p>The solution is <strong>Needleman-Wunsch global alignment</strong>, published in 1970 for comparing biological sequences and equally applicable here. It finds the alignment of two sequences that maximises a score, allowing gaps, and recovers the actual edit script: match, substitute, skipped, extra.</p>
+
+<pre><code>reference:  fetch  match  dup   pay
+candidate:  fetch  match   —    pay
+                          ^
+                    SKIPPED, not substituted</code></pre>
+
+<p>Scoring is match +2, mismatch −1, gap −2, chosen so a single omission aligns as one gap rather than cascading every downstream step into a mismatch. There is a test asserting exactly that: one skipped step must produce one divergence, not three.</p>
+
+<h3 id="c32"><span class="chapnum">Chapter 32</span>The invariant DSL</h3>
+
+<p>A consistency score is a description. "78.5" tells an engineer nothing to act on and a compliance reviewer nothing to sign. An invariant is a claim that is either upheld or broken, and when it breaks it breaks at a specific step for a specific reason.</p>
+
+<pre><code>MustCall("check_duplicate")
+Ordering("match_purchase_order", then="schedule_payment")
+CallAtMost("schedule_payment", 1)
+ArgEquals("schedule_payment", "amount", from_context="expected_amount")
+MustNotCall("schedule_payment", when=lambda ctx: not ctx["should_pay"])
+ArgSatisfies("request_approval", approval_route_ok)</code></pre>
+
+<p>Each carries a declared <strong>severity</strong>: critical, high, medium, low. Severity is declared rather than inferred, because the tool cannot know that <code>schedule_payment</code> is denominated in money and <code>post_audit_log</code> is not. Every aggregate is reported both overall and restricted to critical, since averaging a missing log entry together with a duplicate payment produces a number that means nothing.</p>
+
+<p>Invariants can be <strong>conditional</strong>. <code>MustCall("request_approval", when=needs_approval)</code> only applies to invoices over the threshold. Without conditionality the approval-ordering rule fired on every small invoice, which was a false positive found and fixed early.</p>
+
+<p>All invariants are <strong>effect-based</strong>: a call that raised did not happen, so it cannot satisfy a <code>MustCall</code>, cannot license a subsequent step under <code>Ordering</code>, and does not count toward <code>CallAtMost</code>. A failed payment attempt that was later retried is one payment, not two.</p>
+
+<h3 id="c33"><span class="chapnum">Chapter 33</span>The perturbation engine</h3>
+
+<p>Six perturbations, each declaring the invariant it preserves.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Name</th><th>What it changes</th><th>What must not change</th></tr></thead>
+<tbody>
+<tr><td><code>baseline</code></td><td>nothing; the identical request repeated</td><td>everything. This measures raw self-consistency and separates sampling noise from brittleness.</td></tr>
+<tr><td><code>paraphrase</code></td><td>the request is reworded by a model, then verified by a second independent model call</td><td>which steps are correct</td></tr>
+<tr><td><code>distractor</code></td><td>unrelated office chatter added before and after</td><td>what is done</td></tr>
+<tr><td><code>tool_fault</code></td><td>one tool call fails once with a 503, rate limit or connection reset, then recovers</td><td>the outcome</td></tr>
+<tr><td><code>decoy_tools</code></td><td>plausible but irrelevant tools added to the available set</td><td>which steps run</td></tr>
+<tr><td><code>sampling</code></td><td>the identical request at a raised temperature</td><td>which steps are correct</td></tr>
+</tbody>
+</table></div>
+
+<p>Keeping <code>baseline</code> in the suite rather than treating it as a control is deliberate: its number is diagnostic on its own. An agent whose baseline self-agreement is 80% is not brittle under perturbation, it is brittle full stop, and no amount of work on the perturbed variants will fix that.</p>
+
+<p>Faults are injected at the <strong>toolbox boundary</strong> through a hook called before every tool body, so neither the agent nor the tool implementation knows. The agent sees a real error from a real call.</p>
+
+<h3 id="c34"><span class="chapnum">Chapter 34</span>The runner, the cache, and the budget</h3>
+
+<p>Variants are generated <strong>once per task and shared across all arms</strong>. That is what makes the arms comparable: every system sees the identical reworded requests, the identical injected faults, the identical decoy tools. Each trial gets its own toolbox and therefore its own database, so trials cannot contaminate one another and can run in any order.</p>
+
+<div class="caution"><span class="term">A cache subtlety that would have faked the entire result</span>
+<p>Caching model responses saves money. But a cache keyed only on the request destroys the measurement. Self-consistency is measured by issuing the <em>same</em> request several times and seeing whether the agent does the same thing. Serve those from one cached response and self-consistency comes back a perfect 100% every time, as an artifact of the cache rather than a property of the agent.</p>
+<p>So the cache key includes the <strong>trial identity</strong>. Replaying trial 3 replays trial 3's recorded calls exactly, which makes a published result reproducible. Running a new trial 4 goes to the API and samples afresh. You get replayability without manufacturing agreement.</p></div>
+
+<p>The budget is a hard spend cap, journalled to disk after every call so that a process killed mid-run cannot take its spend record with it, and loaded on startup so the cap bounds total spend across runs rather than per run. Both of those properties exist because their absence cost real money; Chapter 40 has the story.</p>
+
+<h3 id="c35"><span class="chapnum">Chapter 35</span>Three different questions</h3>
+
+<p>The analysis layer answers three questions that are easy to conflate and must not be.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Analysis</th><th>Question</th><th>Catches</th></tr></thead>
+<tbody>
+<tr><td><strong>Conformance</strong></td><td>Did this agent obey its own declared rules?</td><td>An agent that is consistently wrong. Every run identical, every run violating a control.</td></tr>
+<tr><td><strong>Consistency</strong></td><td>Does this agent behave the same when the input is reworded?</td><td>An agent that is erratically right. This is the state that passes evals and fails in production.</td></tr>
+<tr><td><strong>Equivalence</strong></td><td>Does the replacement do what the incumbent did?</td><td>A migration that looks safe because outcomes match while behaviour has silently changed.</td></tr>
+</tbody>
+</table></div>
+
+<p>Neither of the first two subsumes the other, which is why both exist. The third answers a different question entirely and is the one that gates retiring a legacy system.</p>
+
+<div class="def"><span class="term">Why equivalence is the stronger foundation</span>
+<p>Conformance and consistency only report something when the agent <em>fails</em>. Against a competent model you can measure nothing, which is exactly what happened in the first study: every arm hit 100% outcome correctness and the only effect found was 3.7% on one perturbation.</p>
+<p>Equivalence reports something whenever two systems <em>differ</em>, and two systems always differ somewhere. Its output does not depend on either side being bad. That is a structurally better thing to build on.</p></div>
+
+<h3 id="c36"><span class="chapnum">Chapter 36</span>The certificate</h3>
+
+<p>The headline number is deliberately not the observed average. It is the <strong>95% lower confidence bound on critical-invariant conformance under the worst perturbation</strong>. Three reasons, each of which comes up the moment someone challenges it:</p>
+
+<ul>
+<li><strong>Worst case</strong>, because averaging is how a dangerous perturbation gets buried. An agent that holds at 99% everywhere except paraphrase, where it pays blocked invoices, is not a 96% agent.</li>
+<li><strong>Critical only</strong>, because a missing audit-log entry and a duplicate payment are not commensurable.</li>
+<li><strong>Lower bound</strong>, because a certificate should state what you can defend, not what you saw on a good day. This also makes small studies self-penalising, which is correct.</li>
+</ul>
+
+<p>The certificate carries its own provenance: model, seed, perturbation suite, policy identity, cost, git commit, and a hash of the trajectory evidence. And <code>plumbline certify</code> rebuilds it from stored traces with no model calls. Hand somebody the trajectories file and they can reconstruct the number themselves. A certificate you cannot re-derive is an assertion, not evidence.</p>
+
+<p>The parity certificate has its own verdict logic, and it distinguishes three states rather than two. Twelve runs with zero divergences is <em>not</em> evidence of equivalence and is also <em>not</em> evidence of divergence. Reporting "materially different" there would send someone to debug a system that is fine. So it says the sample is too small and states how many more clean runs a 0.95 bound needs.</p>
+
+<h2 id="p8">Part VIII · The experiment</h2>
+
+<h3 id="c37"><span class="chapnum">Chapter 37</span>Design</h3>
+
+<p>One question: <strong>when you move an agent's control flow out of the model, what do you actually buy, and where does the remaining risk go?</strong></p>
+
+<p><strong>Held fixed:</strong> the eight invoices, the eight tools, the sqlite database, the model (Claude Haiku 4.5), the perturbation variants (generated once and shared), and the declared policy. <strong>Changed:</strong> who decides which step runs next.</p>
+
+<p>738 runs completed. Two arms, eight tasks, six perturbations, four variants each, two trials. $11.02 total spend. The run stopped at 738 of a planned 768 because the cumulative spend cap fired, which is the safety mechanism working rather than a failure.</p>
+
+<div class="caution"><span class="term">Stating a weakness before anyone else does</span>
+<p>The plan-execute arm's structural conformance holds <em>by construction</em>: the executor runs every check because there is no branch in which it does not. That is not a trick and it is not hidden. It is the point. Putting control flow in the runtime converts a probabilistic guarantee into a structural one. What the study measures is where the residual risk <em>goes</em>, and it refuses to assume the answer.</p></div>
+
+<h3 id="c38"><span class="chapnum">Chapter 38</span>What came back</h3>
+
+<p>Outcome correctness, measured against ground truth rather than against each other:</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Perturbation</th><th>plan_execute (deterministic)</th><th>react (free-form agent)</th></tr></thead>
+<tbody>
+<tr><td>baseline</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [94.3, 100.0] n=64</td></tr>
+<tr><td>paraphrase</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [94.3, 100.0] n=64</td></tr>
+<tr><td>distractor</td><td>100.0% [94.3, 100.0] n=64</td><td>98.3% [90.9, 99.7] n=58</td></tr>
+<tr><td>decoy tools</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [93.6, 100.0] n=56</td></tr>
+<tr><td>sampling</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [93.6, 100.0] n=56</td></tr>
+<tr><td><strong>tool fault</strong></td><td><strong>81.2% [70.0, 88.9] n=64</strong></td><td><strong>98.2% [90.6, 99.7] n=56</strong></td></tr>
+</tbody>
+</table></div>
+
+<p><code>plan_execute 81.2% → react 98.2%, +17.0 points, p = 0.0029.</code> The control comparison, on every condition except tool faults, gives p = 0.48. The effect is localised to one condition.</p>
+
+<h4>Two results, and the second is the surprise</h4>
+
+<p><strong>First: the perturbations everyone worries about did nothing.</strong> Paraphrasing, distractor text, decoy tools and sampling variation broke neither system. The failure mode the literature emphasises did not appear at all on this task with this model.</p>
+
+<p><strong>Second: the deterministic system was the one that failed, and it failed systematically.</strong> All twelve of its errors were under tool faults, all in the same direction, on exactly the three payable invoices, four times each. When a check tool returned a transient 503, the executor treated the error as a blocker and raised an exception. It <strong>failed closed</strong>: safe, and wrong, and it silently converts clean invoices into human work.</p>
+
+<h4>The verified pair</h4>
+
+<p>Invoice INV-7002 is clean. Every check passes. The correct action is to pay $4,500.</p>
+
+<pre><code>plan_execute                          react
+─────────────────────────────         ─────────────────────────────
+interpret_request                     fetch_invoice
+fetch_invoice                         match_purchase_order
+match_purchase_order  ✗ 503           check_duplicate
+check_duplicate                       check_vendor_status ✗ not found
+check_vendor_status                     ("ASHFIELD_LOGISTICS")
+flag_exception          ← WRONG       check_vendor_status ("V-101") ✓
+post_audit_log                        schedule_payment $4,500 ✓
+                                      post_audit_log
+
+held a clean invoice                  paid correctly, after retrying
+for human review                      with the right argument</code></pre>
+
+<p>The deterministic executor hit a transient network error and stopped. The agent hit its own error, <em>improvised a retry nobody specified</em>, and got it right.</p>
+
+<h3 id="c39"><span class="chapnum">Chapter 39</span>What it means, and what it does not</h3>
+
+<div class="caution"><span class="term">The caveat that must lead, not follow</span>
+<p>The fail-closed behaviour is a <strong>design choice in this implementation</strong>, not a property of deterministic systems. The executor was written to treat a tool error as a blocker. An executor with retry logic would not fail this way. Anyone presenting this result must say so before being asked.</p></div>
+
+<p>The honest reading is narrower and more interesting than "determinism is worse":</p>
+
+<div class="plain"><span class="term">The finding, stated properly</span>
+<p>A deterministic system does exactly what its author anticipated, and nothing else. It handled every perturbation it was written for, perfectly, and failed on the one condition its author did not think about. The agent improvised a recovery nobody specified, which is the <em>same capability</em> that lets it skip a control somewhere else.</p>
+<p>Determinism does not buy reliability. It buys <strong>predictability</strong>, and it moves the failure from the model to the specification.</p></div>
+
+<p>For a migration the implication is sharper still. The two systems disagree, in opposite directions, on a condition that only appears when a tool happens to fail, and both produce confident, plausible logs. Neither is simply better. A thirty-day parallel run does not find this unless a network blip lands on the right invoice inside the window. Perturbation forces the case.</p>
+
+<p>Equivalence figures from the same 738 runs: same end state 94.9% [92.1, 96.8], <strong>same control path 21.5%</strong> [17.5, 26.0]. The replacement produces the same result nineteen times in twenty while taking a different route through the system four times in five. Matching outcomes is not matching behaviour.</p>
+
+<div class="caution"><span class="term">Limits, stated plainly</span>
+<p>One domain, one model, one policy. Results are for Claude Haiku 4.5 on this task. Perturbations are a chosen finite set: passing them is evidence, not proof. An agent is only as certified as the perturbations somebody thought to apply.</p></div>
+
+<h2 id="p9">Part IX · Epistemics, or: every bug and what it taught</h2>
+
+<h3 id="c40"><span class="chapnum">Chapter 40</span>The bugs</h3>
+
+<p>This chapter exists because it is the most useful part of the project to have lived through. Every one of these was found by running the thing and looking at the output, not by unit tests, because every one lived in code that had never executed.</p>
+
+<h4>1. The circular experiment</h4>
+
+<p>The first version of this project simulated the agent. A step was either "stochastic", meaning it failed with a hardcoded probability, or "pinned", meaning it always fired correctly. The demo pinned a step and showed reliability rise.</p>
+
+<p>That proves nothing. It proves that a step <em>defined</em> as always-correct is always correct. It was a tautology with a certificate printed on top, and it was discarded entirely. <strong>Lesson: if your experiment cannot come back negative, it is not an experiment.</strong></p>
+
+<h4>2. The budget cap that failed open</h4>
+
+<p>The environment file specified a dated model id absent from the price table. <code>PRICES.get(model, (0.0, 0.0))</code> returned zero, so every call recorded a cost of $0.00 and the hard spend cap could never fire. <strong>Lesson: a safety mechanism that fails silently is worse than none, because you trust it.</strong> Unknown models now raise rather than defaulting to free.</p>
+
+<h4>3. The harness certified a control that never ran</h4>
+
+<p>In the very first live run, the guarded agent called <code>check_vendor_status</code> with the vendor <em>name</em> instead of the id, got an error, never retried, and the certificate reported no violations. <code>MustCall</code> counted the failed attempt as the control having executed. <strong>Lesson: a measuring instrument that reports a control as satisfied when it errored is actively dangerous.</strong> All invariants became effect-based.</p>
+
+<h4>4. Crashes reported as findings</h4>
+
+<p>Every sampling-perturbation run threw <code>TypeError: unexpected keyword argument 'temperature'</code>, because the SDK removed sampling parameters from its signature. The crashed runs had empty trajectories, which the analyser correctly read as "no steps ran" and reported as <em>every step skipped, including the first</em>.</p>
+
+<p>That looks like a dramatic finding. "Temperature causes total behavioural collapse" would have gone straight into a post and been trivially falsifiable by anyone who tried to reproduce it. <strong>Lesson: an error path and a finding can be indistinguishable in aggregate. Read the trajectories.</strong></p>
+
+<h4>5. The billing artifact that inverted the headline</h4>
+
+<p>The first full study's summary said free-form agents beat deterministic ones. The actual cause: API credits ran out at run 494. The runner processes arms in order, so the later arms lost 25 and 55 runs to empty trajectories, which scored as total violation. React looked best because react ran while there was still money.</p>
+
+<p><strong>Lesson: check the error column before reading the result column.</strong> A confident, plausible, completely false headline was one glance away from being published.</p>
+
+<h4>6. Under-reporting the cost by six times</h4>
+
+<p>The reported spend was $0.69. The real figure was $5.53. Three compounding causes: the cap was per-process so five runs meant five ceilings; a study killed at a timeout took its spend record with it; and the rerun hit a warm cache, paid for 21% of calls, and reported that as the cost of the study.</p>
+
+<p><strong>Lesson, and it is the sharpest one here: this project's entire premise is that you cannot trust a number until you look behind it, and its author quoted a cost figure he had not looked behind.</strong> The user caught it, not the code.</p>
+
+<h4>7. A test that corrupted the thing it tested</h4>
+
+<p>The regression test for the spend cap journalled a fake $6.00 into the real ledger, inflating the live cap from $5.53 to $11.53. There is now a guard test that fails if any test constructs a budget without an isolated ledger.</p>
+
+<h4>8. A wrong diagnosis, recorded as wrong</h4>
+
+<p>Prompt caching never engaged across 1,962 calls. The hypothesis was that the prefix sat under the documented ~1024-token minimum, at ~998. The system prompt was expanded to clear it. Caching still did not engage, at 1,878 tokens or at 3,078, with the cache directive passed two different ways.</p>
+
+<p>Length was never the cause. The code comments <em>said</em> it was, which would have sent the next person down the same dead end, so they now record what was measured and explicitly decline to assert a cause. <strong>Lesson: a confidently wrong comment is worse than no comment.</strong></p>
+
+<h4>9. A chart rendering with no colours</h4>
+
+<p>After the palette was renamed, the chart still emitted <code>var(--line)</code> and <code>var(--text-muted)</code>. Undefined CSS custom properties fail silently, so every gridline, tick label and marker ring had no colour. Found by fetching the published page back and reading it, not by looking at it.</p>
+
+<div class="def"><span class="term">The pattern across all nine</span>
+<p>Every single one produced <em>plausible output</em>. None threw an obvious error at the top level. A tautology with a certificate. A cap reporting zero. A clean bill of health on a control that errored. A crash that looked like collapse. A billing artifact that looked like a result. This is precisely the failure mode the project exists to detect, and the project kept committing it. That is not irony; it is evidence that the problem is real and that instruments need instruments.</p></div>
+
+<h2 id="p10">Part X · Explaining it</h2>
+
+<h3 id="c41"><span class="chapnum">Chapter 41</span>How to say this to different people</h3>
+
+<h4>In one sentence</h4>
+
+<p>"When an AI agent does a job for you, you can see what it produced but not what it did, and I built the instrument that measures the difference."</p>
+
+<h4>To a non-technical person, thirty seconds</h4>
+
+<p>"An invoice comes in and an AI is supposed to run four checks before paying it. I found cases where it skipped checks, got the right answer anyway through a different route, and wrote a confident summary that never mentioned the skipped steps. Every existing tool grades the answer, so every existing tool passes that run. In accounts payable, skipping a control is an audit finding whether or not the money was right."</p>
+
+<h4>To an engineer, two minutes</h4>
+
+<p>"You declare invariants your agent must never violate. The tool attacks them with metamorphic perturbations, input changes that must not alter correct behaviour, and reports which invariant broke, at which named step, with a confidence interval. Two things are new. It compares tool <em>arguments</em> against ground truth, not just which tools ran, which is what the closest paper listed as its own future work. And it does divergence localisation with Needleman-Wunsch, so a skipped control reports as a skip rather than a substitution of whatever followed it."</p>
+
+<h4>To someone who asks about the finding</h4>
+
+<p>"I compared a deterministic executor against a free-form agent on the same 738 runs. The perturbations everyone tests for, rewording and distractors, broke neither. The one nobody tests for, a transient tool error, broke the deterministic one: 81% versus 98%, p = 0.003. It failed closed, holding clean invoices because a check timed out. The agent improvised a retry and got it right. The caveat I'd give you before you ask: the fail-closed behaviour is my design choice, not a property of determinism. The real finding is that a deterministic system does exactly what its author anticipated and nothing else."</p>
+
+<h3 id="c42"><span class="chapnum">Chapter 42</span>The hard questions, and honest answers</h3>
+
+<h4>"Doesn't this already exist? Isn't this what Patronus does?"</h4>
+
+<p>"Tools exist and they're well funded, and I'm not claiming to compete with them. They do scenario generation and trace scoring on fixed inputs. This is a different axis: hold the scenario fixed and vary only the surface form. And I'm not offering a product, I'm offering a result. Nobody has published this measurement."</p>
+
+<h4>"You measured a small model on a toy task."</h4>
+
+<p>"Correct, and the report says so in the limits section. Haiku 4.5, one AP domain, eight invoices, one policy. The harness runs against any model you point it at. The claim is architectural, not a model ranking."</p>
+
+<h4>"Your deterministic arm was just badly written."</h4>
+
+<p>"Yes, in a specific way, and I say that before anyone asks. It treats a tool error as a blocker. An executor with retry logic wouldn't fail this way. That's the finding, not a defence of it: the deterministic system's behaviour is entirely bounded by what its author thought of."</p>
+
+<h4>"How do I know your perturbations preserve meaning?"</h4>
+
+<p>"Every reworded request is verified by an independent model call that sees the original and the rewrite. Failures are discarded and counted, and the count appears in the report. The guard isn't infallible and its failure mode is asymmetric: likelier to wave through a subtle shift than reject a valid rewrite. It raises the floor, it doesn't guarantee."</p>
+
+<h4>"Why should I believe the numbers?"</h4>
+
+<p>"Every trajectory is stored. <code>plumbline certify</code> rebuilds the certificate from them with no model calls. Take the file and reconstruct the number yourself. And I'd point you at the bugs chapter, because most of them were headline numbers that turned out to be artifacts, and I found them by reading trajectories instead of trusting summaries."</p>
+
+<h4>"What would you do next?"</h4>
+
+<p>"Ingest a real UiPath <code>.xaml</code> so the incumbent side is an actual legacy bot rather than another arm of my own harness. That turns a demonstration into the thing enterprises need, because the equivalence proof is the step that gates every RPA migration and today it's done by running both systems side by side for thirty days and eyeballing it."</p>
+
+<h2 id="gloss">Glossary</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Agent</td><td>A loop where a model requests tool calls, your code executes them and returns results, until the model stops asking.</td></tr>
+<tr><td>Autoregressive</td><td>Generating one token at a time, each conditioned on everything before it.</td></tr>
+<tr><td>Backpropagation</td><td>The algorithm that attributes output error back to every parameter, enabling gradient descent at scale.</td></tr>
+<tr><td>Conformance</td><td>Whether a run upheld its declared invariants.</td></tr>
+<tr><td>Context window</td><td>The maximum tokens a model can attend over at once.</td></tr>
+<tr><td>Effect path</td><td>A trajectory restricted to steps that touched the world, excluding internal deliberation. Needed to compare different architectures.</td></tr>
+<tr><td>Equivalence</td><td>Whether a replacement system behaves as the incumbent did.</td></tr>
+<tr><td>Fail closed</td><td>On uncertainty or error, refuse the action. Safe, and it converts errors into human work.</td></tr>
+<tr><td>Gradient descent</td><td>Iteratively adjusting parameters in the direction that reduces loss.</td></tr>
+<tr><td>Hallucination</td><td>Fluent, plausible, false output. A mechanical consequence of predicting likely text with no access to truth.</td></tr>
+<tr><td>Invariant</td><td>A declared claim about behaviour that must hold on every run.</td></tr>
+<tr><td>Loss function</td><td>A single number measuring how wrong the model currently is.</td></tr>
+<tr><td>Metamorphic testing</td><td>Testing via relations between inputs and outputs rather than known-correct answers. Chen et al., 1998.</td></tr>
+<tr><td>Needleman-Wunsch</td><td>Global sequence alignment, 1970. Used here to tell a skipped step from a substituted one.</td></tr>
+<tr><td>Overfitting</td><td>Learning the training data's noise rather than its pattern.</td></tr>
+<tr><td>p-value</td><td>The probability of an effect this large arising by chance if there were no real effect.</td></tr>
+<tr><td>Parameters</td><td>The adjustable numbers inside a model.</td></tr>
+<tr><td>pass^k</td><td>Succeeding on the same task k times in a row. The gap from pass^1 measures how much accuracy is luck.</td></tr>
+<tr><td>Perturbation</td><td>An input change that must not alter correct behaviour.</td></tr>
+<tr><td>RLHF</td><td>Reinforcement learning from human feedback: training toward what human raters prefer.</td></tr>
+<tr><td>RPA</td><td>Robotic process automation: bots driving application UIs. Brittle because they depend on selectors.</td></tr>
+<tr><td>Self-attention</td><td>The transformer mechanism letting each token weigh the relevance of every other token.</td></tr>
+<tr><td>Temperature</td><td>The randomness dial on token sampling.</td></tr>
+<tr><td>Three-way match</td><td>The AP control reconciling invoice against purchase order against goods receipt.</td></tr>
+<tr><td>Token</td><td>The unit a model reads and writes; roughly four characters of English.</td></tr>
+<tr><td>Trajectory</td><td>The full ordered record of what an agent did in one run.</td></tr>
+<tr><td>Wilson interval</td><td>A confidence interval for proportions that behaves correctly near 0% and 100%. Wilson, 1927.</td></tr>
+</tbody>
+</table></div>
+
+<footer>
+The Plumbline Companion · written to accompany a study of 738 agent runs on Claude Haiku 4.5, costing $11.02<br>
+Every project figure regenerates from stored trajectories. Every company and paper figure was checked against a primary source.<br>
+Where something is uncertain or was got wrong, the text says so.
+</footer>
+
+</article></div></div>
