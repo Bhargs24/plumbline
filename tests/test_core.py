@@ -176,3 +176,28 @@ def test_permutation_p_value_is_never_zero():
     a = [False] * 30
     b = [True] * 30
     assert permutation_test(a, b, n=2000) > 0.0
+
+
+# --------------------------------------------------------------- budget
+def test_dated_model_id_still_prices():
+    """A dated snapshot id must not silently price at zero, which would make
+    the spend cap fail open."""
+    from plumbline.runtime.budget import resolve_price
+    assert resolve_price("claude-haiku-4-5-20251001") == resolve_price("claude-haiku-4-5")
+
+
+def test_unknown_model_raises_rather_than_costing_nothing():
+    from plumbline.runtime.budget import UnknownModelPrice, resolve_price
+    import pytest as _pytest
+    with _pytest.raises(UnknownModelPrice):
+        resolve_price("gpt-does-not-exist")
+
+
+def test_budget_cap_actually_fires():
+    from plumbline.runtime.budget import Budget, BudgetExceeded
+    import pytest as _pytest
+    b = Budget(max_usd=0.01)
+    b.record("claude-haiku-4-5", 1_000_000, 1_000_000)   # $6.00
+    assert b.spent_usd > 0.01
+    with _pytest.raises(BudgetExceeded):
+        b.check()

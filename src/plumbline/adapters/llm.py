@@ -85,6 +85,10 @@ class LLMClient:
 
     def __post_init__(self):
         load_dotenv()
+        # Fail here, not 400 calls in. An unpriced model would report zero spend
+        # and the budget cap would never fire.
+        from ..runtime.budget import resolve_price
+        resolve_price(self.model)
         if not self.offline and have_credentials():
             import anthropic
             self._client = anthropic.Anthropic()

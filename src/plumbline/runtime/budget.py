@@ -32,6 +32,33 @@ class BudgetExceeded(RuntimeError):
     pass
 
 
+class UnknownModelPrice(RuntimeError):
+    """Raised when a model has no price entry.
+
+    This is deliberately fatal rather than a warning. If an unpriced model
+    silently costs 0.00, the spend cap never fires and a misconfigured study
+    runs until the API stops it. A budget that fails open is worse than no
+    budget, because it is trusted.
+    """
+
+
+def resolve_price(model: str) -> tuple[float, float]:
+    """Price for a model, tolerating dated snapshot ids.
+
+    `claude-haiku-4-5-20251001` prices as `claude-haiku-4-5`. Anything with no
+    match at all raises, so the failure is visible at startup instead of showing
+    up as a study that reports it spent nothing.
+    """
+    if model in PRICES:
+        return PRICES[model]
+    candidates = [k for k in PRICES if model.startswith(k)]
+    if candidates:
+        return PRICES[max(candidates, key=len)]
+    raise UnknownModelPrice(
+        f"no price entry for model {model!r}. Add it to PRICES in "
+        f"runtime/budget.py, or use one of: {', '.join(sorted(PRICES))}")
+
+
 @dataclass
 class Budget:
     max_usd: float = 5.00
@@ -53,7 +80,7 @@ class Budget:
 
     def record(self, model: str, tin: int, tout: int,
                cache_read: int = 0, cache_write: int = 0) -> float:
-        pin, pout = PRICES.get(model, (0.0, 0.0))
+        pin, pout = resolve_price(model)
         cost = (tin * pin + tout * pout) / 1e6
         cost += (cache_read * pin * CACHE_READ_MULT) / 1e6
         cost += (cache_write * pin * CACHE_WRITE_MULT) / 1e6
