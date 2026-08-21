@@ -17,6 +17,7 @@ that crashes is itself a result worth keeping.
 """
 from __future__ import annotations
 
+import json
 import time
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -50,6 +51,40 @@ class RunResult:
     errors: list = field(default_factory=list)
 
 
+def load_variants(run_dir) -> dict:
+    """Rebuild the exact variant set a previous study used.
+
+    Two reasons. Comparability: an arm added later must see the identical
+    reworded requests, injected faults and decoy tools, or the comparison is
+    confounded by the inputs rather than isolating the architecture. And cost:
+    regenerating paraphrases re-pays for work already done.
+
+    Fault hooks and decoy tool lists are reconstructed from the recorded
+    metadata, since a callable cannot be serialised.
+    """
+    from ..perturb.base import Variant
+    from ..perturb.library import DECOYS, _fail_once
+    from pathlib import Path as _P
+    raw = json.loads((_P(run_dir) / "variants.json").read_text(encoding="utf-8"))
+    out: dict[str, list] = {}
+    for task_id, entries in raw.items():
+        rebuilt = []
+        for e in entries:
+            meta = e.get("meta") or {}
+            hook = None
+            if e["perturbation"] == "tool_fault" and meta.get("target"):
+                hook = _fail_once(meta["target"], meta.get("error", "injected fault"))
+            extra = []
+            if e["perturbation"] == "decoy_tools" and meta.get("decoys"):
+                names = set(meta["decoys"])
+                extra = [d for d in DECOYS if d["name"] in names]
+            rebuilt.append(Variant(e["variant_id"], e["perturbation"], e["prompt"],
+                                   fault_hook=hook, extra_tools=extra,
+                                   temperature=meta.get("temperature"), meta=meta))
+        out[task_id] = rebuilt
+    return out
+
+
 def generate_variants(cfg: RunConfig, perturb_llm) -> tuple[dict, int]:
     """Build the variant set once, shared by every arm."""
     import random
@@ -73,12 +108,15 @@ def generate_variants(cfg: RunConfig, perturb_llm) -> tuple[dict, int]:
 
 
 def run_study(cfg: RunConfig, agent_llm, perturb_llm, *,
-              on_progress=None) -> RunResult:
+              on_progress=None, reuse_variants=None) -> RunResult:
     from agents.ap.tools import APToolbox
 
     started = time.perf_counter()
     result = RunResult(budget=agent_llm.budget)
-    variants, discarded = generate_variants(cfg, perturb_llm)
+    if reuse_variants:
+        variants, discarded = load_variants(reuse_variants), 0
+    else:
+        variants, discarded = generate_variants(cfg, perturb_llm)
     result.variants = variants
     result.discarded_variants = discarded
 

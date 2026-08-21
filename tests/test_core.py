@@ -313,3 +313,15 @@ def test_tests_never_touch_the_real_ledger():
         assert "ledger_path" in m.group(1), (
             "every constructed budget in the suite must set ledger_path, "
             "or it journals fake spend into the shared production ledger")
+
+
+def test_equivalence_guard_cache_key_is_stable_across_processes():
+    """Python randomises str hashing per process, so hash() as a cache key
+    misses every run and silently re-pays for identical work."""
+    import subprocess, sys
+    code = ("import sys; sys.path.insert(0,'src');"
+            "from plumbline.perturb.library import _stable_id;"
+            "print(_stable_id('Invoice INV-7002 just came in.'))")
+    a = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+    b = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+    assert a.stdout.strip() == b.stdout.strip() != ""

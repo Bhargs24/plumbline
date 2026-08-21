@@ -18,6 +18,7 @@ of prompt work on the perturbed variants will fix that.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import random
 
@@ -110,7 +111,11 @@ class ParaphraseWithGuard(Perturbation):
             system=EQUIVALENCE_SYSTEM,
             messages=[{"role": "user", "content":
                        f"ORIGINAL:\n{task.prompt}\n\nREWRITE:\n{rewrite}"}],
-            trial_key=f"equiv/{task.task_id}/{hash(rewrite) & 0xffff}", turn=0)
+            # hashlib, not hash(): Python randomises str hashing per process
+            # (PYTHONHASHSEED), so hash() produced a different cache key on every
+            # run and the guard paid for fresh calls every time. Silent, and it
+            # only showed up as a bill.
+            trial_key=f"equiv/{task.task_id}/{_stable_id(rewrite)}", turn=0)
         return _parse_obj(resp.text()) or {"equivalent": False,
                                            "reason": "guard returned unparseable output"}
 
@@ -257,6 +262,11 @@ class SamplingSweep(Perturbation):
 
 
 # --------------------------------------------------------------------------
+def _stable_id(text: str) -> str:
+    """A cache key that is the same in every process."""
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
+
+
 def _parse_list(text: str) -> list[str]:
     text = _strip_fence(text)
     try:

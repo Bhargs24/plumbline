@@ -65,6 +65,9 @@ def main() -> int:
     ap.add_argument("--ledger", default=".plumbline-spend.json",
                     help="cumulative spend journal; the cap applies across every "
                          "run sharing it. Delete it to reset.")
+    ap.add_argument("--reuse-variants", default=None, metavar="RUN_DIR",
+                    help="reuse another run's exact variant set, so a new arm "
+                         "sees identical inputs and no paraphrases are re-paid for")
     ap.add_argument("--offline", action="store_true",
                     help="replay from cache only, never call the API")
     args = ap.parse_args()
@@ -104,7 +107,8 @@ def main() -> int:
                   f"last: {traj.arm}/{traj.task_id}/{traj.perturbation}",
                   flush=True)
 
-    result = run_study(cfg, agent_llm, perturb_llm, on_progress=progress)
+    result = run_study(cfg, agent_llm, perturb_llm, on_progress=progress,
+                       reuse_variants=args.reuse_variants)
 
     contexts = {t.task_id: t.context for t in tasks}
     bs = budget.summary()

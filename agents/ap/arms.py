@@ -42,6 +42,20 @@ from .tools import APToolbox, ToolError
 
 MAX_TURNS = 12
 
+# Errors a production integration retries rather than escalates. Anything not
+# matching is treated as permanent: a 404 on a vendor lookup means the
+# identifier is wrong, and retrying a wrong identifier three times is just a
+# slower wrong answer.
+TRANSIENT_PATTERNS = ("503", "502", "504", "429", "timeout", "timed out",
+                      "temporarily unavailable", "connection reset",
+                      "rate limit", "unavailable")
+MAX_RETRIES = 3
+
+
+def is_transient(error: str) -> bool:
+    e = (error or "").lower()
+    return any(p in e for p in TRANSIENT_PATTERNS)
+
 # The operating policy handed to the agent. Two things about its length are
 # deliberate.
 #
@@ -214,8 +228,17 @@ indirectly, resolve it from what the message says. If you genuinely cannot tell 
 which invoice is meant, use {"invoice_id": null, "operation": "unknown"}."""
 
 
-class PlanExecuteArm(Arm):
-    """The model is used once, to interpret. Control flow is a fixed procedure.
+class NaivePlanExecuteArm(Arm):
+    """A deterministic executor with NO error handling. Kept as a control.
+
+    Any tool error is treated as a blocking condition. No production system
+    behaves this way: every RPA platform and every payments integration has a
+    retry policy, because transient faults are the normal weather of a network.
+
+    This arm exists precisely so the effect it produces can be attributed. If a
+    result appears here and vanishes in `PlanExecuteArm`, the result was a
+    property of missing error handling and not of deterministic orchestration,
+    and reporting it as the latter would be a strawman.
 
     This is the architecture the deterministic-orchestration thesis describes:
     the model resolves intent, the runtime executes. Note what remains at risk.
@@ -225,7 +248,8 @@ class PlanExecuteArm(Arm):
     of measuring this arm is to find out how often that happens under
     perturbation, not to assume it never does.
     """
-    name = "plan_execute"
+    name = "plan_execute_naive"
+    retries = 0
 
     def run(self, *, prompt, toolbox, llm, trial_key, temperature=None,
             extra_tools=None, task_id="", perturbation="baseline", variant_id=""):
@@ -259,13 +283,25 @@ class PlanExecuteArm(Arm):
 
     def _execute(self, traj: Trajectory, tb: APToolbox, invoice_id: str) -> None:
         def do(name, args):
-            step = Step("tool_call", name, dict(args), index=len(traj.steps))
-            try:
-                step.output = tb.call(name, args)
-            except ToolError as exc:
-                step.error = str(exc)
-            traj.steps.append(step)
-            return step.output, step.error
+            """Call a tool, retrying transient faults up to `self.retries`.
+
+            No sleep between attempts: a real executor backs off, but wall-clock
+            backoff would add nothing to the measurement and hours to the study.
+            The retry COUNT is what changes behaviour, not the delay.
+            """
+            last_err = None
+            for attempt in range(self.retries + 1):
+                step = Step("tool_call", name, dict(args), index=len(traj.steps))
+                try:
+                    step.output = tb.call(name, args)
+                    traj.steps.append(step)
+                    return step.output, None
+                except ToolError as exc:
+                    step.error = last_err = str(exc)
+                    traj.steps.append(step)
+                    if not is_transient(step.error) or attempt == self.retries:
+                        return None, step.error
+            return None, last_err
 
         inv_res, err = do("fetch_invoice", {"invoice_id": invoice_id})
         if err:
@@ -443,4 +479,20 @@ def _parse_json(text: str):
     return None
 
 
-ARMS = {a.name: a for a in (ReactArm(), PlanExecuteArm(), GuardedArm())}
+class PlanExecuteArm(NaivePlanExecuteArm):
+    """A deterministic executor with the error handling a production system has.
+
+    Transient faults are retried up to MAX_RETRIES; permanent ones escalate
+    immediately. Exhausted retries still fail closed, which is correct: after
+    four attempts the fault is not transient any more and a human should look.
+
+    This is the fair comparison against a free-form agent. The naive arm is the
+    control that shows how much of any observed effect came from the absence of
+    this, rather than from determinism.
+    """
+    name = "plan_execute"
+    retries = MAX_RETRIES
+
+
+ARMS = {a.name: a for a in (ReactArm(), PlanExecuteArm(),
+                            NaivePlanExecuteArm(), GuardedArm())}
