@@ -9,6 +9,7 @@ the number themselves.
 from __future__ import annotations
 
 from .analysis.conformance import analyze_conformance, outcome_correctness
+from .analysis.equivalence import EquivalenceReport, analyze_equivalence
 from .analysis.consistency import analyze_consistency
 from .analysis.stats import compare
 from .core.trajectory import Trajectory
@@ -48,3 +49,18 @@ def compare_arms(trajectories: list[Trajectory], spec: PolicySpec, contexts: dic
     a = critical_conformance_flags(pick(arm_a), spec, contexts)
     b = critical_conformance_flags(pick(arm_b), spec, contexts)
     return compare(arm_a, a, arm_b, b)
+
+
+def prove_parity(trajectories: list[Trajectory], *, incumbent: str,
+                 replacement: str, ledger_states: dict,
+                 spec: PolicySpec | None = None) -> EquivalenceReport:
+    """Does the replacement behave like the incumbent, including under inputs
+    that were changed in ways neither system should care about.
+
+    This is the migration question. Everything else in the package measures one
+    system against its own rules; this measures one system against another.
+    """
+    return analyze_equivalence(
+        trajectories, incumbent=incumbent, replacement=replacement,
+        ledger_states=ledger_states,
+        arg_schemas=(spec.arg_schemas if spec else None))

@@ -246,3 +246,101 @@ def test_material_argument_drift_is_still_caught_alongside_free_text():
     cert = certify(trajs, AP_POLICY, CONTEXTS, ledgers, subject="mixed")
     args = [d for d in cert.consistency.divergences if d.kind == "arg"]
     assert len(args) == 1 and "amount" in args[0].expected
+
+
+# ------------------------------------------------------- parity / equivalence
+def _pair(trial, arm, task, pert, steps, ledgers, ledger, variant="v0"):
+    t = Trajectory(trial, pert, variant, arm, task, steps, final_output="done.")
+    ledgers[t.trial_id] = ledger
+    return t
+
+
+def test_identical_systems_prove_equivalent():
+    """80 clean runs per perturbation clears the 0.95 bound. Fewer does not,
+    and that is the point of using a bound rather than a point estimate."""
+    from plumbline.certify import prove_parity
+    trajs, ledgers = [], {}
+    for i in range(160):
+        pert = "baseline" if i < 80 else "paraphrase"
+        steps = _checks(CLEAN, "V-101") + [
+            _tc("schedule_payment", invoice_id=CLEAN, amount=4500.0, vendor_id="V-101")]
+        trajs.append(_pair(f"old{i}", "incumbent", CLEAN, pert, steps, ledgers,
+                           _ledger(True, 1, 4500.0), f"{pert}/{i}"))
+        trajs.append(_pair(f"new{i}", "replacement", CLEAN, pert, list(steps), ledgers,
+                           _ledger(True, 1, 4500.0), f"{pert}/{i}"))
+    r = prove_parity(trajs, incumbent="incumbent", replacement="replacement",
+                     ledger_states=ledgers, spec=AP_POLICY)
+    assert r.outcome.value == 1.0 and r.path.value == 1.0
+    assert r.divergences == []
+    assert "Safe to retire" in r.verdict()
+
+
+def test_small_clean_sample_reports_insufficient_evidence_not_divergence():
+    """A perfect record on twelve runs is neither proof of equivalence nor
+    evidence of divergence. Saying 'materially different' would send someone to
+    debug a system that is fine."""
+    from plumbline.certify import prove_parity
+    trajs, ledgers = [], {}
+    for i in range(6):
+        pert = "baseline" if i < 3 else "paraphrase"
+        steps = _checks(CLEAN, "V-101") + [
+            _tc("schedule_payment", invoice_id=CLEAN, amount=4500.0, vendor_id="V-101")]
+        trajs.append(_pair(f"so{i}", "incumbent", CLEAN, pert, steps, ledgers,
+                           _ledger(True, 1, 4500.0), f"{pert}/{i}"))
+        trajs.append(_pair(f"sn{i}", "replacement", CLEAN, pert, list(steps), ledgers,
+                           _ledger(True, 1, 4500.0), f"{pert}/{i}"))
+    r = prove_parity(trajs, incumbent="incumbent", replacement="replacement",
+                     ledger_states=ledgers, spec=AP_POLICY)
+    assert r.divergences_observed == 0
+    v = r.verdict()
+    assert "too small to certify" in v
+    assert "Materially different" not in v and "Safe to retire" not in v
+    assert r.runs_needed_for(0.95) > 70
+
+
+def test_replacement_that_drops_a_control_is_caught_even_when_outcome_matches():
+    """The migration failure a 30-day parallel run misses: same result, one
+    control quietly not run."""
+    from plumbline.certify import prove_parity
+    trajs, ledgers = [], {}
+    for i in range(6):
+        pert = "baseline" if i < 3 else "tool_fault"
+        old = _checks(DUP, "V-100") + [_tc("flag_exception", invoice_id=DUP, reason="dup")]
+        new = [_tc("fetch_invoice", invoice_id=DUP),
+               _tc("check_duplicate", invoice_id=DUP),          # match_po dropped
+               _tc("check_vendor_status", vendor_id="V-100"),
+               _tc("flag_exception", invoice_id=DUP, reason="dup")]
+        trajs.append(_pair(f"o{i}", "incumbent", DUP, pert, old, ledgers,
+                           _ledger(exc=True), f"{pert}/{i}"))
+        trajs.append(_pair(f"n{i}", "replacement", DUP, pert, new, ledgers,
+                           _ledger(exc=True), f"{pert}/{i}"))
+    r = prove_parity(trajs, incumbent="incumbent", replacement="replacement",
+                     ledger_states=ledgers, spec=AP_POLICY)
+    assert r.outcome.value == 1.0, "end states match, which is why this is missed today"
+    assert r.path.value == 0.0
+    skipped = [d for d in r.divergences if d.kind == "skipped"]
+    assert skipped and "match_purchase_order" in skipped[0].expected
+
+
+def test_divergence_only_under_perturbation_is_localized_to_it():
+    from plumbline.certify import prove_parity
+    trajs, ledgers = [], {}
+    for i in range(4):
+        for pert in ("baseline", "paraphrase"):
+            old = _checks(CLEAN, "V-101") + [
+                _tc("schedule_payment", invoice_id=CLEAN, amount=4500.0, vendor_id="V-101")]
+            amount = 45000.0 if pert == "paraphrase" else 4500.0
+            new = _checks(CLEAN, "V-101") + [
+                _tc("schedule_payment", invoice_id=CLEAN, amount=amount, vendor_id="V-101")]
+            trajs.append(_pair(f"o{pert}{i}", "incumbent", CLEAN, pert, old, ledgers,
+                               _ledger(True, 1, 4500.0), f"{pert}/{i}"))
+            trajs.append(_pair(f"n{pert}{i}", "replacement", CLEAN, pert, new, ledgers,
+                               _ledger(True, 1, amount), f"{pert}/{i}"))
+    r = prove_parity(trajs, incumbent="incumbent", replacement="replacement",
+                     ledger_states=ledgers, spec=AP_POLICY)
+    assert r.worst_perturbation[0] == "paraphrase"
+    assert r.by_perturbation["baseline"].value == 1.0
+    assert r.by_perturbation["paraphrase"].value == 0.0
+    assert "Not safe to retire" in r.verdict() or "Materially different" in r.verdict()
+    args = [d for d in r.divergences if d.kind == "arg"]
+    assert args and "amount" in args[0].expected

@@ -105,13 +105,33 @@ class Trajectory:
     metadata: dict = field(default_factory=dict)
 
     # ---- views used by the analyzers ---------------------------------
-    def control_steps(self) -> list[Step]:
-        return [s for s in self.steps if s.is_control]
+    def control_steps(self, kinds: tuple = CONTROL_KINDS) -> list[Step]:
+        return [s for s in self.steps if s.kind in kinds]
 
-    def path(self) -> tuple[tuple[str, str], ...]:
+    def effect_steps(self) -> list[Step]:
+        """Only steps that touched the outside world.
+
+        Comparing two DIFFERENT architectures needs this. A plan-execute system
+        records an `interpret_request` decision that a ReAct system has no
+        analogue for, and a guarded system records `blocked:` decisions for
+        steps it refused. Neither is behavior; both are bookkeeping. Counting
+        them makes two systems look 0% alike when they did exactly the same
+        things, which is how a comparison becomes noise.
+
+        What a migration cares about is what the system DID, not how it
+        deliberated on the way.
+        """
+        return [s for s in self.steps if s.kind == TOOL_CALL]
+
+    def path(self, kinds: tuple = CONTROL_KINDS) -> tuple[tuple[str, str], ...]:
         """The control-flow path: ordered signatures of tool calls and decisions.
         Two runs with the same path did the same things in the same order."""
-        return tuple(s.signature() for s in self.control_steps())
+        return tuple(s.signature() for s in self.control_steps(kinds))
+
+    def effect_path(self) -> tuple[tuple[str, str], ...]:
+        """The path restricted to world-touching steps, for cross-architecture
+        comparison."""
+        return tuple(s.signature() for s in self.effect_steps())
 
     def path_str(self) -> str:
         return " -> ".join(f"{k}:{n}" for k, n in self.path()) or "(no control steps)"
