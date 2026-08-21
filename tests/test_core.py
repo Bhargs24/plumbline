@@ -242,3 +242,15 @@ def test_failed_call_with_wrong_amount_is_not_an_arg_violation():
         Step("tool_call", "pay", {"amount": 49.0}),
     ])
     assert ArgEquals("pay", "amount", "expected").check(t, {"expected": 49.0}) is None
+
+
+def test_sampling_perturbation_rejects_models_that_cannot_sample():
+    """The 4.7+ family removed sampling params. Fail at startup, not with a 400
+    four hundred calls into a study."""
+    from plumbline.adapters.llm import LLMClient
+    from plumbline.runtime.cache import ResponseCache
+    import pytest as _pytest
+    c = LLMClient(model="claude-sonnet-5", cache=ResponseCache(enabled=False), offline=True)
+    with _pytest.raises(ValueError, match="sampling"):
+        c.complete(system="x", messages=[{"role": "user", "content": "y"}],
+                   temperature=1.0, trial_key="t", turn=0)

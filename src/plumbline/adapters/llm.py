@@ -28,6 +28,14 @@ from ..runtime.cache import ResponseCache
 DEFAULT_AGENT_MODEL = "claude-haiku-4-5"
 DEFAULT_PERTURB_MODEL = "claude-sonnet-5"
 
+# Models that reject temperature/top_p/top_k outright. Sampling parameters were
+# removed from the 4.7-and-later family, so the sampling perturbation cannot run
+# against them. Naming them here turns a mid-study 400 into a startup error.
+NO_SAMPLING_MODELS = (
+    "claude-opus-5", "claude-opus-4-8", "claude-opus-4-7",
+    "claude-sonnet-5", "claude-fable-5", "claude-mythos-5",
+)
+
 
 def load_dotenv(path: str | Path = ".env") -> None:
     """Minimal .env loader so a key can live in a gitignored file rather than
@@ -98,6 +106,15 @@ class LLMClient:
     def complete(self, *, system, messages: list, tools: list | None = None,
                  temperature: float | None = None,
                  trial_key: str = "", turn: int = 0) -> LLMResponse:
+        # Configuration errors surface before the cache and before offline mode,
+        # so a misconfigured suite fails the same way whether or not a recorded
+        # response happens to exist.
+        if temperature is not None and any(
+                self.model.startswith(m) for m in NO_SAMPLING_MODELS):
+            raise ValueError(
+                f"{self.model} rejects sampling parameters (the 4.7+ family "
+                f"removed them). Use a model that still accepts temperature, "
+                f"or drop the sampling perturbation from the suite.")
         key = self.cache.key(model=self.model, system=system, messages=messages,
                              tools=tools, temperature=temperature,
                              trial_key=trial_key, turn=turn)
@@ -124,7 +141,10 @@ class LLMClient:
         if tools:
             kwargs["tools"] = tools
         if temperature is not None:
-            kwargs["temperature"] = temperature
+            # SDK 1.0 removed temperature/top_p/top_k from the typed signature.
+            # The API still accepts them on older models, so they go through
+            # extra_body rather than being silently unavailable.
+            kwargs["extra_body"] = {"temperature": temperature}
 
         started = time.perf_counter()
         resp = self._call_with_retries(kwargs)

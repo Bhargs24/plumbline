@@ -193,7 +193,13 @@ def analyze_consistency(trajectories: list[Trajectory],
                         break
                     schema = arg_schemas.get(step.name, ArgSchema())
                     diffs = compare_args(step.name, ref_args[i], step.args, schema)
-                    for d in diffs:
+                    # Fields declared `low` are ones the policy author said are
+                    # allowed to vary, typically free-text reasons and notes.
+                    # Counting them would drive argument consistency to near
+                    # zero on every study, since an LLM rewords prose every run,
+                    # and would bury real drift under noise. This is what the
+                    # declared severity is for.
+                    for d in (x for x in diffs if x.severity != "low"):
                         clean = False
                         record("arg", i,
                                f"{d.tool}.{d.field}={d.expected!r}",

@@ -209,3 +209,40 @@ def test_trajectory_roundtrips_through_json():
     back = Trajectory.from_dict(t.to_dict())
     assert back.path() == t.path()
     assert back.control_steps()[4].args == t.control_steps()[4].args
+
+
+def test_free_text_wording_variation_is_not_argument_drift():
+    """An LLM rewords a free-text reason every run. If that counted as drift,
+    argument consistency would read near zero on every study and real drift
+    would be buried. Declared `low` severity is the mechanism that prevents it."""
+    trajs, ledgers = [], {}
+    reasons = ["duplicate of INV-7001", "This appears to be a duplicate.",
+               "DUPLICATE: matches an already-paid invoice", "dup, already paid"]
+    for i, reason in enumerate(reasons):
+        steps = _checks(DUP, "V-100") + [
+            _tc("flag_exception", invoice_id=DUP, reason=reason),
+            _tc("post_audit_log", invoice_id=DUP, action="exception")]
+        t = Trajectory(f"w{i}", "baseline", "baseline/0", "test", DUP, steps,
+                       final_output="Held.")
+        trajs.append(t)
+        ledgers[t.trial_id] = _ledger(exc=True)
+    cert = certify(trajs, AP_POLICY, CONTEXTS, ledgers, subject="wording")
+    assert cert.consistency.argument.value == 1.0, "reason wording must not count"
+    assert not [d for d in cert.consistency.divergences if d.kind == "arg"]
+
+
+def test_material_argument_drift_is_still_caught_alongside_free_text():
+    """Filtering low-severity noise must not also filter the money field."""
+    trajs, ledgers = [], {}
+    for i in range(4):
+        amount = 4500.00 if i < 3 else 45000.00
+        steps = _checks(CLEAN, "V-101") + [
+            _tc("schedule_payment", invoice_id=CLEAN, amount=amount, vendor_id="V-101"),
+            _tc("post_audit_log", invoice_id=CLEAN, action=f"paid run {i}")]
+        t = Trajectory(f"m{i}", "baseline", "baseline/0", "test", CLEAN, steps,
+                       final_output="Paid.")
+        trajs.append(t)
+        ledgers[t.trial_id] = _ledger(True, 1, amount)
+    cert = certify(trajs, AP_POLICY, CONTEXTS, ledgers, subject="mixed")
+    args = [d for d in cert.consistency.divergences if d.kind == "arg"]
+    assert len(args) == 1 and "amount" in args[0].expected
