@@ -1,0 +1,174 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0e1113;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.s{width:1080px;height:1350px;background:#0e1113;color:#f2f4f5;padding:78px 74px;
+   display:flex;flex-direction:column;position:relative;overflow:hidden}
+.tag{font-family:'JetBrains Mono',monospace;font-size:23px;letter-spacing:.22em;
+   text-transform:uppercase;color:#6b727a;margin-bottom:46px}
+h1{font-size:97px;line-height:1.02;letter-spacing:-.035em;font-weight:700}
+h2{font-size:70px;line-height:1.08;letter-spacing:-.03em;font-weight:700}
+p{font-size:37px;line-height:1.42;color:#a4abb3;margin-top:30px;font-weight:400}
+p b{color:#f2f4f5;font-weight:600}
+.big{font-size:225px;font-weight:700;letter-spacing:-.05em;line-height:.9;color:#f2f4f5}
+.unit{font-size:52px;color:#6b727a;font-weight:500}
+.mono{font-family:'JetBrains Mono',monospace}
+.spacer{flex:1}
+.foot{font-family:'JetBrains Mono',monospace;font-size:23px;color:#6b727a;
+   border-top:1px solid #2a3036;padding-top:26px;line-height:1.7}
+.card{background:#181c20;border:1px solid #2a3036;border-radius:14px;padding:42px 46px}
+.row{display:flex;gap:20px;align-items:baseline;margin:14px 0}
+.k{font-family:'JetBrains Mono',monospace;font-size:30px;color:#a4abb3;width:290px}
+.v{font-family:'JetBrains Mono',monospace;font-size:35px;font-weight:500}
+.diff{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#2a3036;
+   border:1px solid #2a3036;border-radius:12px;overflow:hidden;margin-top:34px}
+.col{background:#181c20;padding:30px 26px}
+.col h3{font-family:'JetBrains Mono',monospace;font-size:29px;font-weight:600;
+   margin-bottom:6px}
+.col .who{font-size:22px;color:#6b727a;margin-bottom:22px;line-height:1.4}
+.step{font-family:'JetBrains Mono',monospace;font-size:23px;padding:10px 12px;
+   border-radius:5px;margin-bottom:5px;color:#a4abb3;white-space:nowrap;
+   overflow:hidden;text-overflow:ellipsis}
+.step.bad{background:rgba(255,99,105,.15);color:#f2f4f5}
+.step.good{background:rgba(76,178,106,.15);color:#f2f4f5}
+.verdict{font-family:'JetBrains Mono',monospace;font-size:25px;margin-top:26px;
+   padding-top:18px;border-top:1px solid #2a3036;line-height:1.5}
+.bars{margin-top:40px}
+.bar{display:flex;align-items:center;gap:24px;margin-bottom:34px}
+.bl{font-family:'JetBrains Mono',monospace;font-size:28px;color:#a4abb3;width:280px;
+   text-align:right}
+.bt{flex:1;height:34px;background:#181c20;border-radius:4px;overflow:hidden;
+   display:flex;gap:3px;flex-direction:column;justify-content:center}
+.seg{height:13px;border-radius:3px}
+.bv{font-family:'JetBrains Mono',monospace;font-size:26px;width:165px}
+</style></head><body><div class="s" id="s1"><div class="tag">Plumbline · 738 runs</div>
+<h1>The failure everyone tests&nbsp;for wasn't there.</h1>
+<h1 style="color:#f07a45;margin-top:34px">The one nobody tests&nbsp;for was.</h1>
+<p style="margin-top:52px">I ran two accounts-payable automations through 738 identical
+trials to find out what moving control flow out of the model actually buys you.</p>
+<div class="spacer"></div>
+<div class="foot">Rewording the request broke nothing.<br>A network timeout broke the
+deterministic one.</div></div>
+<div class="s" id="s2"><div class="tag">The setup</div>
+<h2>Identical everything.<br>One variable.</h2>
+<p>Same eight invoices, same eight tools, same database, same model, same
+perturbation variants. The only difference is <b>who decides which step runs
+next</b>.</p>
+<div class="card" style="margin-top:44px">
+  <div class="row"><div class="k" style="color:#4f95e0">plan_execute</div>
+    <div class="v">model interprets once,<br>fixed code runs the procedure</div></div>
+  <div class="row" style="margin-top:30px"><div class="k" style="color:#f07a45">react</div>
+    <div class="v">model picks every step,<br>freely, until it stops</div></div>
+</div>
+<p style="margin-top:44px">Then I changed the input in five ways that <b>must not</b>
+change correct behaviour: reword it, add irrelevant text, add unused tools, raise
+the temperature, and fail one tool call once.</p>
+<div class="spacer"></div>
+<div class="foot">8 invoices × 6 conditions × 4 variants × 2 trials × 2 architectures</div></div>
+<div class="s" id="s3"><div class="tag">Outcome correctness vs ground truth</div>
+<h2>Four of five perturbations changed&nbsp;nothing.</h2>
+<div class="bars"><div class="bar"><div class="bl">baseline</div><div class="bt"><div class="seg" style="width:100%;background:#4f95e0"></div><div class="seg" style="width:100%;background:#f07a45"></div></div><div class="bv" style="color:#a4abb3">100 / 100%</div></div><div class="bar"><div class="bl">paraphrase</div><div class="bt"><div class="seg" style="width:100%;background:#4f95e0"></div><div class="seg" style="width:100%;background:#f07a45"></div></div><div class="bv" style="color:#a4abb3">100 / 100%</div></div><div class="bar"><div class="bl">distractor</div><div class="bt"><div class="seg" style="width:100%;background:#4f95e0"></div><div class="seg" style="width:96%;background:#f07a45"></div></div><div class="bv" style="color:#a4abb3">100 / 98%</div></div><div class="bar"><div class="bl">decoy tools</div><div class="bt"><div class="seg" style="width:100%;background:#4f95e0"></div><div class="seg" style="width:100%;background:#f07a45"></div></div><div class="bv" style="color:#a4abb3">100 / 100%</div></div><div class="bar"><div class="bl">sampling</div><div class="bt"><div class="seg" style="width:100%;background:#4f95e0"></div><div class="seg" style="width:100%;background:#f07a45"></div></div><div class="bv" style="color:#a4abb3">100 / 100%</div></div><div class="bar"><div class="bl">tool fault</div><div class="bt"><div class="seg" style="width:53%;background:#4f95e0"></div><div class="seg" style="width:96%;background:#f07a45"></div></div><div class="bv" style="color:#ff6369">81 / 98%</div></div></div>
+<p style="margin-top:38px;font-size:27px">Blue is the deterministic executor,
+orange the free-form agent. Everything sits at 100% until a tool fails.</p>
+<div class="spacer"></div>
+<div class="foot">95% Wilson intervals · measured against ground truth,
+not against each other</div></div>
+<div class="s" id="s4"><div class="tag">Under a transient tool failure</div>
+<div style="margin-top:20px"><span class="big">17</span>
+<span class="unit">point gap</span></div>
+<p style="margin-top:44px">The <b>deterministic</b> executor reached the correct
+outcome 81.2% of the time.<br>The <b>free-form agent</b> reached it
+98.2%.</p>
+<div class="card" style="margin-top:48px">
+  <div class="row"><div class="k">plan_execute</div>
+    <div class="v" style="color:#ff6369">81.2% [70, 89]</div></div>
+  <div class="row"><div class="k">react</div>
+    <div class="v" style="color:#4cb26a">98.2% [91, 100]</div></div>
+  <div class="row" style="margin-top:26px"><div class="k">permutation test</div>
+    <div class="v">p = 0.0029</div></div>
+  <div class="row"><div class="k">all other conditions</div>
+    <div class="v" style="color:#6b727a">p = 0.48 (n.s.)</div></div>
+</div>
+<div class="spacer"></div>
+<div class="foot">The effect is localised to one condition.<br>That is what a real
+effect looks like rather than noise.</div></div>
+<div class="s" id="s5"><div class="tag">Same invoice · same injected fault</div>
+<h2>Opposite results.</h2>
+<p style="font-size:28px">Invoice INV-7002 is clean. Every check passes. The correct
+action is to pay <b>$4,500</b>.</p>
+<div class="diff">
+  <div class="col">
+    <h3 style="color:#4f95e0">plan_execute</h3>
+    <div class="who">deterministic executor<br>control flow fixed in code</div>
+    <div class="step">fetch_invoice</div>
+    <div class="step bad">match_purchase_order ✗</div>
+    <div class="step bad" style="padding-left:24px">↳ 503 unavailable</div>
+    <div class="step">check_duplicate</div>
+    <div class="step">check_vendor_status</div>
+    <div class="step bad">flag_exception</div>
+    <div class="verdict" style="color:#ff6369">✗ held a clean<br>invoice for review</div>
+  </div>
+  <div class="col">
+    <h3 style="color:#f07a45">react</h3>
+    <div class="who">free-form agent<br>the model picks every step</div>
+    <div class="step">fetch_invoice</div>
+    <div class="step">match_purchase_order</div>
+    <div class="step">check_duplicate</div>
+    <div class="step bad">check_vendor_status ✗</div>
+    <div class="step good">check_vendor_status ✓ retried</div>
+    <div class="step good">schedule_payment $4,500</div>
+    <div class="verdict" style="color:#4cb26a">✓ paid correctly</div>
+  </div>
+</div>
+<div class="spacer"></div>
+<div class="foot">The agent improvised a retry nobody specified.<br>The deterministic
+system had no rule for a network blip.</div></div>
+<div class="s" id="s6"><div class="tag">What it does and does not show</div>
+<h2>Determinism did not buy reliability.</h2>
+<h2 style="color:#f07a45;margin-top:26px">It bought predictability.</h2>
+<p style="margin-top:46px">Before anyone asks: the fail-closed behaviour is a
+<b>design choice in my executor</b>, not a property of deterministic systems. One
+with retry logic would not fail this way.</p>
+<p>Which is the actual finding. A deterministic system does exactly what its author
+anticipated and <b>nothing else</b>. It handled every perturbation it was written
+for and failed on the one it was not.</p>
+<p>The agent improvised a recovery nobody specified. That is the same capability
+that lets it skip a control somewhere else.</p>
+<div class="spacer"></div>
+<div class="foot">Determinism moves the failure from the model to the
+specification.<br>It does not remove it.</div></div>
+<div class="s" id="s7"><div class="tag">Why existing tooling misses this</div>
+<h2>Both runs pass every eval you own.</h2>
+<p>Output evals grade the answer. The answer was right.</p>
+<p>Trace tools grade the trajectory on <b>inputs you fixed in advance</b>. The wording
+never changes, so they cannot tell you the agent behaves differently when it does.</p>
+<p style="color:#f2f4f5"><b>A control that did not execute is an audit finding whether
+or not the money was right.</b></p>
+<div class="card" style="margin-top:40px">
+<div class="v" style="font-size:25px;line-height:1.7;color:#a4abb3">
+MustCall(<span style="color:#f07a45">"check_duplicate"</span>)<br>
+Ordering(<span style="color:#f07a45">"match_po"</span>, then=<span style="color:#f07a45">"pay"</span>)<br>
+CallAtMost(<span style="color:#f07a45">"schedule_payment"</span>, 1)<br>
+ArgEquals(<span style="color:#f07a45">"pay"</span>, <span style="color:#f07a45">"amount"</span>, expected)
+</div></div>
+<p style="margin-top:36px;font-size:27px">Declare what must always hold. Then try to
+break it with changes that preserve meaning.</p>
+<div class="spacer"></div>
+<div class="foot">Reports which invariant broke, under which perturbation,<br>at which
+named step, with a confidence interval.</div></div>
+<div class="s" id="s8"><div class="tag">Open source · Apache-2.0</div>
+<h2>All 738 trajectories are committed.</h2>
+<p>Every number above re-derives from stored traces with no API key and no model
+calls. CI runs exactly that on every push, so if the evidence stops reproducing the
+published numbers the build goes red.</p>
+<div class="card" style="margin-top:44px">
+<div class="mono" style="font-size:24px;line-height:1.9;color:#a4abb3">
+git clone github.com/Bhargs24/plumbline<br>
+pip install -e ".[dev]"<br>
+<span style="color:#f07a45">plumbline parity runs/parity-study \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plan_execute react</span>
+</div></div>
+<p style="margin-top:44px;font-size:29px">What perturbation would break <b>your</b>
+agent? I would genuinely like to know which one I should add next.</p>
+<div class="spacer"></div>
+<div class="foot">github.com/Bhargs24/plumbline<br>70 tests · 738 runs · $11.02 ·
+claude-haiku-4-5</div></div></body></html>
