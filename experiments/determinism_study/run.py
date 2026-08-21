@@ -62,6 +62,9 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--name", default="determinism-study")
     ap.add_argument("--cache", default=".cache/llm")
+    ap.add_argument("--ledger", default=".plumbline-spend.json",
+                    help="cumulative spend journal; the cap applies across every "
+                         "run sharing it. Delete it to reset.")
     ap.add_argument("--offline", action="store_true",
                     help="replay from cache only, never call the API")
     args = ap.parse_args()
@@ -75,7 +78,7 @@ def main() -> int:
     arms = [ARMS[a] for a in args.arms]
     suite = build_suite(args.temperature)
     out_dir = ROOT / "runs" / args.name
-    budget = Budget(max_usd=args.budget)
+    budget = Budget(max_usd=args.budget, ledger_path=args.ledger)
     cache = ResponseCache(args.cache)
 
     agent_llm = LLMClient(model=args.model, cache=cache, budget=budget,
@@ -130,7 +133,9 @@ def main() -> int:
                 "perturbations": [p.describe() for p in suite],
                 "invariants": AP_POLICY.ids(),
                 "tasks": [t.task_id for t in tasks],
-                "cost_usd": budget.spent_usd, "llm_calls": budget.calls,
+                "cost_usd_this_run": budget.spent_usd,
+                "cost_usd_total": budget.total_usd,
+                "llm_calls": budget.calls,
                 "wall_seconds": result.wall_seconds,
                 "discarded_paraphrases": result.discarded_variants,
             })
@@ -167,7 +172,9 @@ def main() -> int:
                                  for k, v in certs.items()},
         "outcome_correctness": {k: v.outcome_correctness.to_dict()
                                 for k, v in certs.items()},
-        "cost_usd": round(budget.spent_usd, 4),
+        "cost_usd_this_run": round(budget.spent_usd, 4),
+        "cost_usd_total": round(budget.total_usd, 4),
+        "budget": budget.summary(),
         "runs": len(result.trajectories),
     }
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=2),

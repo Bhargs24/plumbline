@@ -167,7 +167,40 @@ class LLMClient:
             "latency_ms": latency,
         }
         self.cache.put(key, payload)
+        self._warn_if_cache_never_engages()
         return LLMResponse(cached=False, model=self.model, **payload)
+
+    _cache_warned: bool = False
+
+    def _warn_if_cache_never_engages(self) -> None:
+        """Prompt caching fails silently when the prefix is under ~1024 tokens.
+
+        There is no error, no warning, and no field that says so. You only find
+        out by noticing that cache_read and cache_write are zero forever, which
+        in practice means you find out from the bill. This project's prefix came
+        in at roughly 998 tokens, twenty-six short, and every call paid full
+        price for the system prompt and tool definitions.
+
+        So: if enough calls have gone out and caching has still never engaged,
+        say so loudly and once.
+        """
+        if self._cache_warned or self.budget.calls < 25:
+            return
+        if self.budget.cache_read or self.budget.cache_write:
+            self._cache_warned = True
+            return
+        self._cache_warned = True
+        import sys as _sys
+        print(
+            f"\n  WARNING: prompt caching has not engaged after "
+            f"{self.budget.calls} calls.\n"
+            f"  cache_read=0 and cache_write=0, so every call is paying full "
+            f"price for the\n"
+            f"  system prompt and tool definitions. The usual cause is a "
+            f"cacheable prefix\n"
+            f"  under ~1024 tokens, which fails silently. Check the size of "
+            f"system + tools.\n",
+            file=_sys.stderr, flush=True)
 
     def _call_with_retries(self, kwargs: dict, attempts: int = 4):
         """The SDK retries 429 and 5xx already. This adds a bounded outer retry

@@ -254,3 +254,48 @@ def test_sampling_perturbation_rejects_models_that_cannot_sample():
     with _pytest.raises(ValueError, match="sampling"):
         c.complete(system="x", messages=[{"role": "user", "content": "y"}],
                    temperature=1.0, trial_key="t", turn=0)
+
+
+# ------------------------------------------- budget must survive restarts
+def test_spend_cap_is_cumulative_across_processes(tmp_path):
+    """A cap held only in memory is not a cap. Running the same study twice
+    used to give you twice the ceiling."""
+    from plumbline.runtime.budget import Budget, BudgetExceeded
+    import pytest as _pytest
+    ledger = tmp_path / "spend.json"
+
+    first = Budget(max_usd=1.00, ledger_path=ledger)
+    first.record("claude-haiku-4-5", 500_000, 0)      # $0.50
+    assert first.total_usd == _pytest.approx(0.50)
+    first.check()                                      # still under
+
+    second = Budget(max_usd=1.00, ledger_path=ledger)  # fresh process
+    assert second.prior_usd == _pytest.approx(0.50), "must load earlier spend"
+    second.record("claude-haiku-4-5", 600_000, 0)      # $0.60 -> $1.10 total
+    with _pytest.raises(BudgetExceeded):
+        second.check()
+
+
+def test_ledger_survives_a_killed_run(tmp_path):
+    """The first overrun happened because a killed process took its spend
+    record with it. Spend is journalled per call, not at the end."""
+    from plumbline.runtime.budget import Budget
+    ledger = tmp_path / "spend.json"
+    b = Budget(max_usd=100.0, ledger_path=ledger)
+    b.record("claude-haiku-4-5", 100_000, 0)
+    del b                                              # no clean shutdown
+    assert Budget(max_usd=100.0, ledger_path=ledger).prior_usd > 0
+
+
+def test_summary_separates_session_from_total(tmp_path):
+    """A rerun against a warm cache pays almost nothing. Quoting that as the
+    cost of the study is how the real figure got understated 6x."""
+    from plumbline.runtime.budget import Budget
+    ledger = tmp_path / "spend.json"
+    Budget(max_usd=100.0, ledger_path=ledger).record("claude-haiku-4-5", 500_000, 0)
+    rerun = Budget(max_usd=100.0, ledger_path=ledger)
+    rerun.record("claude-haiku-4-5", 1_000, 0)
+    s = rerun.summary()
+    assert s["session_usd"] < 0.01
+    assert s["total_usd"] > 0.49
+    assert s["prompt_cache_engaged"] is False
