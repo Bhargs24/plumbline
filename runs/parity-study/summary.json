@@ -1,0 +1,67 @@
+{
+  "certified_bound": {
+    "plan_execute": 0.4869191788027247,
+    "react": 0.9433759402071946
+  },
+  "grade": {
+    "plan_execute": "F",
+    "react": "B"
+  },
+  "critical_conformance": {
+    "plan_execute": {
+      "successes": 359,
+      "total": 384,
+      "value": 0.934896,
+      "ci_low": 0.90566,
+      "ci_high": 0.955516
+    },
+    "react": {
+      "successes": 354,
+      "total": 354,
+      "value": 1.0,
+      "ci_low": 0.989265,
+      "ci_high": 1.0
+    }
+  },
+  "outcome_correctness": {
+    "plan_execute": {
+      "successes": 372,
+      "total": 384,
+      "value": 0.96875,
+      "ci_low": 0.946179,
+      "ci_high": 0.982035
+    },
+    "react": {
+      "successes": 352,
+      "total": 354,
+      "value": 0.99435,
+      "ci_low": 0.979638,
+      "ci_high": 0.998449
+    }
+  },
+  "cost_usd_this_run": 5.3114,
+  "cost_usd_total": 11.019,
+  "budget": {
+    "session_usd": 5.3114,
+    "prior_usd": 5.7076,
+    "total_usd": 11.019,
+    "session_calls": 1688,
+    "total_calls": 3697,
+    "tokens_in": 3627849,
+    "tokens_out": 330524,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "prompt_cache_engaged": false,
+    "by_model": {
+      "claude-sonnet-5": {
+        "calls": 32,
+        "usd": 0.0464
+      },
+      "claude-haiku-4-5": {
+        "calls": 1656,
+        "usd": 5.265
+      }
+    }
+  },
+  "runs": 738
+}

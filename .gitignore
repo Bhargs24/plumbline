@@ -5,8 +5,12 @@ venv/
 .env
 *.egg-info/
 .pytest_cache/
-runs/
 *.sqlite
 .cache/
-runs-study.log
-runs/
+*.log
+
+# Run outputs are ignored by default, but the published study is tracked:
+# every number in the README and the report re-derives from these files,
+# which is the property that makes the result checkable rather than asserted.
+runs/*
+!runs/parity-study/

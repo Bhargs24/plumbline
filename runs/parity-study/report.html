@@ -1,0 +1,242 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Parity Under Perturbation</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"><style>*{box-sizing:border-box}body{margin:0;background:#f6f7f8}@media(prefers-color-scheme:dark){body{background:#0e1113}}
+.pl {
+  color-scheme: light;
+  --paper: #f6f7f8;
+  --card: #ffffff;
+  --sunk: #eef1f3;
+  --rule: #dde2e5;
+  --ink: #0d1114;
+  --ink-2: #4a5257;
+  --ink-3: #7c848a;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --good: #0ca30c;
+  --critical: #e5484d;
+  --sans: "IBM Plex Sans", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --serif: Newsreader, ui-serif, Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.6;
+  font-size: 16px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  max-width: 58rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .pl {
+    color-scheme: dark;
+    --paper: #0e1113;
+    --card: #161a1d;
+    --sunk: #1c2124;
+    --rule: #272d31;
+    --ink: #eef1f2;
+    --ink-2: #a9b1b6;
+    --ink-3: #767e83;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --good: #30a46c;
+    --critical: #ff6369;
+  }
+}
+:root[data-theme="dark"] .pl {
+  color-scheme: dark;
+  --paper: #0e1113;
+  --card: #161a1d;
+  --sunk: #1c2124;
+  --rule: #272d31;
+  --ink: #eef1f2;
+  --ink-2: #a9b1b6;
+  --ink-3: #767e83;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --good: #30a46c;
+  --critical: #ff6369;
+}
+.pl > * { max-width: 40rem; margin-left: auto; margin-right: auto; }
+.pl > .wide { max-width: 58rem; }
+.pl h1 {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1; letter-spacing: -.02em; text-wrap: balance;
+  margin: 0 0 1rem; color: var(--ink);
+}
+.pl h2 {
+  font-family: var(--serif); font-weight: 500; font-size: 1.5rem;
+  letter-spacing: -.01em; text-wrap: balance; margin: 3.5rem 0 .5rem;
+}
+.pl .eyebrow {
+  font-family: var(--mono); font-size: .7rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+  margin: 3.5rem 0 .1rem;
+}
+.pl .eyebrow + h2 { margin-top: 0; }
+.pl p { margin: .85rem 0; color: var(--ink-2); }
+.pl .lede { font-size: 1.05rem; color: var(--ink-2); }
+.pl .sub { color: var(--ink-3); font-size: .92rem; }
+.pl strong { color: var(--ink); font-weight: 600; }
+.pl .hero {
+  background: var(--card); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 1.75rem; margin: 1.5rem 0 .5rem;
+}
+.pl .figure {
+  font-family: var(--serif); font-size: 4rem; font-weight: 400;
+  letter-spacing: -.03em; line-height: 1; color: var(--ink);
+}
+.pl .figure .unit { font-size: 1.25rem; font-family: var(--sans);
+  font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
+.pl .ci { font-family: var(--mono); font-size: .76rem; color: var(--ink-3);
+  line-height: 1.7; margin-top: .75rem; }
+.pl .legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 1rem 0 .25rem;
+  font-size: .84rem; color: var(--ink-2); }
+.pl .swatch { width: 9px; height: 9px; border-radius: 50%; display: inline-block;
+  margin-right: .45rem; }
+.pl figure { margin: .5rem 0 0; }
+.pl figcaption { font-size: .82rem; color: var(--ink-3); margin-top: .75rem;
+  max-width: 40rem; }
+.pl .scroll { overflow-x: auto; }
+.pl table { border-collapse: collapse; width: 100%; font-size: .82rem;
+  margin-top: 1rem; font-variant-numeric: tabular-nums; }
+.pl th, .pl td { text-align: left; padding: .45rem .7rem;
+  border-bottom: 1px solid var(--rule); }
+.pl th { font-family: var(--mono); font-size: .68rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+.pl td { color: var(--ink-2); }
+.pl td.num { text-align: right; font-family: var(--mono); color: var(--ink); }
+.pl .diff { display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--rule); border: 1px solid var(--rule); border-radius: 4px;
+  overflow: hidden; margin-top: 1rem; }
+@media (max-width: 700px) { .pl .diff { grid-template-columns: 1fr; } }
+.pl .diff > div { background: var(--card); padding: 1.1rem 1.25rem; }
+.pl .diff h4 { margin: 0 0 .15rem; font-size: .95rem; font-family: var(--mono);
+  font-weight: 500; color: var(--ink); }
+.pl .diff .who { font-size: .74rem; color: var(--ink-3); margin-bottom: 1rem;
+  line-height: 1.5; }
+.pl .step { font-family: var(--mono); font-size: .74rem; padding: .22rem .5rem;
+  border-radius: 3px; margin-bottom: .2rem; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; color: var(--ink-2); }
+.pl .step.fail { background: color-mix(in srgb, var(--critical) 13%, transparent);
+  color: var(--ink); }
+.pl .step.key { background: color-mix(in srgb, var(--series-2) 15%, transparent);
+  color: var(--ink); font-weight: 500; }
+.pl .verdict { font-family: var(--mono); font-size: .74rem; margin-top: 1rem;
+  padding-top: .8rem; border-top: 1px solid var(--rule); line-height: 1.6; }
+.pl .bad { color: var(--critical); } .pl .ok { color: var(--good); }
+.pl .note { background: var(--sunk); padding: 1.1rem 1.35rem; border-radius: 4px;
+  margin: 1.5rem 0; font-size: .9rem; color: var(--ink-2); }
+.pl code { font-family: var(--mono); font-size: .86em; color: var(--ink); }
+.pl footer { margin-top: 4rem; padding-top: 1.25rem;
+  border-top: 1px solid var(--rule); font-size: .74rem; color: var(--ink-3);
+  font-family: var(--mono); line-height: 1.8; }
+@media (prefers-reduced-motion: reduce) {
+  .pl * { animation: none !important; transition: none !important; }
+}
+</style></head><body><div class="pl">
+<h1>The failure everyone tests for wasn't there.<br>The one nobody tests for was.</h1>
+<p class="sub">Two accounts-payable automations, identical tasks, tools, model and inputs. 738 runs. The only difference is who decides which step runs next.</p>
+<div class="hero">
+<div class="figure">17<span class="unit"> point gap</span></div>
+<p style="margin:.5rem 0 0">Under an injected <strong>transient tool failure</strong>, the deterministic executor reached the correct outcome 81.2% of the time. The free-form agent reached it 98.2% of the time.</p>
+<p class="ci">p = 0.0029 (permutation test) &nbsp;·&nbsp; plan_execute 81.2% [70.0, 88.9] n=64 &nbsp;·&nbsp; react 98.2% [90.6, 99.7] n=56</p>
+</div>
+<p class="sub">On every other perturbation the two are indistinguishable (-0.3 pts, p = 0.48). The effect is localised to one condition, which is what a real effect looks like rather than noise.</p>
+<p class="eyebrow">Evidence</p>
+<h2>Outcome correctness by perturbation</h2>
+<p>Measured against ground truth, not against each other. Dots are point estimates, bars are 95% Wilson intervals.</p>
+<div class="legend"><span><span class="swatch" style="background:var(--series-1)"></span>plan_execute — deterministic executor</span><span><span class="swatch" style="background:var(--series-2)"></span>react — free-form agent</span></div>
+<figure class="wide"><div class="scroll">
+<svg viewBox="0 0 760 320" width="100%" style="max-width:760px;height:auto;display:block" role="img" aria-label="Outcome correctness by perturbation, with 95% confidence intervals">
+<line x1="132.0" y1="16" x2="132.0" y2="280" stroke="var(--rule)" stroke-width="1"/>
+<text x="132.0" y="302" text-anchor="middle" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">60%</text>
+<line x1="273.0" y1="16" x2="273.0" y2="280" stroke="var(--rule)" stroke-width="1"/>
+<text x="273.0" y="302" text-anchor="middle" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">70%</text>
+<line x1="414.0" y1="16" x2="414.0" y2="280" stroke="var(--rule)" stroke-width="1"/>
+<text x="414.0" y="302" text-anchor="middle" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">80%</text>
+<line x1="555.0" y1="16" x2="555.0" y2="280" stroke="var(--rule)" stroke-width="1"/>
+<text x="555.0" y="302" text-anchor="middle" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">90%</text>
+<line x1="696.0" y1="16" x2="696.0" y2="280" stroke="var(--rule)" stroke-width="1"/>
+<text x="696.0" y="302" text-anchor="middle" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">100%</text>
+<text x="118" y="42.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">baseline</text>
+<line x1="616.2" y1="31.0" x2="696.0" y2="31.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="31.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>baseline: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="45.0" x2="696.0" y2="45.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="45.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>baseline: 100.0% [94.3, 100.0], n=64</title></circle>
+<text x="118" y="86.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">paraphrase</text>
+<line x1="616.2" y1="75.0" x2="696.0" y2="75.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="75.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>paraphrase: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="89.0" x2="696.0" y2="89.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="89.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>paraphrase: 100.0% [94.3, 100.0], n=64</title></circle>
+<text x="118" y="130.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">distractor</text>
+<line x1="616.2" y1="119.0" x2="696.0" y2="119.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="119.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>distractor: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="567.1" y1="133.0" x2="691.7" y2="133.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="671.7" cy="133.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>distractor: 98.3% [90.9, 99.7], n=58</title></circle>
+<text x="118" y="174.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">decoy tools</text>
+<line x1="616.2" y1="163.0" x2="696.0" y2="163.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="163.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>decoy tools: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="605.5" y1="177.0" x2="696.0" y2="177.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="177.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>decoy tools: 100.0% [93.6, 100.0], n=56</title></circle>
+<text x="118" y="218.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">sampling</text>
+<line x1="616.2" y1="207.0" x2="696.0" y2="207.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="207.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>sampling: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="605.5" y1="221.0" x2="696.0" y2="221.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="221.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>sampling: 100.0% [93.6, 100.0], n=56</title></circle>
+<text x="118" y="262.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">tool fault</text>
+<line x1="273.4" y1="251.0" x2="540.0" y2="251.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="431.6" cy="251.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>tool fault: 81.2% [70.0, 88.9], n=64</title></circle>
+<text x="549.0" y="255.0" font-size="11.5" fill="var(--series-1)" style="font-variant-numeric:tabular-nums" font-weight="600">81.2%</text>
+<line x1="562.8" y1="265.0" x2="691.5" y2="265.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="670.8" cy="265.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>tool fault: 98.2% [90.6, 99.7], n=56</title></circle>
+<text x="700.5" y="269.0" font-size="11.5" fill="var(--series-2)" style="font-variant-numeric:tabular-nums" font-weight="600">98.2%</text>
+<line x1="132" y1="280" x2="696" y2="280" stroke="var(--rule)" stroke-width="1"/>
+</svg>
+</div><figcaption>Paraphrasing, distractor text, decoy tools and sampling variation broke neither system. Only a transient tool error did, and it broke the deterministic one.</figcaption></figure>
+<div class="scroll"><table><thead><tr><th>perturbation</th><th>system</th><th class="num">correct</th><th class="num">95% CI</th><th class="num">n</th></tr></thead><tbody>
+<tr><td>baseline</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>baseline</td><td>react</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>paraphrase</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>paraphrase</td><td>react</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>distractor</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>distractor</td><td>react</td><td class="num">98.3%</td><td class="num">90.9 – 99.7</td><td class="num">58</td></tr>
+<tr><td>decoy tools</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>decoy tools</td><td>react</td><td class="num">100.0%</td><td class="num">93.6 – 100.0</td><td class="num">56</td></tr>
+<tr><td>sampling</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>sampling</td><td>react</td><td class="num">100.0%</td><td class="num">93.6 – 100.0</td><td class="num">56</td></tr>
+<tr><td>tool fault</td><td>plan_execute</td><td class="num">81.2%</td><td class="num">70.0 – 88.9</td><td class="num">64</td></tr>
+<tr><td>tool fault</td><td>react</td><td class="num">98.2%</td><td class="num">90.6 – 99.7</td><td class="num">56</td></tr>
+</tbody></table></div>
+<p class="eyebrow">The divergence</p>
+<h2>Same invoice, same injected fault, opposite results</h2>
+<p>Invoice <code>INV-7002</code> is clean. Every check passes and the correct action is to pay <strong>$4,500.00</strong>. A transient error was injected into one tool call.</p>
+<div class="wide"><div class="diff"><div><h4>plan_execute</h4><div class="who">deterministic executor · control flow fixed in code</div><div class="step">· interpret_request<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step">· fetch_invoice<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step fail">× match_purchase_order<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step fail" style="padding-left:1.4rem">↳ 503 upstream temporarily unavailable</div>
+<div class="step">· check_duplicate<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step">· check_vendor_status<span style="opacity:.6"> {&quot;vendor_id&quot;: &quot;V-101&quot;}</span></div>
+<div class="step key">· flag_exception<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;reason&quot;: &quot;503 u…</span></div>
+<div class="step">· post_audit_log<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;action&quot;: &quot;excep…</span></div><div class="verdict"><span class="bad">✗ held a clean invoice for human review</span><br><span style="color:var(--text-muted)">the failed check was treated as a blocker</span></div></div><div><h4>react</h4><div class="who">free-form agent · the model picks every step</div><div class="step">· fetch_invoice<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step">· match_purchase_order<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step">· check_duplicate<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step fail">× check_vendor_status<span style="opacity:.6"> {&quot;vendor_id&quot;: &quot;ASHFIELD_LOGISTICS&quot;}</span></div>
+<div class="step fail" style="padding-left:1.4rem">↳ vendor ASHFIELD_LOGISTICS not found</div>
+<div class="step">· check_vendor_status<span style="opacity:.6"> {&quot;vendor_id&quot;: &quot;V-101&quot;}</span></div>
+<div class="step key">· schedule_payment<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;amount&quot;: 4500.0…</span></div>
+<div class="step">· post_audit_log<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;action&quot;: &quot;PAYME…</span></div><div class="verdict"><span class="ok">✓ paid $4,500.00 correctly</span><br><span style="color:var(--text-muted)">retried the failed call with the right argument</span></div></div></div></div>
+<div class="note"><strong>Why this matters for a migration.</strong> Both logs look confident and reasonable. Neither system is simply better. They disagree, in opposite directions, on a condition that only appears when a tool happens to fail — which is why running both side by side for thirty days does not find it unless a network blip lands on the right invoice inside that window.</div>
+<p class="eyebrow">Migration verdict</p>
+<h2>Can the incumbent be retired?</h2>
+<div class="hero"><div class="figure">57<span class="unit">% confidence</span></div><p style="margin:.5rem 0 0">Materially different system. A parallel run would not have caught this.</p><p class="ci">95% lower bound on outcome equivalence under the worst perturbation (tool_fault)</p></div>
+<div class="scroll"><table><thead><tr><th>measure</th><th class="num">value</th><th class="num">95% CI</th><th class="num">n</th></tr></thead><tbody>
+<tr><td>same end state</td><td class="num">94.9%</td><td class="num">92.1 – 96.8</td><td class="num">354</td></tr>
+<tr><td>same control path</td><td class="num">21.5%</td><td class="num">17.5 – 26.0</td><td class="num">354</td></tr>
+<tr><td>same tool arguments</td><td class="num">85.5%</td><td class="num">75.9 – 91.7</td><td class="num">76</td></tr>
+<tr><td>incumbent self-consistency</td><td class="num">96.9%</td><td class="num">94.6 – 98.2</td><td class="num">384</td></tr>
+</tbody></table></div>
+<p>The replacement produces the same end state 94.9% of the time while taking a different route through the system 78.5% of the time. Matching outcomes is not matching behavior.</p>
+<p class="eyebrow">Limits</p>
+<h2>What this does not show</h2>
+<div class="note">The deterministic executor treats a failed check as a blocker. That is a design choice in this implementation, not a property of deterministic systems, and an executor with retry logic would not fail this way. The honest reading is narrower and more useful: a deterministic system does exactly what its author anticipated. It handled every perturbation it was written for, and failed on the one it was not. The agent improvised a recovery nobody specified, which is the same capability that lets it skip a control elsewhere.<br><br>One domain, one model, one policy. Results are for <code>claude-haiku-4-5</code> on this task. Perturbations are a chosen finite set: passing them is evidence, not proof.</div>
+<footer>
+738 runs · model claude-haiku-4-5 · 354 paired comparisons · rebuilt from stored trajectories with <code>plumbline parity</code><br>Every number here regenerates from the committed traces. No figure in this report was typed by hand.
+</footer></div></body></html>

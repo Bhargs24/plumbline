@@ -1,0 +1,5168 @@
+{
+  "plan_execute/INV-7002/baseline/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/baseline/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/baseline/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/baseline/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/baseline/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/baseline/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/baseline/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/baseline/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/paraphrase/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/tool_fault/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/distractor/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/decoy_tools/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7002/sampling/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7003/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7004/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7005/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/baseline/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/paraphrase/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/distractor/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/tool_fault/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/decoy_tools/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7006/sampling/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7007/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7008/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/baseline/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7008/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/baseline/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7008/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/baseline/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7008/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/baseline/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/baseline/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/paraphrase/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7008/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/paraphrase/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/baseline/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/paraphrase/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/baseline/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/paraphrase/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/baseline/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7008/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/paraphrase/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/paraphrase/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/paraphrase/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/distractor/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/paraphrase/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/distractor/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/distractor/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/distractor/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/distractor/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/distractor/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "plan_execute/INV-7009/distractor/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/distractor/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/tool_fault/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/decoy_tools/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "plan_execute/INV-7009/sampling/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7002/baseline/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/baseline/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/baseline/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/baseline/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/baseline/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/baseline/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/baseline/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/baseline/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/paraphrase/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/distractor/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/tool_fault/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/decoy_tools/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7002/sampling/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 4500.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7003/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7004/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7005/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/baseline/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/paraphrase/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/distractor/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/tool_fault/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/decoy_tools/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7006/sampling/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 7750.0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7007/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/baseline/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7008/paraphrase/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/distractor/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": false,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/tool_fault/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/decoy_tools/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/0/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/0/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/1/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/2/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/2/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/3/0": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/1/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7008/sampling/3/1": {
+    "paid": false,
+    "payment_count": 0,
+    "amount_paid": 0,
+    "exception_raised": true,
+    "approvals": 0
+  },
+  "react/INV-7009/baseline/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/baseline/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/baseline/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/baseline/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/baseline/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/baseline/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/baseline/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/1/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/baseline/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/1/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/2/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/3/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/2/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/paraphrase/3/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/distractor/0/1": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  },
+  "react/INV-7009/distractor/0/0": {
+    "paid": true,
+    "payment_count": 1,
+    "amount_paid": 14500.0,
+    "exception_raised": false,
+    "approvals": 1
+  }
+}
