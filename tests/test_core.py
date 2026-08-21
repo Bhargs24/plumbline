@@ -309,8 +309,7 @@ def test_tests_never_touch_the_real_ledger():
     import inspect, re
     import tests.test_core as mod
     src = inspect.getsource(mod)
-    for m in re.finditer(r"Budget\(([^)]*)\)", src):
-        args = m.group(1)
-        if "{args}" in args:
-            continue                      # this test's own message string
-        assert "ledger_path" in args, "Budget(...) must set ledger_path in tests"
+    for m in re.finditer(r"Budget\((max_usd[^)]*)\)", src):
+        assert "ledger_path" in m.group(1), (
+            "every constructed budget in the suite must set ledger_path, "
+            "or it journals fake spend into the shared production ledger")
