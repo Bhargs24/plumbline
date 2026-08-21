@@ -50,8 +50,13 @@ class Divergence:
         shown = ", ".join(self.trial_ids[:max_trials])
         more = f" +{self.count - max_trials} more" if self.count > max_trials else ""
         head = {"skipped": "STEP SKIPPED", "extra": "EXTRA STEP",
-                "substitute": "DIFFERENT STEP", "arg": "ARGUMENT DRIFT"}[self.kind]
-        return (f"[{head}] at step {self.step_index}: expected {self.expected}, "
+                "substitute": "DIFFERENT STEP", "arg": "ARGUMENT DRIFT",
+                "outcome": "DIFFERENT END STATE"}.get(self.kind, self.kind.upper())
+        # An outcome divergence is about the run as a whole, so there is no step
+        # to point at. Printing "at step -1" would read as a defect in the tool.
+        where = "" if self.step_index is None or self.step_index < 0 \
+            else f" at step {self.step_index}"
+        return (f"[{head}]{where}: expected {self.expected}, "
                 f"got {self.got}\n"
                 f"      {self.count} run(s) under {perts}\n"
                 f"      trials: {shown}{more}")

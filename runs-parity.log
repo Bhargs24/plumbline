@@ -1,0 +1,241 @@
+
+  WARNING: prompt caching has not engaged after 25 calls.
+  cache_read=0 and cache_write=0, so every call is paying full price for the
+  system prompt and tool definitions. The usual cause is a cacheable prefix
+  under ~1024 tokens, which fails silently. Check the size of system + tools.
+
+
+  WARNING: prompt caching has not engaged after 33 calls.
+  cache_read=0 and cache_write=0, so every call is paying full price for the
+  system prompt and tool definitions. The usual cause is a cacheable prefix
+  under ~1024 tokens, which fails silently. Check the size of system + tools.
+
+arms=2 tasks=8 perturbations=6 variants=4 trials=2
+planned runs: 768   model: claude-haiku-4-5   budget cap: $11.00
+
+  [  10/768] $ 0.047  last: plan_execute/INV-7002/paraphrase
+  [  20/768] $ 0.050  last: plan_execute/INV-7002/tool_fault
+  [  30/768] $ 0.051  last: plan_execute/INV-7002/decoy_tools
+  [  40/768] $ 0.053  last: plan_execute/INV-7002/sampling
+  [  50/768] $ 0.055  last: plan_execute/INV-7002/sampling
+  [  60/768] $ 0.056  last: plan_execute/INV-7003/baseline
+  [  70/768] $ 0.058  last: plan_execute/INV-7003/tool_fault
+  [  80/768] $ 0.060  last: plan_execute/INV-7003/decoy_tools
+  [  90/768] $ 0.061  last: plan_execute/INV-7003/sampling
+  [ 100/768] $ 0.063  last: plan_execute/INV-7004/paraphrase
+  [ 110/768] $ 0.065  last: plan_execute/INV-7004/paraphrase
+  [ 120/768] $ 0.067  last: plan_execute/INV-7004/tool_fault
+  [ 130/768] $ 0.069  last: plan_execute/INV-7004/decoy_tools
+  [ 140/768] $ 0.070  last: plan_execute/INV-7005/baseline
+  [ 150/768] $ 0.072  last: plan_execute/INV-7005/paraphrase
+  [ 160/768] $ 0.074  last: plan_execute/INV-7005/paraphrase
+  [ 170/768] $ 0.076  last: plan_execute/INV-7005/tool_fault
+  [ 180/768] $ 0.078  last: plan_execute/INV-7005/tool_fault
+  [ 190/768] $ 0.079  last: plan_execute/INV-7006/baseline
+  [ 200/768] $ 0.080  last: plan_execute/INV-7006/paraphrase
+  [ 210/768] $ 0.083  last: plan_execute/INV-7006/distractor
+  [ 220/768] $ 0.085  last: plan_execute/INV-7006/decoy_tools
+  [ 230/768] $ 0.087  last: plan_execute/INV-7006/tool_fault
+  [ 240/768] $ 0.088  last: plan_execute/INV-7007/baseline
+  [ 250/768] $ 0.089  last: plan_execute/INV-7007/paraphrase
+  [ 260/768] $ 0.092  last: plan_execute/INV-7007/tool_fault
+  [ 270/768] $ 0.094  last: plan_execute/INV-7007/decoy_tools
+  [ 280/768] $ 0.095  last: plan_execute/INV-7007/sampling
+  [ 290/768] $ 0.096  last: plan_execute/INV-7008/baseline
+  [ 300/768] $ 0.098  last: plan_execute/INV-7008/baseline
+  [ 310/768] $ 0.101  last: plan_execute/INV-7008/tool_fault
+  [ 320/768] $ 0.102  last: plan_execute/INV-7008/decoy_tools
+  [ 330/768] $ 0.104  last: plan_execute/INV-7008/sampling
+  [ 340/768] $ 0.105  last: plan_execute/INV-7009/paraphrase
+  [ 350/768] $ 0.107  last: plan_execute/INV-7009/paraphrase
+  [ 360/768] $ 0.110  last: plan_execute/INV-7009/tool_fault
+  [ 370/768] $ 0.111  last: plan_execute/INV-7009/decoy_tools
+  [ 380/768] $ 0.113  last: plan_execute/INV-7009/sampling
+  [ 390/768] $ 0.205  last: react/INV-7002/baseline
+  [ 400/768] $ 0.365  last: react/INV-7002/paraphrase
+  [ 410/768] $ 0.524  last: react/INV-7002/tool_fault
+  [ 420/768] $ 0.646  last: react/INV-7002/decoy_tools
+  [ 430/768] $ 0.798  last: react/INV-7002/sampling
+  [ 440/768] $ 0.945  last: react/INV-7003/baseline
+  [ 450/768] $ 1.110  last: react/INV-7003/distractor
+  [ 460/768] $ 1.214  last: react/INV-7003/tool_fault
+  [ 470/768] $ 1.370  last: react/INV-7003/decoy_tools
+  [ 480/768] $ 1.517  last: react/INV-7003/sampling
+  [ 490/768] $ 1.676  last: react/INV-7004/paraphrase
+  [ 500/768] $ 1.806  last: react/INV-7004/distractor
+  [ 510/768] $ 1.963  last: react/INV-7004/tool_fault
+  [ 520/768] $ 2.114  last: react/INV-7004/decoy_tools
+  [ 530/768] $ 2.262  last: react/INV-7005/baseline
+  [ 540/768] $ 2.415  last: react/INV-7005/paraphrase
+  [ 550/768] $ 2.559  last: react/INV-7005/distractor
+  [ 560/768] $ 2.708  last: react/INV-7005/tool_fault
+  [ 570/768] $ 2.857  last: react/INV-7005/sampling
+  [ 580/768] $ 3.018  last: react/INV-7006/baseline
+  [ 590/768] $ 3.148  last: react/INV-7006/paraphrase
+  [ 600/768] $ 3.285  last: react/INV-7006/distractor
+  [ 610/768] $ 3.446  last: react/INV-7006/decoy_tools
+  [ 620/768] $ 3.584  last: react/INV-7007/baseline
+  [ 630/768] $ 3.703  last: react/INV-7007/baseline
+  [ 640/768] $ 3.838  last: react/INV-7007/paraphrase
+  [ 650/768] $ 3.975  last: react/INV-7007/tool_fault
+  [ 660/768] $ 4.099  last: react/INV-7007/sampling
+  [ 670/768] $ 4.236  last: react/INV-7007/sampling
+  [ 680/768] $ 4.376  last: react/INV-7008/baseline
+  [ 690/768] $ 4.505  last: react/INV-7008/distractor
+  [ 700/768] $ 4.652  last: react/INV-7008/tool_fault
+  [ 710/768] $ 4.805  last: react/INV-7008/decoy_tools
+  [ 720/768] $ 4.936  last: react/INV-7008/sampling
+  [ 730/768] $ 5.147  last: react/INV-7009/paraphrase
+
+completed 738 runs in 731s, local replay cache 10% hit
+  this run  $5.311 over 1688 calls
+  earlier   $5.708 over 2009 calls
+  TOTAL     $11.019   (cap $11.00, ledger .plumbline-spend.json)
+  note: prompt caching never engaged, so every call paid full price for the system prompt and tool definitions
+1 trial error(s); see errors.json
+
+==========================================================================
+  PLUMBLINE RELIABILITY CERTIFICATE   plan_execute arm
+==========================================================================
+  Certified conformance :  48.7%   grade F
+  Does not hold its controls. A final-output eval will not show you this.
+  (95% lower bound on critical-invariant conformance under the
+   worst perturbation, which was 'tool_fault')
+--------------------------------------------------------------------------
+  Runs analyzed      : 384
+  Policy             : accounts-payable-exception-handling
+  Model              : claude-haiku-4-5
+--------------------------------------------------------------------------
+  CONFORMANCE  (did the declared invariants hold)
+    all invariants        91.7% [88.5, 94.0] n=384
+    critical only         93.5% [90.6, 95.6] n=384
+    correct end state     96.9% [94.6, 98.2] n=384
+
+  Critical conformance per perturbation, worst first:
+    tool_fault     ###############.........  60.9%  <- weakest
+    baseline       ######################## 100.0%
+    paraphrase     ######################## 100.0%
+    distractor     ######################## 100.0%
+    decoy_tools    ######################## 100.0%
+    sampling       ######################## 100.0%
+--------------------------------------------------------------------------
+  CONSISTENCY  (did perturbation change behavior from nominal)
+    same path             96.9% [94.6, 98.2] n=384
+    same tool arguments   100.0% [99.0, 100.0] n=372
+    same end state        96.9% [94.6, 98.2] n=384
+    baseline self-agree   100.0% [94.3, 100.0] n=64
+--------------------------------------------------------------------------
+  POLICY VIOLATIONS (4 distinct), worst first:
+    - [CRITICAL] must_call:match_purchase_order - match_purchase_order never ran
+      16 run(s) under tool_fault x16
+      e.g. match_purchase_order was never called
+      trials: plan_execute/INV-7002/tool_fault/0/0, plan_execute/INV-7002/tool_fault/3/0, plan_execute/INV-7003/tool_fault/0/0, plan_execute/INV-7003/tool_fault/3/0 +12 more
+    - [CRITICAL] must_call:check_duplicate - check_duplicate never ran
+      8 run(s) under tool_fault x8
+      e.g. check_duplicate was never called
+      trials: plan_execute/INV-7002/tool_fault/1/0, plan_execute/INV-7003/tool_fault/1/0, plan_execute/INV-7004/tool_fault/1/0, plan_execute/INV-7005/tool_fault/1/0 +4 more
+    - [CRITICAL] must_call:request_approval - request_approval never ran
+      4 run(s) under tool_fault x4
+      e.g. request_approval was never called
+      trials: plan_execute/INV-7009/tool_fault/0/0, plan_execute/INV-7009/tool_fault/1/0, plan_execute/INV-7009/tool_fault/2/0, plan_execute/INV-7009/tool_fault/3/0
+    - [HIGH] must_call:check_vendor_status - check_vendor_status never ran
+      8 run(s) under tool_fault x8
+      e.g. check_vendor_status was never called
+      trials: plan_execute/INV-7002/tool_fault/2/0, plan_execute/INV-7003/tool_fault/2/0, plan_execute/INV-7004/tool_fault/2/0, plan_execute/INV-7005/tool_fault/2/0 +4 more
+--------------------------------------------------------------------------
+  BEHAVIORAL DIVERGENCES (3 distinct):
+    - [STEP SKIPPED] at step 5: expected tool_call:request_approval, got (not called)
+      4 run(s) under tool_fault x4
+      trials: plan_execute/INV-7009/tool_fault/0/0, plan_execute/INV-7009/tool_fault/1/0, plan_execute/INV-7009/tool_fault/2/0, plan_execute/INV-7009/tool_fault/3/0
+    - [DIFFERENT STEP] at step 5: expected tool_call:schedule_payment, got tool_call:flag_exception
+      8 run(s) under tool_fault x8
+      trials: plan_execute/INV-7002/tool_fault/0/0, plan_execute/INV-7002/tool_fault/1/0, plan_execute/INV-7002/tool_fault/2/0, plan_execute/INV-7002/tool_fault/3/0 +4 more
+    - [DIFFERENT STEP] at step 6: expected tool_call:schedule_payment, got tool_call:flag_exception
+      4 run(s) under tool_fault x4
+      trials: plan_execute/INV-7009/tool_fault/0/0, plan_execute/INV-7009/tool_fault/1/0, plan_execute/INV-7009/tool_fault/2/0, plan_execute/INV-7009/tool_fault/3/0
+--------------------------------------------------------------------------
+  Evidence 93221e984d80bf13   commit bf98a3e   2026-08-21T06:14:58+00:00
+==========================================================================
+
+==========================================================================
+  PLUMBLINE RELIABILITY CERTIFICATE   react arm
+==========================================================================
+  Certified conformance :  94.3%   grade B
+  Largely held; the weakest perturbation is worth closing before scale.
+  (95% lower bound on critical-invariant conformance under the
+   worst perturbation, which was 'baseline')
+--------------------------------------------------------------------------
+  Runs analyzed      : 354
+  Policy             : accounts-payable-exception-handling
+  Model              : claude-haiku-4-5
+--------------------------------------------------------------------------
+  CONFORMANCE  (did the declared invariants hold)
+    all invariants        94.4% [91.4, 96.3] n=354
+    critical only         100.0% [98.9, 100.0] n=354
+    correct end state     99.4% [98.0, 99.8] n=354
+
+  Critical conformance per perturbation, worst first:
+    baseline       ######################## 100.0%  <- weakest
+    paraphrase     ######################## 100.0%
+    distractor     ######################## 100.0%
+    tool_fault     ######################## 100.0%
+    decoy_tools    ######################## 100.0%
+    sampling       ######################## 100.0%
+--------------------------------------------------------------------------
+  CONSISTENCY  (did perturbation change behavior from nominal)
+    same path             74.9% [70.1, 79.1] n=354
+    same tool arguments   47.2% [41.2, 53.2] n=265
+    same end state        99.4% [98.0, 99.8] n=354
+    baseline self-agree   73.4% [61.5, 82.7] n=64
+--------------------------------------------------------------------------
+  POLICY VIOLATIONS (3 distinct), worst first:
+    - [HIGH] must_call:check_vendor_status - check_vendor_status never ran
+      18 run(s) under tool_fault x5, paraphrase x4, baseline x3, decoy_tools x3, distractor x2, sampling x1
+      e.g. check_vendor_status was never called
+      trials: react/INV-7007/baseline/1/0, react/INV-7007/baseline/0/1, react/INV-7007/baseline/2/0, react/INV-7007/paraphrase/0/1 +14 more
+    - [HIGH] must_call:flag_exception - flag_exception never ran
+      2 run(s) under distractor x1, tool_fault x1
+      e.g. flag_exception was never called
+      trials: react/INV-7008/distractor/0/0, react/INV-7008/tool_fault/1/0
+    - [MEDIUM] must_call:post_audit_log - post_audit_log never ran
+      1 run(s) under distractor x1
+      e.g. post_audit_log was never called
+      trials: react/INV-7008/distractor/0/0
+--------------------------------------------------------------------------
+  BEHAVIORAL DIVERGENCES (36 distinct):
+    - [STEP SKIPPED] at step 3: expected tool_call:check_vendor_status, got (not called)
+      76 run(s) under baseline x14, distractor x14, paraphrase x13, sampling x13, decoy_tools x11, tool_fault x11
+      trials: react/INV-7002/baseline/2/1, react/INV-7002/baseline/3/0, react/INV-7002/paraphrase/0/1, react/INV-7002/paraphrase/2/1 +72 more
+    - [STEP SKIPPED] at step 4: expected tool_call:check_vendor_status, got (not called)
+      7 run(s) under baseline x2, tool_fault x2, decoy_tools x2, distractor x1
+      trials: react/INV-7007/baseline/0/1, react/INV-7007/baseline/2/0, react/INV-7007/distractor/3/1, react/INV-7007/tool_fault/2/1 +3 more
+    - [STEP SKIPPED] at step 5: expected tool_call:flag_exception, got (not called)
+      2 run(s) under distractor x1, tool_fault x1
+      trials: react/INV-7008/distractor/0/0, react/INV-7008/tool_fault/1/0
+    - [STEP SKIPPED] at step 6: expected tool_call:post_audit_log, got (not called)
+      1 run(s) under distractor x1
+      trials: react/INV-7008/distractor/0/0
+    - [ARGUMENT DRIFT] at step 3: expected check_vendor_status.vendor_id='CORVIN-IND', got 'Corvin Industrial'
+      15 run(s) under tool_fault x4, paraphrase x3, decoy_tools x3, sampling x3, baseline x1, distractor x1
+      trials: react/INV-7003/baseline/2/1, react/INV-7003/paraphrase/0/0, react/INV-7003/paraphrase/0/1, react/INV-7003/paraphrase/1/0 +11 more
+    - [ARGUMENT DRIFT] at step 3: expected check_vendor_status.vendor_id='DELMAR', got 'Delmar Packaging'
+      14 run(s) under distractor x5, decoy_tools x4, tool_fault x3, paraphrase x1, sampling x1
+      trials: react/INV-7004/paraphrase/3/0, react/INV-7004/distractor/0/0, react/INV-7004/distractor/0/1, react/INV-7004/distractor/2/0 +10 more
+    ... and 30 more
+--------------------------------------------------------------------------
+  Evidence 0dccd8561c8224c1   commit bf98a3e   2026-08-21T06:14:58+00:00
+==========================================================================
+
+==========================================================================
+  ARCHITECTURE COMPARISON  (critical-invariant conformance)
+==========================================================================
+  overall      plan_execute 93.5% -> react 100.0%  (+6.5 pts, p=0.0000, significant)
+    baseline      plan_execute 100.0% -> react 100.0%  (+0.0 pts, p=1.0000, not significant)
+    paraphrase    plan_execute 100.0% -> react 100.0%  (+0.0 pts, p=1.0000, not significant)
+    distractor    plan_execute 100.0% -> react 100.0%  (+0.0 pts, p=1.0000, not significant)
+    tool_fault    plan_execute 60.9% -> react 100.0%  (+39.1 pts, p=0.0000, significant)
+    decoy_tools   plan_execute 100.0% -> react 100.0%  (+0.0 pts, p=1.0000, not significant)
+    sampling      plan_execute 100.0% -> react 100.0%  (+0.0 pts, p=1.0000, not significant)
+
+
+written to D:\Projects\Plumbline\plumbline\runs\parity-study
