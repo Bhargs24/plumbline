@@ -104,6 +104,54 @@ def cmd_parity(args) -> int:
     return 0
 
 
+def cmd_serve(args) -> int:
+    """Start the console and API."""
+    import os
+    os.environ["PLUMBLINE_DB"] = args.db
+    import uvicorn
+    print(f"console  http://{args.host}:{args.port}/")
+    print(f"api      http://{args.host}:{args.port}/api/runs")
+    uvicorn.run("plumbline.server.app:app", host=args.host, port=args.port,
+                log_level="warning")
+    return 0
+
+
+def cmd_import(args) -> int:
+    """Load a run directory into the store so the console can read it."""
+    from .store import Store
+    from .store.importer import import_run
+    policy = contexts = outcome_fn = None
+    if args.domain == "accounts_payable":
+        from domains.accounts_payable.policy import AP_POLICY
+        from domains.accounts_payable.tasks import build_tasks, outcome_matches
+        policy = AP_POLICY
+        contexts = {t.task_id: t.context for t in build_tasks()}
+        outcome_fn = outcome_matches
+    rid = import_run(Store(args.db), args.run_dir, project=args.project,
+                     domain=args.domain, label=args.label or "",
+                     policy=policy, contexts=contexts, outcome_fn=outcome_fn)
+    print(f"imported {args.run_dir} as {rid}")
+    return 0
+
+
+def cmd_gate(args) -> int:
+    """CI gate: exit non-zero when a certified bound falls below a threshold."""
+    from .store import Store
+    certs = [c for c in Store(args.db).certificates(args.run_id)
+             if c["kind"] == "conformance"]
+    if not certs:
+        print("no conformance certificate for that run", file=sys.stderr)
+        return 2
+    failed = False
+    for c in sorted(certs, key=lambda x: x["arm"]):
+        ok = (c["bound"] or 0) >= args.min_bound
+        failed |= not ok
+        print(f"  {'PASS' if ok else 'FAIL'}  {c['arm']:<20} "
+              f"{(c['bound'] or 0) * 100:5.1f}%  (threshold "
+              f"{args.min_bound * 100:.0f}%)")
+    return 1 if failed else 0
+
+
 def cmd_report(args) -> int:
     """Render a run into a self-contained HTML report."""
     from .report.build import build
@@ -184,6 +232,26 @@ def main(argv=None) -> int:
     w.add_argument("--fragment", action="store_true",
                    help="emit body content only, for embedding")
     w.set_defaults(fn=cmd_report)
+
+    v = sub.add_parser("serve", help="start the web console and REST API")
+    v.add_argument("--host", default="127.0.0.1")
+    v.add_argument("--port", type=int, default=8912)
+    v.add_argument("--db", default="plumbline.db")
+    v.set_defaults(fn=cmd_serve)
+
+    m = sub.add_parser("import", help="load a run directory into the store")
+    m.add_argument("run_dir")
+    m.add_argument("--project", required=True)
+    m.add_argument("--domain", default="accounts_payable")
+    m.add_argument("--label", default=None)
+    m.add_argument("--db", default="plumbline.db")
+    m.set_defaults(fn=cmd_import)
+
+    g = sub.add_parser("gate", help="CI gate on the certified bound")
+    g.add_argument("run_id")
+    g.add_argument("--min-bound", type=float, default=0.95)
+    g.add_argument("--db", default="plumbline.db")
+    g.set_defaults(fn=cmd_gate)
 
     s = sub.add_parser("show", help="print a stored trajectory step by step")
     s.add_argument("run_dir")
