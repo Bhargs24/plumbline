@@ -376,3 +376,60 @@ def test_unpaired_runs_are_excluded_not_counted_as_divergences():
                      ledger_states=ledgers, spec=AP_POLICY)
     assert r.n_pairs == 2 and r.unpaired == 1
     assert r.divergences == []
+
+
+# ------------------------------------------------------------------ report
+def test_report_uses_only_tokens_the_stylesheet_defines():
+    """The chart once emitted var(--line) and var(--text-muted) after the
+    palette was renamed. Undefined custom properties fail silently: gridlines
+    and tick labels simply stop having a color."""
+    import re
+    from plumbline.report.html import CSS, dot_plot
+    defined = set(re.findall(r"(--[a-z0-9-]+)\s*:", CSS))
+    svg = dot_plot([("baseline", [(0, 1.0, .94, 1.0, 64), (1, .98, .91, .99, 56)]),
+                    ("tool fault", [(0, .81, .70, .89, 64), (1, .98, .91, .99, 56)])],
+                   label_rows={"tool fault"})
+    used = set(re.findall(r"var\((--[a-z0-9-]+)\)", svg))
+    assert used, "the chart should reference tokens"
+    assert used <= defined, f"undefined in stylesheet: {sorted(used - defined)}"
+
+
+def test_fragment_carries_its_own_title_and_fonts():
+    """Without these the artifact inherits its filename as a name and the
+    display faces silently fall back."""
+    from plumbline.report.build import PAGE_TITLE
+    from plumbline.report.html import FONTS
+    assert "fonts.googleapis.com" in FONTS
+    assert PAGE_TITLE and "—" not in PAGE_TITLE
+
+
+def test_every_color_token_is_defined_in_all_three_theme_scopes():
+    """A token defined only inside the dark blocks renders unstyled in the
+    default un-stamped state, which is the classic unreadable-artifact bug."""
+    import re
+    from plumbline.report.html import CSS
+
+    def block_at(marker: str) -> str:
+        """Slice a CSS block by counting braces, since these blocks nest and a
+        whitespace-sensitive regex silently matches nothing."""
+        start = CSS.index(marker)
+        depth, i = 0, CSS.index("{", start)
+        for j in range(i, len(CSS)):
+            if CSS[j] == "{":
+                depth += 1
+            elif CSS[j] == "}":
+                depth -= 1
+                if depth == 0:
+                    return CSS[start:j + 1]
+        raise AssertionError(f"unbalanced braces after {marker!r}")
+
+    tokens = lambda s: set(re.findall(r"(--[a-z0-9-]+)\s*:", s))
+    base = tokens(CSS.split("@media")[0])
+    assert base, ":root must define the complete light palette"
+    for marker in ("@media (prefers-color-scheme: dark)",
+                   ':root[data-theme="dark"]'):
+        toks = tokens(block_at(marker))
+        assert toks, f"{marker} defines no tokens"
+        assert toks <= base, (
+            f"{marker} defines tokens absent from :root: {sorted(toks - base)}. "
+            f"Those render unstyled in the default un-stamped theme.")

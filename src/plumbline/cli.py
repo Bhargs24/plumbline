@@ -104,6 +104,19 @@ def cmd_parity(args) -> int:
     return 0
 
 
+def cmd_report(args) -> int:
+    """Render a run into a self-contained HTML report."""
+    from .report.build import build
+    out = Path(args.out)
+    html_text = build(args.run_dir, incumbent=args.incumbent,
+                      replacement=args.replacement,
+                      standalone=not args.fragment)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(html_text, encoding="utf-8")
+    print(f"written to {out}  ({len(html_text):,} bytes, fully self-contained)")
+    return 0
+
+
 def cmd_show(args) -> int:
     trajs, ledgers = _load(Path(args.run_dir))
     matches = [t for t in trajs if args.trial in t.trial_id]
@@ -162,6 +175,15 @@ def main(argv=None) -> int:
     q.add_argument("--json", action="store_true")
     q.add_argument("--out", default=None)
     q.set_defaults(fn=cmd_parity)
+
+    w = sub.add_parser("report", help="render a run into a self-contained HTML page")
+    w.add_argument("run_dir")
+    w.add_argument("incumbent")
+    w.add_argument("replacement")
+    w.add_argument("-o", "--out", default="report.html")
+    w.add_argument("--fragment", action="store_true",
+                   help="emit body content only, for embedding")
+    w.set_defaults(fn=cmd_report)
 
     s = sub.add_parser("show", help="print a stored trajectory step by step")
     s.add_argument("run_dir")
