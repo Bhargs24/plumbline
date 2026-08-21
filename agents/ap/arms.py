@@ -49,12 +49,12 @@ MAX_TURNS = 12
 # written, because a thin prompt makes the agent look worse than a deployed one
 # would and the comparison should not be flattered by an unrealistic baseline.
 #
-# Second, it has to be long enough to cache. Prompt caching needs a shared
-# prefix of at least ~1024 tokens and fails SILENTLY below that, with no error
-# and no field to check. An earlier version came in at roughly 998 tokens, 26
-# short, so every one of 1962 calls paid full price for this text plus the tool
-# definitions. Together with the tool schemas this now clears the threshold with
-# headroom, and the client warns if caching still does not engage.
+# Second, it was expanded while chasing a prompt-caching problem, on the theory
+# that the prefix was under the ~1024-token minimum. That theory was wrong:
+# caching does not engage for this account on claude-haiku-4-5 at 1878 tokens
+# OR at 3078, so length was never the cause. The longer policy is kept anyway
+# because it is the better baseline on its own merits, but do not read it as a
+# caching workaround. See adapters/llm.py for what is actually known.
 #
 # Note what is deliberately ABSENT: any instruction about retrying a tool that
 # fails. The first study found the agent silently abandoning a control after a

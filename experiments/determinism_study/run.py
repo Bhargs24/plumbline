@@ -107,9 +107,18 @@ def main() -> int:
     result = run_study(cfg, agent_llm, perturb_llm, on_progress=progress)
 
     contexts = {t.task_id: t.context for t in tasks}
+    bs = budget.summary()
     print(f"\ncompleted {len(result.trajectories)} runs in "
-          f"{result.wall_seconds:.0f}s, spend ${budget.spent_usd:.3f}, "
-          f"cache {cache.stats()['hit_rate']:.0%} hit")
+          f"{result.wall_seconds:.0f}s, local replay cache "
+          f"{cache.stats()['hit_rate']:.0%} hit")
+    print(f"  this run  ${bs['session_usd']:.3f} over {bs['session_calls']} calls")
+    print(f"  earlier   ${bs['prior_usd']:.3f} over "
+          f"{bs['total_calls'] - bs['session_calls']} calls")
+    print(f"  TOTAL     ${bs['total_usd']:.3f}   (cap ${args.budget:.2f}, "
+          f"ledger {args.ledger})")
+    if not bs["prompt_cache_engaged"] and bs["session_calls"] > 25:
+        print("  note: prompt caching never engaged, so every call paid full "
+              "price for the system prompt and tool definitions")
     if result.discarded_variants:
         print(f"equivalence guard discarded {result.discarded_variants} paraphrases")
     if result.errors:

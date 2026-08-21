@@ -173,16 +173,21 @@ class LLMClient:
     _cache_warned: bool = False
 
     def _warn_if_cache_never_engages(self) -> None:
-        """Prompt caching fails silently when the prefix is under ~1024 tokens.
+        """Prompt caching fails silently. Warn rather than let the bill say it.
 
-        There is no error, no warning, and no field that says so. You only find
-        out by noticing that cache_read and cache_write are zero forever, which
-        in practice means you find out from the bill. This project's prefix came
-        in at roughly 998 tokens, twenty-six short, and every call paid full
-        price for the system prompt and tool definitions.
+        There is no error and no field that reports "your prefix was not
+        cached". cache_creation_input_tokens and cache_read_input_tokens simply
+        stay at zero, which is indistinguishable from a cold first call, so the
+        usual way to discover it is the invoice.
 
-        So: if enough calls have gone out and caching has still never engaged,
-        say so loudly and once.
+        Measured here, so nobody re-derives it: caching did NOT engage for this
+        account on claude-haiku-4-5 at a 1878-token prefix, nor at 3078, with
+        cache_control passed top-level and again as a marked system block. The
+        documented ~1024-token minimum was tested and ruled out as the cause.
+        The actual cause is unknown; it may be account tier or model support.
+
+        The warning therefore states the observation and does not assert a
+        cause, because the last guess at a cause was wrong.
         """
         if self._cache_warned or self.budget.calls < 25:
             return
