@@ -15,3 +15,6 @@ venv/
 runs/*
 !runs/parity-study/
 plumbline.db*
+
+# local spend ledger; personal and resets the cap on a fresh clone
+.plumbline-spend.json

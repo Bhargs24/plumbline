@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Plumbline — conformance-under-perturbation testing for LLM agents</title>
-<meta name="description" content="738 runs comparing a deterministic executor against a free-form agent. The perturbations everyone tests for did nothing. The one nobody tests for broke the deterministic one.">
+<title>Plumbline &mdash; evidencing that AI-operated controls actually ran</title>
+<meta name="description" content="An agent scoring 99.4% on outcome accuracy skipped a mandatory sanctions screen on 16 of 48 runs of one invoice. Output evals cannot see it. A control test can.">
 <meta property="og:title" content="Plumbline">
-<meta property="og:description" content="The failure everyone tests for wasn't there. The one nobody tests for was.">
+<meta property="og:description" content="Right answer every time. The control that stops payment to a sanctioned party never ran.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,72 +82,106 @@ footer{margin-top:4rem;padding-top:1.25rem;border-top:1px solid var(--rule);
 <body>
 <div class="wrap">
 
-<p class="eyebrow">Plumbline · a measurement</p>
-<h1>The failure everyone tests for wasn't there. The one nobody tests for was.</h1>
-<p class="deck">Two accounts-payable automations. Identical tasks, tools, model, inputs and perturbations. The only difference is who decides which step runs next.</p>
+<p class="eyebrow">Plumbline &middot; a control-testing harness</p>
+<h1>The agent got every invoice right. A mandatory control never ran.</h1>
+<p class="deck">An accounts-payable agent scoring <strong>99.4% on outcome
+accuracy</strong> skipped the mandatory sanctions screen on <strong>16 of 48
+runs</strong> of one invoice. Every one of those runs still produced the
+correct answer, so every output eval passed them.</p>
 
 <div class="stats">
-  <div class="stat"><div class="n">738</div><div class="l">runs, all committed</div></div>
-  <div class="stat"><div class="n">17.0</div><div class="l">point gap</div></div>
-  <div class="stat"><div class="n">0.0029</div><div class="l">p-value</div></div>
-  <div class="stat"><div class="n">$11.02</div><div class="l">total spend</div></div>
+  <div class="stat"><div class="n">99.4%</div><div class="l">outcome accuracy</div></div>
+  <div class="stat"><div class="n">33.3%</div><div class="l">skip rate on that invoice</div></div>
+  <div class="stat"><div class="n">2,082</div><div class="l">live runs, all committed</div></div>
+  <div class="stat"><div class="n">118</div><div class="l">tests, CI enforced</div></div>
 </div>
 
-<figure>
-  <img src="assets/results.svg" alt="Outcome correctness by perturbation for both architectures with 95% confidence intervals. Every condition sits at 100% except tool_fault, where the deterministic executor falls to 81.2% while the free-form agent holds at 98.2%.">
-  <figcaption>Paraphrasing, distractor text, decoy tools and sampling variation broke neither system. Only a transient tool error did, and it broke the deterministic one.</figcaption>
-</figure>
+<h2>Why nothing catches it</h2>
+<p>Output evals grade the answer, and the answer was right. Trace viewers show
+you one run. Neither can detect a check that did not happen, because the
+disposition comes out identical either way. The agent even wrote the omission
+into its own audit log, gave a reason that reads as sensible, and closed the
+case.</p>
 
-<h2>What happened</h2>
+<pre><code>same invoice, same prompt, two runs
 
-<p>Invoice <code>INV-7002</code> is clean. Every check passes and the correct action is to pay $4,500. A transient error was injected into one tool call.</p>
+run A   fetch &rarr; match PO &rarr; duplicate &rarr; <strong>VENDOR</strong> &rarr; hold
+run B   fetch &rarr; match PO &rarr; duplicate &rarr; <strong>&mdash;&mdash;&mdash;&mdash;</strong> &rarr; hold
 
-<pre>plan_execute  (deterministic)          react  (free-form agent)
-────────────────────────────────       ────────────────────────────────
-match_purchase_order   ✗ 503           check_vendor_status ✗ not found
-check_duplicate                        check_vendor_status ✓ (retried)
-flag_exception         ← WRONG         schedule_payment $4,500 ✓
+both held the duplicate. ledgers identical. both correct.</code></pre>
 
-held a clean invoice for review        paid correctly</pre>
+<h2>Why one test is not enough</h2>
+<p>Auditors may test a conventional automated control once and rely on it for
+the period, because a deterministic system behaves the same way every time, so
+one observation generalises. A language model does not, and one clean test
+bounds almost nothing:</p>
 
-<p>The deterministic executor hit a transient network error and stopped. The agent hit its own error, <strong>improvised a retry nobody specified</strong>, and got it right.</p>
+<pre><code>n  &ge;  ln(1 &minus; &alpha;) / ln(1 &minus; p_tol)        &alpha; = 95%
 
-<div class="note"><strong>The caveat, before you ask.</strong> The fail-closed behaviour is a design choice in this executor, not a property of deterministic systems. The honest reading is narrower: a deterministic system does exactly what its author anticipated and nothing else. It handled every perturbation it was written for and failed on the one it was not. Determinism does not buy reliability. It buys predictability, and it moves the failure from the model to the specification.</div>
+  1 clean run   ....  true failure rate could still be 95.0%
+ 30 clean runs  ....  could still be 9.5%
+299 clean runs  ....  under 1.0%</code></pre>
 
-<h2>Read it</h2>
+<p>Reaching 99% confidence that an agent-operated control runs takes 299
+consecutive clean executions. Nobody is running 299.</p>
+
+<h2>The method</h2>
+<p>Hold the invoice fixed and vary only what cannot change the decision:
+reword the request, append irrelevant text, add tools it does not need, raise
+the sampling temperature, drop one tool call. Then check whether every control
+still executed. This is metamorphic testing, and it needs no oracle: the
+relation between the variants <em>is</em> the oracle.</p>
+
+<figure><img src="assets/results.svg" alt="Outcome accuracy across six
+transform families for both architectures"><figcaption>Five of the six edits
+changed nothing measurable. Only the injected tool fault did.</figcaption></figure>
+
+<div class="note"><strong>A result I withdrew.</strong> My first headline said
+the coded baseline lost badly under that tool fault, at p = 0.0029. Before
+publishing it I checked whether the baseline was fair. It was not: no retry
+logic, which no finance integration ships. I added the retry, re-ran the
+identical protocol, and the effect vanished (p = 0.46). Written the way anyone
+would ship it, the deterministic system was flawless. Both studies are in the
+repository.</div>
+
+<h2>What comes out</h2>
+<p>Not a dashboard. A test of controls, in the form a control owner and their
+auditor already work from: deviation rates against tolerable rates, sample
+sizes derived from confidence rather than copied from a table, exact binomial
+bounds, and every deviation traced to the run, the transaction and the
+condition that produced it. The command exits non-zero on a deficiency, so a
+pipeline can block the release.</p>
 
 <div class="cards">
-  <a class="card" href="report.html">
-    <div class="t">The full report</div>
-    <div class="d">Every number with its confidence interval, the trajectory diff, and the parity verdict.</div>
-  </a>
-  <a class="card" href="companion.html">
-    <div class="t">The Companion</div>
-    <div class="d">55 pages, 52 chapters. From what a machine learning model is to why this result came out this way.</div>
-  </a>
-  <a class="card" href="The-Plumbline-Companion.pdf">
-    <div class="t">Companion as PDF</div>
-    <div class="d">The same guide, print-formatted and searchable.</div>
-  </a>
-  <a class="card" href="https://github.com/Bhargs24/plumbline">
-    <div class="t">The source</div>
-    <div class="d">70 tests, CI, and all 738 trajectories committed so every number re-derives.</div>
-  </a>
+  <a class="card" href="report.html"><div class="t">The full report</div>
+    <div class="d">Every figure with its interval, the trajectory diff, and the
+    control attestation.</div></a>
+  <a class="card" href="companion.html"><div class="t">The Companion</div>
+    <div class="d">55 pages. From what a language model is to why this result
+    came out the way it did.</div></a>
+  <a class="card" href="The-Plumbline-Companion.pdf"><div class="t">Companion as PDF</div>
+    <div class="d">The same guide, print-formatted and searchable.</div></a>
+  <a class="card" href="https://github.com/Bhargs24/plumbline"><div class="t">The source</div>
+    <div class="d">118 tests, CI, and every trajectory committed so the numbers
+    re-derive.</div></a>
 </div>
 
 <h2>Check it yourself</h2>
+<p>All 2,082 trajectories are committed. Everything below reads those
+stored traces and makes no model calls, so the published figures can be
+rechecked at no cost.</p>
 
-<p>The evidence is in the repository. These commands read stored trajectories and make no model calls, so they need no API key.</p>
+<pre><code>git clone https://github.com/Bhargs24/plumbline &amp;&amp; cd plumbline
+pip install -e ".[dev,server]"
 
-<pre>git clone https://github.com/Bhargs24/plumbline &amp;&amp; cd plumbline
-pip install -e ".[dev]"
-plumbline parity runs/parity-study plan_execute react</pre>
-
-<p>CI runs exactly this on every push. If the committed evidence ever stops reproducing the published numbers, the build goes red.</p>
+plumbline attest runs/parity-study --arm react
+plumbline demo</code></pre>
 
 <footer>
-Plumbline · built by Bhargav Raghavendra · Apache-2.0<br>
-738 runs on claude-haiku-4-5 · one domain, one model, one policy · perturbations are a chosen finite set, so passing them is evidence rather than proof
+Bhargav Raghavendra &middot; Apache-2.0 &middot;
+<a href="https://github.com/Bhargs24/plumbline">github.com/Bhargs24/plumbline</a><br>
+Scope: 2,082 runs against claude-haiku-4-5, one accounts-payable domain,
+eight invoices, six transform families. The claim is about method.
 </footer>
 
 </div>

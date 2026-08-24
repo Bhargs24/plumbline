@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box}body{margin:0;background:#f8f8f6}</style><title>The Plumbline Companion</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box}body{margin:0;background:#f8f8f6}@media(prefers-color-scheme:dark){body{background:#131417}}</style><title>The Plumbline Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Archivo:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -180,7 +180,7 @@
 <a href="#c46">46. The certificate</a>
 <a class="part" href="#p9">Part IX · The experiment</a>
 <a href="#c47">47. Design</a>
-<a href="#c48">48. What came back</a>
+<a href="#c48">48. What came back, and what had to…</a>
 <a href="#c49">49. What it means, and what it does…</a>
 <a class="part" href="#p10">Part X · Epistemics, or: every bug an</a>
 <a href="#c50">50. The bugs</a>
@@ -202,7 +202,7 @@
 
 <p>Three kinds of box appear throughout. A <strong>definition</strong> box gives you a term you will meet again. A <strong>plain English</strong> box restates something technical the way you would say it out loud to a colleague. A <strong>caution</strong> box marks a place where the common understanding is wrong, or where this project got something wrong and had to fix it.</p>
 
-<p>Every number in this guide about the project comes from a real run of 738 trials that cost $11.02 and is stored in the repository. Every company figure was checked against a primary source. Where something is uncertain, it says so.</p>
+<p>Every number in this guide about the project comes from real runs stored in the repository. The headline study is 738 trials costing $11.02; a later correction study and a determinism study bring the committed corpus to 2,082 trajectories. Every company figure was checked against a primary source. Where something is uncertain, it says so.</p>
 
 <h2 id="p1">Part I · Machine learning from zero</h2>
 
@@ -1132,105 +1132,119 @@ ArgSatisfies("request_approval", approval_route_ok)</code></pre>
 <div class="caution"><span class="term">Stating a weakness before anyone else does</span>
 <p>The plan-execute arm's structural conformance holds <em>by construction</em>: the executor runs every check because there is no branch in which it does not. That is not a trick and it is not hidden. It is the point. Putting control flow in the runtime converts a probabilistic guarantee into a structural one. What the study measures is where the residual risk <em>goes</em>, and it refuses to assume the answer.</p></div>
 
-<h3 id="c48"><span class="chapnum">Chapter 48</span>What came back</h3>
+<h3 id="c48"><span class="chapnum">Chapter 48</span>What came back, and what had to be retracted</h3>
 
-<p>Outcome correctness, measured against ground truth rather than against each other:</p>
+<p>Outcome correctness against ground truth. Three series, and the third one is why this chapter exists.</p>
 
 <div class="scroll"><table>
-<thead><tr><th>Perturbation</th><th>plan_execute (deterministic)</th><th>react (free-form agent)</th></tr></thead>
+<thead><tr><th>Perturbation</th><th>deterministic, <strong>no retry</strong></th><th>deterministic, <strong>3 retries</strong></th><th>free-form agent</th></tr></thead>
 <tbody>
-<tr><td>baseline</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [94.3, 100.0] n=64</td></tr>
-<tr><td>paraphrase</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [94.3, 100.0] n=64</td></tr>
-<tr><td>distractor</td><td>100.0% [94.3, 100.0] n=64</td><td>98.3% [90.9, 99.7] n=58</td></tr>
-<tr><td>decoy tools</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [93.6, 100.0] n=56</td></tr>
-<tr><td>sampling</td><td>100.0% [94.3, 100.0] n=64</td><td>100.0% [93.6, 100.0] n=56</td></tr>
-<tr><td><strong>tool fault</strong></td><td><strong>81.2% [70.0, 88.9] n=64</strong></td><td><strong>98.2% [90.6, 99.7] n=56</strong></td></tr>
+<tr><td>baseline</td><td>100.0% [94.3, 100]</td><td>100.0% [94.3, 100]</td><td>100.0% [94.3, 100]</td></tr>
+<tr><td>paraphrase</td><td>100.0% [94.3, 100]</td><td>100.0% [94.3, 100]</td><td>100.0% [94.3, 100]</td></tr>
+<tr><td>distractor</td><td>100.0% [94.3, 100]</td><td>100.0% [94.3, 100]</td><td>98.3% [90.9, 99.7]</td></tr>
+<tr><td>decoy tools</td><td>100.0% [94.3, 100]</td><td>100.0% [94.3, 100]</td><td>100.0% [89.8, 100]</td></tr>
+<tr><td>sampling</td><td>100.0% [94.3, 100]</td><td>100.0% [94.3, 100]</td><td>100.0% [93.6, 100]</td></tr>
+<tr><td><strong>tool fault</strong></td><td><strong>81.2% [70.0, 88.9]</strong></td><td><strong>100.0% [94.3, 100]</strong></td><td>98.2% [90.6, 99.7]</td></tr>
 </tbody>
 </table></div>
 
-<p><code>plan_execute 81.2% → react 98.2%, +17.0 points, p = 0.0029.</code> The control comparison, on every condition except tool faults, gives p = 0.48. The effect is localised to one condition.</p>
+<h4>The result I published</h4>
 
-<h4>Two results, and the second is the surprise</h4>
+<p>Reading only the first and third columns: under an injected transient tool failure the deterministic executor reached the correct outcome 81.2% of the time against the agent's 98.2%. <code>+17.0 points, p = 0.0025</code>. The control comparison, on every condition except tool faults, gave <code>p = 0.48</code>, not significant. The effect was localised to one condition with everything else flat, which is precisely the signature of a real effect.</p>
 
-<p><strong>First: the perturbations everyone worries about did nothing.</strong> Paraphrasing, distractor text, decoy tools and sampling variation broke neither system. The failure mode the literature emphasises did not appear at all on this task with this model.</p>
+<p>It went into a report, a chart and a draft post. The headline was that determinism makes agents <em>more</em> brittle, not less.</p>
 
-<p><strong>Second: the deterministic system was the one that failed, and it failed systematically.</strong> All twelve of its errors were under tool faults, all in the same direction, on exactly the three payable invoices, four times each. When a check tool returned a transient 503, the executor treated the error as a blocker and raised an exception. It <strong>failed closed</strong>: safe, and wrong, and it silently converts clean invoices into human work.</p>
+<h4>The result that survived</h4>
+
+<div class="caution"><span class="term">The retraction</span>
+<p>My deterministic executor treated <strong>any</strong> tool error as a blocking condition. It had no retry policy. No production finance system behaves that way: every RPA platform has retry, every payments integration has backoff, and a single 503 on a routine check is the normal weather of a network rather than a reason to halt.</p>
+<p>I noticed this, wrote it down as a limitation, and published the headline anyway. Somebody who had actually shipped a payments integration read the setup and said so plainly.</p>
+<p>Adding a retry policy and re-running the identical 768 trials closed the gap completely:</p>
+<pre><code>naive → retry :  +18.8 pts   p = 0.0005   significant
+retry → react :   −1.8 pts   p = 0.4620   NOT significant</code></pre>
+<p>Three lines of retry logic. A well-built deterministic executor is statistically indistinguishable from a free-form agent on this task. The 17-point effect was measuring my missing error handling and nothing else.</p></div>
 
 <h4>The verified pair</h4>
 
-<p>Invoice INV-7002 is clean. Every check passes. The correct action is to pay $4,500.</p>
+<p>Invoice INV-7002 is clean; the correct action is to pay £4,500. The same transient 503 was injected into the same call in both runs.</p>
 
-<pre><code>plan_execute                          react
-─────────────────────────────         ─────────────────────────────
-interpret_request                     fetch_invoice
-fetch_invoice                         match_purchase_order
-match_purchase_order  ✗ 503           check_duplicate
-check_duplicate                       check_vendor_status ✗ not found
-check_vendor_status                     ("ASHFIELD_LOGISTICS")
-flag_exception          ← WRONG       check_vendor_status ("V-101") ✓
-post_audit_log                        schedule_payment $4,500 ✓
+<pre><code>no retry                              with retry
+──────────────────────────────        ──────────────────────────────
+fetch_invoice                         fetch_invoice
+match_purchase_order   ✗ 503          match_purchase_order   ✗ 503
+check_duplicate                       match_purchase_order   ✓ retried
+check_vendor_status                   check_duplicate
+flag_exception         ← WRONG        check_vendor_status
+post_audit_log                        schedule_payment £4,500 ✓
                                       post_audit_log
 
-held a clean invoice                  paid correctly, after retrying
-for human review                      with the right argument</code></pre>
+held a clean invoice                  paid correctly</code></pre>
 
-<p>The deterministic executor hit a transient network error and stopped. The agent hit its own error, <em>improvised a retry nobody specified</em>, and got it right.</p>
+<p>The naive executor is kept permanently in the repository as a control arm, so the effect can be reproduced and <em>attributed</em> rather than repeated.</p>
 
 <h3 id="c49"><span class="chapnum">Chapter 49</span>What it means, and what it does not</h3>
 
-<div class="caution"><span class="term">The caveat that must lead, not follow</span>
-<p>The fail-closed behaviour is a <strong>design choice in this implementation</strong>, not a property of deterministic systems. The executor was written to treat a tool error as a blocker. An executor with retry logic would not fail this way. Anyone presenting this result must say so before being asked.</p></div>
-
-<p>The honest reading is narrower and more interesting than "determinism is worse":</p>
+<p>The honest finding is not about determinism at all. It is about how agent benchmarks are constructed, and it is more useful than the result it replaced.</p>
 
 <div class="plain"><span class="term">The finding, stated properly</span>
-<p>A deterministic system does exactly what its author anticipated, and nothing else. It handled every perturbation it was written for, perfectly, and failed on the one condition its author did not think about. The agent improvised a recovery nobody specified, which is the <em>same capability</em> that lets it skip a control somewhere else.</p>
-<p>Determinism does not buy reliability. It buys <strong>predictability</strong>, and it moves the failure from the model to the specification.</p></div>
+<p>Everything downstream of the baseline was correct. The confidence intervals were correct. The permutation test was correct. The control condition was correct and behaved exactly as a control should, showing the effect confined to one perturbation while everything else stayed flat.</p>
+<p>The result was still an artifact, and <strong>no amount of statistical rigour would have caught it</strong>, because the flaw sat upstream of the statistics. Only domain knowledge finds a bad baseline.</p>
+<p>Every agent benchmark has a baseline somebody chose. When you read one, the question that decides whether the number means anything is not which statistical test was used. It is whether the thing being compared against is a system anyone would actually deploy.</p></div>
 
-<p>For a migration the implication is sharper still. The two systems disagree, in opposite directions, on a condition that only appears when a tool happens to fail, and both produce confident, plausible logs. Neither is simply better. A thirty-day parallel run does not find this unless a network blip lands on the right invoice inside the window. Perturbation forces the case.</p>
+<h4>What the study genuinely established</h4>
 
-<p>Equivalence figures from the same 738 runs: same end state 94.9% [92.1, 96.8], <strong>same control path 21.5%</strong> [17.5, 26.0]. The replacement produces the same result nineteen times in twenty while taking a different route through the system four times in five. Matching outcomes is not matching behaviour.</p>
+<ul>
+<li><strong>Nothing broke either architecture</strong> under paraphrasing, distractor text, decoy tools or sampling variation. The failure mode the literature emphasises did not appear at all on this task with this model.</li>
+<li><strong>A well-built deterministic executor and a free-form agent were indistinguishable</strong> (p = 0.46). Determinism did not buy measurable reliability here. It also did not cost any.</li>
+<li><strong>Determinism buys predictability, not reliability.</strong> The deterministic system does exactly what its author specified. When the specification is complete, it is perfect and auditable. When it is not, there is no fallback, which is what the naive arm demonstrates in miniature.</li>
+</ul>
 
-<div class="caution"><span class="term">Limits, stated plainly</span>
-<p>One domain, one model, one policy. Results are for Claude Haiku 4.5 on this task. Perturbations are a chosen finite set: passing them is evidence, not proof. An agent is only as certified as the perturbations somebody thought to apply.</p></div>
+<div class="caution"><span class="term">Why there is no dramatic result</span>
+<p>A task with unambiguous ground truth and independent boolean checks leaves a competent model no room to fail. Every condition sat at 100% except the one my own bug created. The domain, not the model, is why the study measured so little.</p>
+<p>That is the reason the repository now carries a much richer AP domain: twenty invoices across thirteen exception classes, category-dependent tolerances where the same variance passes on one line and fails on another, and fuzzy duplicate detection that returns a confidence rather than a boolean. Failure lives in ambiguity, and the first domain had none. That domain has not yet been run against a live model.</p></div>
+
+<div class="caution"><span class="term">Limits</span>
+<p>One model (<code>claude-haiku-4-5</code>), one domain, one policy. Perturbations are a chosen finite set: passing them is evidence, not proof. And as this chapter shows, so is the choice of what to compare against.</p></div>
 
 <h2 id="p10">Part X · Epistemics, or: every bug and what it taught</h2>
 
 <h3 id="c50"><span class="chapnum">Chapter 50</span>The bugs</h3>
 
-<p>This chapter exists because it is the most useful part of the project to have lived through. Every one of these was found by running the thing and looking at the output, not by unit tests, because every one lived in code that had never executed.</p>
+<p>This chapter is the most useful part of the project to have lived through. Ten defects, and the pattern across them matters more than any one of them.</p>
+
+<p>Every single one produced <strong>plausible output</strong>. None raised at the top level. A tautology with a certificate printed on it. A spend cap reporting zero. A clean bill of health on a control that errored. A crash that looked like behavioural collapse. A billing artifact that looked like a result. A cost figure understated sixfold. A baseline nobody would deploy, producing a significant effect.</p>
+
+<p>That is precisely the failure mode this project exists to detect, committed repeatedly by its author. Not one was caught by the 80 tests. Almost all were caught by a person looking at actual output and asking whether it made sense.</p>
 
 <h4>1. The circular experiment</h4>
 
-<p>The first version of this project simulated the agent. A step was either "stochastic", meaning it failed with a hardcoded probability, or "pinned", meaning it always fired correctly. The demo pinned a step and showed reliability rise.</p>
+<p>The first version simulated the agent. A step was either "stochastic", failing with a hardcoded probability, or "pinned", always firing correctly. The demo pinned a step and showed reliability rise.</p>
 
-<p>That proves nothing. It proves that a step <em>defined</em> as always-correct is always correct. It was a tautology with a certificate printed on top, and it was discarded entirely. <strong>Lesson: if your experiment cannot come back negative, it is not an experiment.</strong></p>
+<p>That proves nothing. It proves a step <em>defined</em> as always-correct is always correct: a tautology with a certificate on top. Discarded entirely. <strong>Lesson: if your experiment cannot come back negative, it is not an experiment.</strong></p>
 
 <h4>2. The budget cap that failed open</h4>
 
-<p>The environment file specified a dated model id absent from the price table. <code>PRICES.get(model, (0.0, 0.0))</code> returned zero, so every call recorded a cost of $0.00 and the hard spend cap could never fire. <strong>Lesson: a safety mechanism that fails silently is worse than none, because you trust it.</strong> Unknown models now raise rather than defaulting to free.</p>
+<p>The environment file specified a dated model id absent from the price table. <code>PRICES.get(model, (0.0, 0.0))</code> returned zero, so every call recorded $0.00 and the hard spend cap could never fire. <strong>Lesson: a safety mechanism that fails silently is worse than none, because you trust it.</strong></p>
 
 <h4>3. The harness certified a control that never ran</h4>
 
-<p>In the very first live run, the guarded agent called <code>check_vendor_status</code> with the vendor <em>name</em> instead of the id, got an error, never retried, and the certificate reported no violations. <code>MustCall</code> counted the failed attempt as the control having executed. <strong>Lesson: a measuring instrument that reports a control as satisfied when it errored is actively dangerous.</strong> All invariants became effect-based.</p>
+<p>On the first live run, an agent called <code>check_vendor_status</code> with the vendor <em>name</em> instead of the id, got an error, never retried, and the certificate reported no violations. <code>MustCall</code> counted the failed attempt as the control having executed. <strong>Lesson: a measuring instrument that reports a control as satisfied when it errored is actively dangerous.</strong> All invariants became effect-based.</p>
 
 <h4>4. Crashes reported as findings</h4>
 
-<p>Every sampling-perturbation run threw <code>TypeError: unexpected keyword argument 'temperature'</code>, because the SDK removed sampling parameters from its signature. The crashed runs had empty trajectories, which the analyser correctly read as "no steps ran" and reported as <em>every step skipped, including the first</em>.</p>
+<p>Every sampling-perturbation run threw <code>TypeError: unexpected keyword argument 'temperature'</code>, because the SDK had removed sampling parameters. The crashed runs had empty trajectories, which the analyser correctly read as "no steps ran" and reported as <em>every step skipped, including the first</em>.</p>
 
-<p>That looks like a dramatic finding. "Temperature causes total behavioural collapse" would have gone straight into a post and been trivially falsifiable by anyone who tried to reproduce it. <strong>Lesson: an error path and a finding can be indistinguishable in aggregate. Read the trajectories.</strong></p>
+<p>That looks like a dramatic finding. "Temperature causes total behavioural collapse" would have gone straight into a post and been trivially falsifiable. <strong>Lesson: an error path and a finding can be indistinguishable in aggregate. Read the trajectories.</strong></p>
 
 <h4>5. The billing artifact that inverted the headline</h4>
 
-<p>The first full study's summary said free-form agents beat deterministic ones. The actual cause: API credits ran out at run 494. The runner processes arms in order, so the later arms lost 25 and 55 runs to empty trajectories, which scored as total violation. React looked best because react ran while there was still money.</p>
+<p>The first full study's summary said free-form agents beat deterministic ones. The actual cause: API credits ran out at run 494. The runner processes arms in order, so later arms lost runs to empty trajectories, which scored as total violation. <strong>Lesson: check the error column before reading the result column.</strong></p>
 
-<p><strong>Lesson: check the error column before reading the result column.</strong> A confident, plausible, completely false headline was one glance away from being published.</p>
+<h4>6. Under-reporting the cost sixfold</h4>
 
-<h4>6. Under-reporting the cost by six times</h4>
+<p>Reported spend was $0.69; the real figure was $5.53. Three compounding causes: the cap was per-process so five runs meant five ceilings; a study killed at a timeout took its spend record with it; and the rerun hit a warm cache, paid for 21% of calls, and reported that as the study's cost.</p>
 
-<p>The reported spend was $0.69. The real figure was $5.53. Three compounding causes: the cap was per-process so five runs meant five ceilings; a study killed at a timeout took its spend record with it; and the rerun hit a warm cache, paid for 21% of calls, and reported that as the cost of the study.</p>
-
-<p><strong>Lesson, and it is the sharpest one here: this project's entire premise is that you cannot trust a number until you look behind it, and its author quoted a cost figure he had not looked behind.</strong> The user caught it, not the code.</p>
+<p><strong>Lesson, and the sharpest one: this project's premise is that you cannot trust a number until you look behind it, and its author quoted a cost figure he had not looked behind.</strong> The user caught it, not the code.</p>
 
 <h4>7. A test that corrupted the thing it tested</h4>
 
@@ -1238,16 +1252,24 @@ for human review                      with the right argument</code></pre>
 
 <h4>8. A wrong diagnosis, recorded as wrong</h4>
 
-<p>Prompt caching never engaged across 1,962 calls. The hypothesis was that the prefix sat under the documented ~1024-token minimum, at ~998. The system prompt was expanded to clear it. Caching still did not engage, at 1,878 tokens or at 3,078, with the cache directive passed two different ways.</p>
+<p>Prompt caching never engaged across 1,962 calls. The hypothesis was that the prefix sat under the documented ~1024-token minimum. The system prompt was expanded to clear it. Caching still did not engage, at 1,878 tokens or at 3,078, with the directive passed two different ways.</p>
 
 <p>Length was never the cause. The code comments <em>said</em> it was, which would have sent the next person down the same dead end, so they now record what was measured and explicitly decline to assert a cause. <strong>Lesson: a confidently wrong comment is worse than no comment.</strong></p>
 
-<h4>9. A chart rendering with no colours</h4>
+<h4>9. The strawman baseline</h4>
 
-<p>After the palette was renamed, the chart still emitted <code>var(--line)</code> and <code>var(--text-muted)</code>. Undefined CSS custom properties fail silently, so every gridline, tick label and marker ring had no colour. Found by fetching the published page back and reading it, not by looking at it.</p>
+<p>Covered in full in Chapter 48, and it belongs here because it is the same pattern rather than a different kind of mistake. The deterministic executor had no retry policy. The 17-point result it produced was significant, localised, correctly bounded, and entirely an artifact.</p>
 
-<div class="def"><span class="term">The pattern across all nine</span>
-<p>Every single one produced <em>plausible output</em>. None threw an obvious error at the top level. A tautology with a certificate. A cap reporting zero. A clean bill of health on a control that errored. A crash that looked like collapse. A billing artifact that looked like a result. This is precisely the failure mode the project exists to detect, and the project kept committing it. That is not irony; it is evidence that the problem is real and that instruments need instruments.</p></div>
+<p>What makes it the worst of the ten is that I <em>noticed</em>. I wrote the limitation down, and then published a headline the limitation contradicted. <strong>Documenting a flaw is not the same as accounting for it.</strong></p>
+
+<h4>10. Incomplete runs scored as violations</h4>
+
+<p>Fifty-two cut-off trials were counted as invariant failures, dragging a certified bound from 94% to 41%. An incomplete run is missing data, not evidence. The same artifact class as number 5, appearing again in a different part of the system months of work later.</p>
+
+<div class="def"><span class="term">What ten defects are evidence for</span>
+<p>The instrument was correct throughout. The statistics were correct. The tests passed. And the output was wrong in six distinct ways, each time in a form that looked entirely reasonable.</p>
+<p>This is not irony. It is the strongest available evidence that the problem the project describes is real: <strong>a system that produces confident, well-formed, plausible output is not thereby producing correct output</strong>, and the gap is invisible from the inside. That was true of an AI agent processing an invoice, and it was true of the harness built to measure it.</p>
+<p>Instruments need instruments. And past a certain point they need a person who knows the domain to look at the setup and say that is not how anyone actually does this.</p></div>
 
 <h2 id="p11">Part XI · Explaining it</h2>
 
@@ -1267,7 +1289,9 @@ for human review                      with the right argument</code></pre>
 
 <h4>To someone who asks about the finding</h4>
 
-<p>"I compared a deterministic executor against a free-form agent on the same 738 runs. The perturbations everyone tests for, rewording and distractors, broke neither. The one nobody tests for, a transient tool error, broke the deterministic one: 81% versus 98%, p = 0.003. It failed closed, holding clean invoices because a check timed out. The agent improvised a retry and got it right. The caveat I'd give you before you ask: the fail-closed behaviour is my design choice, not a property of determinism. The real finding is that a deterministic system does exactly what its author anticipated and nothing else."</p>
+<p>"I measured a 17-point reliability gap between a deterministic executor and a free-form agent. Significant, p = 0.003, localised to one perturbation with a clean control. Then somebody pointed out my deterministic executor had no retry policy, which no production system lacks. I added one, re-ran the identical 768 trials, and the gap vanished completely: the two became statistically indistinguishable at p = 0.46.</p>
+
+<p>So the finding is not about determinism. It is that a plausible, significant, correctly-bounded agent benchmark result can be entirely an artifact of the baseline, and no statistical rigour catches it, because the flaw is upstream of the statistics. Only domain knowledge does. Every benchmark you read has a baseline somebody chose."</p>
 
 <h3 id="c52"><span class="chapnum">Chapter 52</span>The hard questions, and honest answers</h3>
 
@@ -1281,7 +1305,7 @@ for human review                      with the right argument</code></pre>
 
 <h4>"Your deterministic arm was just badly written."</h4>
 
-<p>"Yes, in a specific way, and I say that before anyone asks. It treats a tool error as a blocker. An executor with retry logic wouldn't fail this way. That's the finding, not a defence of it: the deterministic system's behaviour is entirely bounded by what its author thought of."</p>
+<p>"Correct, and that is now the published result rather than a caveat on it. I retracted the original headline, kept the badly-written executor as a permanent control arm so the effect can be attributed rather than repeated, and the report leads with the retraction. The interesting question is not whether I got it wrong. It is that everything except the baseline was right, and that was not enough."</p>
 
 <h4>"How do I know your perturbations preserve meaning?"</h4>
 
@@ -1370,7 +1394,7 @@ plumbline show    runs/parity-study --trial tool_fault</code></pre>
 </table></div>
 
 <footer>
-The Plumbline Companion · written to accompany a study of 738 agent runs on Claude Haiku 4.5, costing $11.02<br>
+The Plumbline Companion · written to accompany a 738-run study on Claude Haiku 4.5 costing $11.02, one of three studies totalling 2,082 committed runs<br>
 Every project figure regenerates from stored trajectories. Every company and paper figure was checked against a primary source.<br>
 Where something is uncertain or was got wrong, the text says so.
 </footer>

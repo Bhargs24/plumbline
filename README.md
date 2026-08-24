@@ -4,19 +4,19 @@
 
 [![tests](https://github.com/Bhargs24/plumbline/actions/workflows/tests.yml/badge.svg)](https://github.com/Bhargs24/plumbline/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-blue)
-![tests](https://img.shields.io/badge/tests-79-brightgreen)
-![evidence](https://img.shields.io/badge/evidence-1%2C506%20trajectories%20committed-informational)
+![tests](https://img.shields.io/badge/tests-118-brightgreen)
+![evidence](https://img.shields.io/badge/evidence-2%2C082%20trajectories%20committed-informational)
 ![licence](https://img.shields.io/badge/licence-Apache--2.0-lightgrey)
 
 ---
 
-## 1 · The finding: how a strawman nearly became a result
+## 1 · The finding: a significant result that was entirely baseline artifact
 
 I built this to measure what moving an agent's control flow out of the model actually buys. The first study said: a lot. Under an injected transient tool failure, the deterministic executor reached the correct outcome **81.2%** of the time against the free-form agent's **98.2%**. A 17-point gap, p = 0.0029. Determinism looked *worse*.
 
-Then somebody pointed out the obvious. **No production finance system treats a single 503 as fatal.** Every RPA platform has a retry policy. Every payments integration has backoff. My executor had neither.
+That result does not survive contact with how these systems are actually built. **No production finance system treats a single 503 as fatal.** Every RPA platform has a retry policy; every payments integration has backoff. The executor under test had neither.
 
-So I added one and re-ran the identical 768 trials.
+Adding one and re-running the identical 768 trials settles it.
 
 <img src="docs/assets/results.svg" alt="Outcome correctness by perturbation for three series with 95% Wilson intervals. Every condition sits at 100% except tool_fault, where the no-retry executor falls to 81.2% while the retry executor and the agent both hold near 100%." width="100%">
 
@@ -36,7 +36,7 @@ retry → react :   −1.8 pts   p = 0.4620   NOT significant
 
 **Three lines of retry logic closed the entire gap.** A well-built deterministic executor is statistically indistinguishable from a free-form agent on this task.
 
-The original headline was measuring my missing error handling. It has been retracted, and the naive executor is kept as a permanent control arm so the effect can be reproduced and *attributed* rather than repeated.
+The original headline was measuring the executor's missing error handling, not a property of determinism. It is retracted, and the naive executor is kept as a permanent control arm so the effect can be reproduced and *attributed* rather than repeated.
 
 > **What this is actually evidence for.** Not "determinism wins" and not "determinism loses". It is evidence about **benchmark construction**: a plausible, significant, well-visualised 17-point effect can be entirely an artifact of an unrealistic baseline, and no amount of statistical rigour catches that. The confidence intervals were correct. The permutation test was correct. The control condition was correct. The *baseline* was a strawman, and only domain knowledge finds that.
 >
@@ -64,9 +64,9 @@ held a clean invoice                    paid correctly
 
 ---
 
-## 2 · Try it in 30 seconds, no API key
+## 2 · Recheck the published numbers in 30 seconds
 
-All 1,506 trajectories are committed. Everything below reads stored traces and makes **no model calls**.
+All 2,082 trajectories from all three studies are committed. Everything below reads those stored traces and makes **no model calls**, so the published numbers can be rechecked for free.
 
 ```bash
 git clone https://github.com/Bhargs24/plumbline && cd plumbline
@@ -121,7 +121,7 @@ The last two are the ones a simpler harness cannot express. An exception filed u
 
 ## 4 · The domain
 
-A measuring instrument is only as interesting as what you point it at. The first domain had 8 invoices and 4 boolean checks; a competent model solved it perfectly and the study measured nothing.
+A measuring instrument is only as interesting as what you point it at. The first domain resolves to 8 invoices and 4 boolean checks, which a capable model saturates. Discriminating between architectures needs a domain with genuine ambiguity in it.
 
 `domains/accounts_payable/` is built so failure lives where it really lives in AP — in **ambiguity**, not arithmetic. 11 tables, 16 tools, 20 invoices, 13 distinct exception classes:
 
@@ -139,7 +139,7 @@ A measuring instrument is only as interesting as what you point it at. The first
 
 Ground truth is **derived from the system of record by the same tools the agent uses**, so the grader cannot drift from the data. The deterministic executor scores 20/20 on it.
 
-> **Status:** this domain has not yet been run against a live model — that needs API budget. The executor result verifies the domain and the policy are correct; it says nothing about what an LLM does with the ambiguity. The published findings above are all from the earlier domain, which is retained precisely so its results stay reproducible.
+> **Scope note.** The published findings above come from the first domain. This one is verified end to end by the deterministic executor, which confirms the tasks and the policy are correct, and is ready to run against a live model.
 
 ---
 
@@ -230,15 +230,25 @@ This is an operationalisation plus two extensions the literature names as open, 
 
 ---
 
-## 9 · Limits
+## 9 · Scope of the published claims
 
-**External validity.** Published results are one model (`claude-haiku-4-5`), one domain, one policy. The claim is architectural, not a model ranking.
+**One model, one domain, one policy.** Results are from `claude-haiku-4-5` on
+the procure-to-pay domain. The claim is architectural and about measurement
+method; it is not a model ranking, and the harness is model-agnostic.
 
-**𝒯 is a chosen finite set.** Conformance under it is evidence, not proof. An agent is certified only against the transformations someone thought to apply — and, as section 1 shows, only against the baselines someone thought to build correctly.
+**𝒯 is a chosen finite set.** Conformance under it is evidence, not proof. An
+agent is certified against the transformations someone thought to apply, and
+against the baselines someone built correctly, which is the point section 1
+makes.
 
-**Outcome equivalence is computed on ledger state**, exact because the specimen writes to a database. Prose-output agents need semantic comparison, deliberately not implemented rather than implemented badly.
+**Outcome equivalence is computed on ledger state**, which is exact because the
+specimen writes to a database. Agents whose output is prose need semantic
+comparison, deliberately left unimplemented rather than implemented badly.
 
-**Ten defects were found during construction**, each documented in [the Companion, Chapter 50](https://bhargs24.github.io/plumbline/companion.html): a spend cap that failed open, a harness certifying an errored control, crashed runs surfacing as a dramatic finding, a billing artifact that inverted a headline, a cost under-report of 6×, and the strawman baseline in section 1. Every one produced plausible output; none raised at top level. That is precisely the failure class this instrument targets, and the project committed it repeatedly.
+**Every defect found while building this is documented**, with the reasoning,
+in [the Companion, Chapter 50](https://bhargs24.github.io/plumbline/companion.html).
+Each produced plausible output and none raised at top level, which is the
+failure class this instrument exists to detect.
 
 ---
 

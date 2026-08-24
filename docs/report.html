@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Parity Under Perturbation</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"><style>*{box-sizing:border-box}body{margin:0;background:#f6f7f8}@media(prefers-color-scheme:dark){body{background:#0e1113}}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Baseline Was the Result</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"><style>*{box-sizing:border-box}body{margin:0;background:#f6f7f8}@media(prefers-color-scheme:dark){body{background:#0e1113}}
 .pl {
   color-scheme: light;
   --paper: #f6f7f8;
@@ -8,8 +8,9 @@
   --ink: #0d1114;
   --ink-2: #4a5257;
   --ink-3: #7c848a;
-  --series-1: #2a78d6;
-  --series-2: #eb6834;
+  --series-1: #e0574f;
+  --series-2: #2a78d6;
+  --series-3: #eb6834;
   --good: #0ca30c;
   --critical: #e5484d;
   --sans: "IBM Plex Sans", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
@@ -34,8 +35,9 @@
     --ink: #eef1f2;
     --ink-2: #a9b1b6;
     --ink-3: #767e83;
-    --series-1: #3987e5;
-    --series-2: #d95926;
+    --series-1: #e8695f;
+    --series-2: #3987e5;
+    --series-3: #d95926;
     --good: #30a46c;
     --critical: #ff6369;
   }
@@ -49,8 +51,9 @@
   --ink: #eef1f2;
   --ink-2: #a9b1b6;
   --ink-3: #767e83;
-  --series-1: #3987e5;
-  --series-2: #d95926;
+  --series-1: #e8695f;
+  --series-2: #3987e5;
+  --series-3: #d95926;
   --good: #30a46c;
   --critical: #ff6369;
 }
@@ -132,18 +135,22 @@
   .pl * { animation: none !important; transition: none !important; }
 }
 </style></head><body><div class="pl">
-<h1>The failure everyone tests for wasn't there.<br>The one nobody tests for was.</h1>
-<p class="sub">Two accounts-payable automations, identical tasks, tools, model and inputs. 738 runs. The only difference is who decides which step runs next.</p>
+<h1>I found a 17-point result.<br>Then I fixed the baseline and it vanished.</h1>
+<p class="sub">A retraction, and what it says about reading anyone's agent benchmark. 1,100 runs.</p>
 <div class="hero">
-<div class="figure">17<span class="unit"> point gap</span></div>
-<p style="margin:.5rem 0 0">Under an injected <strong>transient tool failure</strong>, the deterministic executor reached the correct outcome 81.2% of the time. The free-form agent reached it 98.2% of the time.</p>
-<p class="ci">p = 0.0029 (permutation test) &nbsp;·&nbsp; plan_execute 81.2% [70.0, 88.9] n=64 &nbsp;·&nbsp; react 98.2% [90.6, 99.7] n=56</p>
+<div class="figure">17<span class="unit"> points, retracted</span></div>
+<p style="margin:.5rem 0 0">The original study reported that a <strong>deterministic executor</strong> was more brittle under a transient tool failure than a free-form agent: 81.2% against 98.2%, p&nbsp;=&nbsp;0.0025.</p>
+<p style="margin:.6rem 0 0">Then somebody pointed out that no production finance system treats a single 503 as fatal. My executor had no retry policy. Every RPA platform has one.</p>
 </div>
-<p class="sub">On every other perturbation the two are indistinguishable (-0.3 pts, p = 0.48). The effect is localised to one condition, which is what a real effect looks like rather than noise.</p>
+<p class="eyebrow">The correction</p>
+<h2>Three lines of retry logic closed the entire gap</h2>
+<p>The identical 768 trials, re-run with the error handling a real integration has:</p>
+<div class="hero"><p class="ci" style="margin:0;font-size:.95rem;line-height:2">naive &rarr; retry &nbsp;&nbsp;+18.8 pts&nbsp;&nbsp;p = 0.0005&nbsp;&nbsp;<strong>significant</strong><br>retry &rarr; react &nbsp;&nbsp;-1.8 pts&nbsp;&nbsp;p = 0.46&nbsp;&nbsp;not significant</p></div>
+<p>A well-built deterministic executor is <strong>statistically indistinguishable</strong> from a free-form agent on this task. The original headline was measuring missing error handling.</p>
 <p class="eyebrow">Evidence</p>
 <h2>Outcome correctness by perturbation</h2>
-<p>Measured against ground truth, not against each other. Dots are point estimates, bars are 95% Wilson intervals.</p>
-<div class="legend"><span><span class="swatch" style="background:var(--series-1)"></span>plan_execute — deterministic executor</span><span><span class="swatch" style="background:var(--series-2)"></span>react — free-form agent</span></div>
+<p>Measured against ground truth. Dots are point estimates, bars are 95% Wilson intervals.</p>
+<div class="legend"><span><span class="swatch" style="background:var(--series-1)"></span>deterministic, no retry</span><span><span class="swatch" style="background:var(--series-2)"></span>deterministic, 3 retries</span><span><span class="swatch" style="background:var(--series-3)"></span>free-form agent</span></div>
 <figure class="wide"><div class="scroll">
 <svg viewBox="0 0 760 320" width="100%" style="max-width:760px;height:auto;display:block" role="img" aria-label="Outcome correctness by perturbation, with 95% confidence intervals">
 <line x1="132.0" y1="16" x2="132.0" y2="280" stroke="var(--rule)" stroke-width="1"/>
@@ -157,86 +164,96 @@
 <line x1="696.0" y1="16" x2="696.0" y2="280" stroke="var(--rule)" stroke-width="1"/>
 <text x="696.0" y="302" text-anchor="middle" font-size="11" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">100%</text>
 <text x="118" y="42.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">baseline</text>
-<line x1="616.2" y1="31.0" x2="696.0" y2="31.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="31.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>baseline: 100.0% [94.3, 100.0], n=64</title></circle>
-<line x1="616.2" y1="45.0" x2="696.0" y2="45.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="45.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>baseline: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="27.0" x2="696.0" y2="27.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="27.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>baseline: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="38.0" x2="696.0" y2="38.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="38.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>baseline: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="49.0" x2="696.0" y2="49.0" stroke="var(--series-3)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="49.0" r="5.5" fill="var(--series-3)" stroke="var(--paper)" stroke-width="2"><title>baseline: 100.0% [94.3, 100.0], n=64</title></circle>
 <text x="118" y="86.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">paraphrase</text>
-<line x1="616.2" y1="75.0" x2="696.0" y2="75.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="75.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>paraphrase: 100.0% [94.3, 100.0], n=64</title></circle>
-<line x1="616.2" y1="89.0" x2="696.0" y2="89.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="89.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>paraphrase: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="71.0" x2="696.0" y2="71.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="71.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>paraphrase: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="82.0" x2="696.0" y2="82.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="82.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>paraphrase: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="93.0" x2="696.0" y2="93.0" stroke="var(--series-3)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="93.0" r="5.5" fill="var(--series-3)" stroke="var(--paper)" stroke-width="2"><title>paraphrase: 100.0% [94.3, 100.0], n=64</title></circle>
 <text x="118" y="130.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">distractor</text>
-<line x1="616.2" y1="119.0" x2="696.0" y2="119.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="119.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>distractor: 100.0% [94.3, 100.0], n=64</title></circle>
-<line x1="567.1" y1="133.0" x2="691.7" y2="133.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="671.7" cy="133.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>distractor: 98.3% [90.9, 99.7], n=58</title></circle>
+<line x1="616.2" y1="115.0" x2="696.0" y2="115.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="115.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>distractor: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="126.0" x2="696.0" y2="126.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="126.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>distractor: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="567.1" y1="137.0" x2="691.7" y2="137.0" stroke="var(--series-3)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="671.7" cy="137.0" r="5.5" fill="var(--series-3)" stroke="var(--paper)" stroke-width="2"><title>distractor: 98.3% [90.9, 99.7], n=58</title></circle>
 <text x="118" y="174.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">decoy tools</text>
-<line x1="616.2" y1="163.0" x2="696.0" y2="163.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="163.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>decoy tools: 100.0% [94.3, 100.0], n=64</title></circle>
-<line x1="605.5" y1="177.0" x2="696.0" y2="177.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="177.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>decoy tools: 100.0% [93.6, 100.0], n=56</title></circle>
+<line x1="616.2" y1="159.0" x2="696.0" y2="159.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="159.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>decoy tools: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="170.0" x2="696.0" y2="170.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="170.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>decoy tools: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="552.9" y1="181.0" x2="696.0" y2="181.0" stroke="var(--series-3)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="181.0" r="5.5" fill="var(--series-3)" stroke="var(--paper)" stroke-width="2"><title>decoy tools: 100.0% [89.8, 100.0], n=34</title></circle>
 <text x="118" y="218.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">sampling</text>
-<line x1="616.2" y1="207.0" x2="696.0" y2="207.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="207.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>sampling: 100.0% [94.3, 100.0], n=64</title></circle>
-<line x1="605.5" y1="221.0" x2="696.0" y2="221.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="696.0" cy="221.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>sampling: 100.0% [93.6, 100.0], n=56</title></circle>
+<line x1="616.2" y1="203.0" x2="696.0" y2="203.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="203.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>sampling: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="616.2" y1="214.0" x2="696.0" y2="214.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="214.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>sampling: 100.0% [94.3, 100.0], n=64</title></circle>
+<line x1="605.5" y1="225.0" x2="696.0" y2="225.0" stroke="var(--series-3)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="225.0" r="5.5" fill="var(--series-3)" stroke="var(--paper)" stroke-width="2"><title>sampling: 100.0% [93.6, 100.0], n=56</title></circle>
 <text x="118" y="262.0" text-anchor="end" font-size="12.5" fill="var(--ink-2)">tool fault</text>
-<line x1="273.4" y1="251.0" x2="540.0" y2="251.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="431.6" cy="251.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>tool fault: 81.2% [70.0, 88.9], n=64</title></circle>
-<text x="549.0" y="255.0" font-size="11.5" fill="var(--series-1)" style="font-variant-numeric:tabular-nums" font-weight="600">81.2%</text>
-<line x1="562.8" y1="265.0" x2="691.5" y2="265.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-<circle cx="670.8" cy="265.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>tool fault: 98.2% [90.6, 99.7], n=56</title></circle>
-<text x="700.5" y="269.0" font-size="11.5" fill="var(--series-2)" style="font-variant-numeric:tabular-nums" font-weight="600">98.2%</text>
+<line x1="273.4" y1="247.0" x2="540.0" y2="247.0" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="431.6" cy="247.0" r="5.5" fill="var(--series-1)" stroke="var(--paper)" stroke-width="2"><title>tool fault: 81.2% [70.0, 88.9], n=64</title></circle>
+<text x="549.0" y="251.0" font-size="11.5" fill="var(--series-1)" style="font-variant-numeric:tabular-nums" font-weight="600">81.2%</text>
+<line x1="616.2" y1="258.0" x2="696.0" y2="258.0" stroke="var(--series-2)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="696.0" cy="258.0" r="5.5" fill="var(--series-2)" stroke="var(--paper)" stroke-width="2"><title>tool fault: 100.0% [94.3, 100.0], n=64</title></circle>
+<text x="705.0" y="262.0" font-size="11.5" fill="var(--series-2)" style="font-variant-numeric:tabular-nums" font-weight="600">100.0%</text>
+<line x1="562.8" y1="269.0" x2="691.5" y2="269.0" stroke="var(--series-3)" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+<circle cx="670.8" cy="269.0" r="5.5" fill="var(--series-3)" stroke="var(--paper)" stroke-width="2"><title>tool fault: 98.2% [90.6, 99.7], n=56</title></circle>
+<text x="700.5" y="273.0" font-size="11.5" fill="var(--series-3)" style="font-variant-numeric:tabular-nums" font-weight="600">98.2%</text>
 <line x1="132" y1="280" x2="696" y2="280" stroke="var(--rule)" stroke-width="1"/>
 </svg>
-</div><figcaption>Paraphrasing, distractor text, decoy tools and sampling variation broke neither system. Only a transient tool error did, and it broke the deterministic one.</figcaption></figure>
+</div><figcaption>Paraphrasing, distractor text, decoy tools and sampling variation broke nothing, in any of the three. Only the injected tool fault separated them, and only when the executor could not retry.</figcaption></figure>
 <div class="scroll"><table><thead><tr><th>perturbation</th><th>system</th><th class="num">correct</th><th class="num">95% CI</th><th class="num">n</th></tr></thead><tbody>
-<tr><td>baseline</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
-<tr><td>baseline</td><td>react</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
-<tr><td>paraphrase</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
-<tr><td>paraphrase</td><td>react</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
-<tr><td>distractor</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
-<tr><td>distractor</td><td>react</td><td class="num">98.3%</td><td class="num">90.9 – 99.7</td><td class="num">58</td></tr>
-<tr><td>decoy tools</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
-<tr><td>decoy tools</td><td>react</td><td class="num">100.0%</td><td class="num">93.6 – 100.0</td><td class="num">56</td></tr>
-<tr><td>sampling</td><td>plan_execute</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
-<tr><td>sampling</td><td>react</td><td class="num">100.0%</td><td class="num">93.6 – 100.0</td><td class="num">56</td></tr>
-<tr><td>tool fault</td><td>plan_execute</td><td class="num">81.2%</td><td class="num">70.0 – 88.9</td><td class="num">64</td></tr>
-<tr><td>tool fault</td><td>react</td><td class="num">98.2%</td><td class="num">90.6 – 99.7</td><td class="num">56</td></tr>
+<tr><td>baseline</td><td>deterministic, no retry</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>baseline</td><td>deterministic, 3 retries</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>baseline</td><td>free-form agent</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>paraphrase</td><td>deterministic, no retry</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>paraphrase</td><td>deterministic, 3 retries</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>paraphrase</td><td>free-form agent</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>distractor</td><td>deterministic, no retry</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>distractor</td><td>deterministic, 3 retries</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>distractor</td><td>free-form agent</td><td class="num">98.3%</td><td class="num">90.9 – 99.7</td><td class="num">58</td></tr>
+<tr><td>decoy tools</td><td>deterministic, no retry</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>decoy tools</td><td>deterministic, 3 retries</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>decoy tools</td><td>free-form agent</td><td class="num">100.0%</td><td class="num">89.8 – 100.0</td><td class="num">34</td></tr>
+<tr><td>sampling</td><td>deterministic, no retry</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>sampling</td><td>deterministic, 3 retries</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>sampling</td><td>free-form agent</td><td class="num">100.0%</td><td class="num">93.6 – 100.0</td><td class="num">56</td></tr>
+<tr><td>tool fault</td><td>deterministic, no retry</td><td class="num">81.2%</td><td class="num">70.0 – 88.9</td><td class="num">64</td></tr>
+<tr><td>tool fault</td><td>deterministic, 3 retries</td><td class="num">100.0%</td><td class="num">94.3 – 100.0</td><td class="num">64</td></tr>
+<tr><td>tool fault</td><td>free-form agent</td><td class="num">98.2%</td><td class="num">90.6 – 99.7</td><td class="num">56</td></tr>
 </tbody></table></div>
-<p class="eyebrow">The divergence</p>
-<h2>Same invoice, same injected fault, opposite results</h2>
-<p>Invoice <code>INV-7002</code> is clean. Every check passes and the correct action is to pay <strong>$4,500.00</strong>. A transient error was injected into one tool call.</p>
-<div class="wide"><div class="diff"><div><h4>plan_execute</h4><div class="who">deterministic executor · control flow fixed in code</div><div class="step">· interpret_request<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<p class="eyebrow">The same fault, both executors</p>
+<h2>One retry is the whole difference</h2>
+<p>Invoice <code>INV-7002</code> is clean; the correct action is to pay <strong>$4,500.00</strong>. A transient 503 was injected into the same tool call in both runs.</p>
+<div class="wide"><div class="diff"><div><h4>no retry policy</h4><div class="who">any tool error is a blocking condition</div><div class="step">· interpret_request<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
 <div class="step">· fetch_invoice<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
 <div class="step fail">× match_purchase_order<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
 <div class="step fail" style="padding-left:1.4rem">↳ 503 upstream temporarily unavailable</div>
 <div class="step">· check_duplicate<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
 <div class="step">· check_vendor_status<span style="opacity:.6"> {&quot;vendor_id&quot;: &quot;V-101&quot;}</span></div>
 <div class="step key">· flag_exception<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;reason&quot;: &quot;503 u…</span></div>
-<div class="step">· post_audit_log<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;action&quot;: &quot;excep…</span></div><div class="verdict"><span class="bad">✗ held a clean invoice for human review</span><br><span style="color:var(--text-muted)">the failed check was treated as a blocker</span></div></div><div><h4>react</h4><div class="who">free-form agent · the model picks every step</div><div class="step">· fetch_invoice<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step">· post_audit_log<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;action&quot;: &quot;excep…</span></div><div class="verdict"><span class="bad">✗ held a clean invoice</span><br><span style="color:var(--ink-3)">the 503 was treated as a blocker</span></div></div><div><h4>3 retries</h4><div class="who">transient faults retried, permanent ones escalate</div><div class="step">· interpret_request<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
+<div class="step">· fetch_invoice<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
 <div class="step">· match_purchase_order<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
 <div class="step">· check_duplicate<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;}</span></div>
-<div class="step fail">× check_vendor_status<span style="opacity:.6"> {&quot;vendor_id&quot;: &quot;ASHFIELD_LOGISTICS&quot;}</span></div>
-<div class="step fail" style="padding-left:1.4rem">↳ vendor ASHFIELD_LOGISTICS not found</div>
 <div class="step">· check_vendor_status<span style="opacity:.6"> {&quot;vendor_id&quot;: &quot;V-101&quot;}</span></div>
 <div class="step key">· schedule_payment<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;amount&quot;: 4500.0…</span></div>
-<div class="step">· post_audit_log<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;action&quot;: &quot;PAYME…</span></div><div class="verdict"><span class="ok">✓ paid $4,500.00 correctly</span><br><span style="color:var(--text-muted)">retried the failed call with the right argument</span></div></div></div></div>
-<div class="note"><strong>Why this matters for a migration.</strong> Both logs look confident and reasonable. Neither system is simply better. They disagree, in opposite directions, on a condition that only appears when a tool happens to fail — which is why running both side by side for thirty days does not find it unless a network blip lands on the right invoice inside that window.</div>
-<p class="eyebrow">Migration verdict</p>
-<h2>Can the incumbent be retired?</h2>
-<div class="hero"><div class="figure">57<span class="unit">% confidence</span></div><p style="margin:.5rem 0 0">Materially different system. A parallel run would not have caught this.</p><p class="ci">95% lower bound on outcome equivalence under the worst perturbation (tool_fault)</p></div>
-<div class="scroll"><table><thead><tr><th>measure</th><th class="num">value</th><th class="num">95% CI</th><th class="num">n</th></tr></thead><tbody>
-<tr><td>same end state</td><td class="num">94.9%</td><td class="num">92.1 – 96.8</td><td class="num">354</td></tr>
-<tr><td>same control path</td><td class="num">21.5%</td><td class="num">17.5 – 26.0</td><td class="num">354</td></tr>
-<tr><td>same tool arguments</td><td class="num">85.5%</td><td class="num">75.9 – 91.7</td><td class="num">76</td></tr>
-<tr><td>incumbent self-consistency</td><td class="num">96.9%</td><td class="num">94.6 – 98.2</td><td class="num">384</td></tr>
-</tbody></table></div>
-<p>The replacement produces the same end state 94.9% of the time while taking a different route through the system 78.5% of the time. Matching outcomes is not matching behavior.</p>
+<div class="step">· post_audit_log<span style="opacity:.6"> {&quot;invoice_id&quot;: &quot;INV-7002&quot;, &quot;action&quot;: &quot;paid&quot;…</span></div><div class="verdict"><span class="ok">✓ paid $4,500.00</span><br><span style="color:var(--ink-3)">retried, succeeded, continued</span></div></div></div></div>
+<p class="eyebrow">What this is actually evidence for</p>
+<h2>The baseline was the result</h2>
+<div class="note">This is not evidence that determinism wins, and not evidence that it loses. It is evidence about <strong>how agent benchmarks are built</strong>.<br><br>Everything downstream of the baseline was correct. The confidence intervals were correct. The permutation test was correct. The control condition was correct and showed the effect localised to one perturbation, which is exactly what a real effect looks like. The result was still an artifact, and no amount of statistical rigour would have caught it, because the flaw was upstream of the statistics.<br><br>Only domain knowledge finds it. Somebody who had shipped a payments integration looked at the setup and said no production system behaves that way.<br><br><strong>Every agent benchmark has a baseline somebody chose.</strong> When you read one, the question that decides whether the number means anything is not which statistical test they used. It is whether the thing they compared against is a system anyone would actually deploy.</div>
 <p class="eyebrow">Limits</p>
 <h2>What this does not show</h2>
-<div class="note">The deterministic executor treats a failed check as a blocker. That is a design choice in this implementation, not a property of deterministic systems, and an executor with retry logic would not fail this way. The honest reading is narrower and more useful: a deterministic system does exactly what its author anticipated. It handled every perturbation it was written for, and failed on the one it was not. The agent improvised a recovery nobody specified, which is the same capability that lets it skip a control elsewhere.<br><br>One domain, one model, one policy. Results are for <code>claude-haiku-4-5</code> on this task. Perturbations are a chosen finite set: passing them is evidence, not proof.</div>
+<div class="note">One model (<code>claude-haiku-4-5</code>), one domain, one policy. Perturbations are a chosen finite set: passing them is evidence, not proof, and as the retraction shows, so is the choice of what to compare against.<br><br>Neither architecture failed under paraphrasing, distractors, decoy tools or sampling variation. That is a real observation and a narrow one: this task is well within the model's ability, and a harder domain might separate them. A richer AP domain with 20 invoices across 13 exception classes exists in the repository and has not yet been run against a live model.</div>
 <footer>
-738 runs · model claude-haiku-4-5 · 354 paired comparisons · rebuilt from stored trajectories with <code>plumbline parity</code><br>Every number here regenerates from the committed traces. No figure in this report was typed by hand.
+1,100 runs · claude-haiku-4-5 · the no-retry executor is kept as a permanent control arm so the effect can be attributed rather than repeated<br>Every number regenerates from committed trajectories with no model calls. CI re-derives them on every push.
 </footer></div></body></html>
