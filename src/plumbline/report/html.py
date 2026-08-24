@@ -60,8 +60,9 @@ CSS = """
   --ink: #0d1114;
   --ink-2: #4a5257;
   --ink-3: #7c848a;
-  --series-1: #2a78d6;
-  --series-2: #eb6834;
+  --series-1: #e0574f;
+  --series-2: #2a78d6;
+  --series-3: #eb6834;
   --good: #0ca30c;
   --critical: #e5484d;
   --sans: "IBM Plex Sans", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
@@ -86,8 +87,9 @@ CSS = """
     --ink: #eef1f2;
     --ink-2: #a9b1b6;
     --ink-3: #767e83;
-    --series-1: #3987e5;
-    --series-2: #d95926;
+    --series-1: #e8695f;
+    --series-2: #3987e5;
+    --series-3: #d95926;
     --good: #30a46c;
     --critical: #ff6369;
   }
@@ -101,8 +103,9 @@ CSS = """
   --ink: #eef1f2;
   --ink-2: #a9b1b6;
   --ink-3: #767e83;
-  --series-1: #3987e5;
-  --series-2: #d95926;
+  --series-1: #e8695f;
+  --series-2: #3987e5;
+  --series-3: #d95926;
   --good: #30a46c;
   --critical: #ff6369;
 }
@@ -221,7 +224,7 @@ def dot_plot(rows, *, x_min=0.60, width=760, row_h=44, pad_l=132, pad_r=64,
         out.append(f'<text x="{pad_l - 14}" y="{cy + 4}" text-anchor="end" '
                    f'font-size="12.5" fill="var(--ink-2)">{_e(cat)}</text>')
         # two series offset vertically so overlapping intervals stay readable
-        offsets = (-7, 7) if len(points) > 1 else (0,)
+        offsets = {1: (0,), 2: (-7, 7), 3: (-11, 0, 11)}.get(len(points), (0,))
         for (si, val, lo, hi, n), dy in zip(points, offsets):
             colour = f"var(--series-{si + 1})"
             y = cy + dy

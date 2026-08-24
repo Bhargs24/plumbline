@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "plumbline-console",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "uvicorn", "plumbline.server.app:app", "--port", "8913"],
+      "port": 8913
+    }
+  ]
+}
