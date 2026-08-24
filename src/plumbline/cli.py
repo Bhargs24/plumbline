@@ -104,6 +104,52 @@ def cmd_parity(args) -> int:
     return 0
 
 
+def cmd_attest(args) -> int:
+    """Test the key controls and print the control-testing workpaper.
+
+    This is the same evidence `certify` reports, restated in the vocabulary a
+    control owner and their auditor actually work in: deviation rates against a
+    tolerable rate, at a sample size chosen for a stated confidence level.
+    """
+    from .compliance import (P2P_FRAMEWORK, attest, exception_routing,
+                             render_text)
+    trajs, _ = _load(Path(args.run_dir))
+    spec, contexts = _policy_and_contexts()
+    if args.arm:
+        trajs = [t for t in trajs if t.arm == args.arm]
+        if not trajs:
+            print(f"no trajectories for arm {args.arm!r}", file=sys.stderr)
+            return 2
+    a = attest(trajs, spec, contexts, P2P_FRAMEWORK,
+               operator=args.operator, period=args.period,
+               itgc_effective=not args.itgc_failed, confidence=args.confidence)
+
+    if args.json:
+        print(json.dumps(a.to_dict(), indent=2))
+    else:
+        print(render_text(a))
+        routing = exception_routing(a)
+        if routing:
+            print("\n  EXCEPTION ROUTING")
+            print(f"  {'CONTROL':<9}{'OWNER':<26}{'SLA':>5}{'ITEMS':>7}  "
+                  f"TRANSACTIONS")
+            for r in routing:
+                shown = ", ".join(r["tasks"][:4])
+                more = f" +{len(r['tasks']) - 4}" if len(r["tasks"]) > 4 else ""
+                print(f"  {r['control_id']:<9}{r['owner'][:24]:<26}"
+                      f"{r['sla_days']:>4}d{r['count']:>7}  {shown}{more}")
+
+    if args.out:
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(a.to_dict(), indent=2), encoding="utf-8")
+        print(f"\nwritten to {out}", file=sys.stderr)
+
+    # A deficiency exits non-zero, so this can gate a release the same way a
+    # failing control test blocks a sign-off.
+    return 1 if a.deficiencies else 0
+
+
 def cmd_demo(args) -> int:
     """Seed the store from the committed runs and start the console.
 
@@ -212,9 +258,7 @@ def cmd_report(args) -> int:
     """Render a run into a self-contained HTML report."""
     from .report.build import build
     out = Path(args.out)
-    html_text = build(args.run_dir, incumbent=args.incumbent,
-                      replacement=args.replacement,
-                      standalone=not args.fragment)
+    html_text = build(args.root, standalone=not args.fragment)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html_text, encoding="utf-8")
     print(f"written to {out}  ({len(html_text):,} bytes, fully self-contained)")
@@ -243,6 +287,17 @@ def cmd_show(args) -> int:
         print(f"final: {t.final_output}")
         print(f"ledger: {json.dumps(ledgers.get(t.trial_id, {}))}")
     return 0
+
+
+def _force_utf8() -> None:
+    """Windows consoles default to a legacy codepage, which turns any non-ASCII
+    character in a workpaper into a replacement glyph. This output is evidence;
+    it should not depend on the operator console settings."""
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):   # not a real stream, or already set
+            pass
 
 
 def main(argv=None) -> int:
@@ -280,14 +335,32 @@ def main(argv=None) -> int:
     q.add_argument("--out", default=None)
     q.set_defaults(fn=cmd_parity)
 
-    w = sub.add_parser("report", help="render a run into a self-contained HTML page")
-    w.add_argument("run_dir")
-    w.add_argument("incumbent")
-    w.add_argument("replacement")
+    w = sub.add_parser("report", help="render the study into a self-contained "
+                                      "HTML page")
+    w.add_argument("--root", default=".", help="repository root holding runs/")
     w.add_argument("-o", "--out", default="report.html")
     w.add_argument("--fragment", action="store_true",
                    help="emit body content only, for embedding")
     w.set_defaults(fn=cmd_report)
+
+    t = sub.add_parser("attest",
+                       help="test the key controls and emit the "
+                            "control-testing workpaper")
+    t.add_argument("run_dir")
+    t.add_argument("--arm", default=None,
+                   help="the system operating the controls")
+    t.add_argument("--operator", default="llm_agent",
+                   choices=["llm_agent", "deterministic", "human"],
+                   help="who operates the control; decides whether "
+                        "test-of-one reliance is defensible")
+    t.add_argument("--period", default="", help="reporting period, e.g. 2026-Q3")
+    t.add_argument("--confidence", type=float, default=0.95)
+    t.add_argument("--itgc-failed", action="store_true",
+                   help="ITGC testing did not pass, so automated-control "
+                        "reliance cannot be taken")
+    t.add_argument("--json", action="store_true")
+    t.add_argument("--out", default=None, help="also write the workpaper as JSON")
+    t.set_defaults(fn=cmd_attest)
 
     d = sub.add_parser("demo", help="seed the store from committed runs and "
                                     "open the console. No API key needed.")
@@ -323,6 +396,7 @@ def main(argv=None) -> int:
     s.add_argument("--limit", type=int, default=3)
     s.set_defaults(fn=cmd_show)
 
+    _force_utf8()
     args = ap.parse_args(argv)
     return args.fn(args)
 

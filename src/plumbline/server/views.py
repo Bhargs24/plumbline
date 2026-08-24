@@ -23,6 +23,15 @@ def e(x) -> str:
 
 
 CSS = """
+.panel{border:1px solid var(--rule);border-radius:6px;padding:14px 16px;margin:14px 0;background:var(--panel)}
+.panel h3{margin:0 0 6px;font-size:13px;letter-spacing:.02em}
+.panel.warn{border-left:3px solid var(--high)}
+.panel p{margin:4px 0;line-height:1.5}
+ul.ex{margin:8px 0 0;padding-left:18px}
+ul.ex li{margin:3px 0}
+table.tight td{padding:2px 10px 2px 0;border:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
 :root{
   color-scheme:dark;
   --bg:#0d1013; --panel:#151a1f; --panel-2:#1b2127; --rule:#252c34;
@@ -125,6 +134,14 @@ def _page(title: str, body: str, crumb: str = "") -> str:
 </header>
 <main>{f'<div class="crumb">{crumb}</div>' if crumb else ''}{body}</main>
 </body></html>"""
+
+
+def _clip(text: str, n: int) -> str:
+    """Truncate on a word boundary. Cutting mid-word reads as a broken
+    template rather than an intentional summary."""
+    if len(text) <= n:
+        return text
+    return text[:n].rsplit(" ", 1)[0].rstrip(",;:") + "\u2026"
 
 
 def _pct_bar(value: float | None, colour: str = "var(--accent)") -> str:
@@ -324,6 +341,11 @@ def run_detail(run: dict, certificates: list[dict], violations: list[dict],
     return _page(run["label"] or run["run_id"],
                  f'<h1>{e(run["label"] or run["run_id"])}</h1>'
                  f'<p class="sub">{meta}</p>'
+                 f'<p style="margin-top:10px">'
+                 f'<a href="/runs/{e(run["run_id"])}/controls">'
+                 f'Control operating effectiveness &rarr;</a>'
+                 f'<span class="sub">  the same evidence as a test of '
+                 f'controls</span></p>'
                  f'<div class="grid g4" style="margin-top:16px">'
                  f'{"".join(cards)}</div>'
                  f'<h2>Invariant violations</h2>{vtable}'
@@ -402,6 +424,140 @@ def trace_detail(run: dict, traj, other=None, peers: list[dict] | None = None) -
                  crumb=f'<a href="/">runs</a> / '
                        f'<a href="/runs/{rid}">{e(rid)}</a> / '
                        f'{e(traj.trial_id)}')
+
+
+
+# ==========================================================================
+def control_attestation(run: dict, att, arm: str | None, operator: str) -> str:
+    """The workpaper as a page.
+
+    Deliberately the same content as the text rendering, in the same order. A
+    console that shows a friendlier subset of an audit document is worse than
+    no console, because the reader believes they have seen it.
+    """
+    ok, why = att.test_of_one
+
+    cards = [
+        ('Population', f'{att.population:,}',
+         f'transactions{f" · {att.incomplete} incomplete excluded" if att.incomplete else ""}'),
+        ('Controls tested', f'{len(att.results)}',
+         f'of {len(att.framework.controls)} in the framework'),
+        ('Deficient', f'{len(att.deficiencies)}',
+         'zero-tolerance unless stated'),
+        ('Test of one', 'NO' if not ok else 'YES',
+         'reliance for the period'),
+    ]
+    card_html = "".join(
+        f'<div class="card"><div class="k">{e(k)}</div>'
+        f'<div class="v" style="color:{"var(--crit)" if k == "Deficient" and v != "0" else "var(--ink)"}">'
+        f'{e(v)}</div><div class="n">{e(n)}</div></div>'
+        for k, v, n in cards)
+
+    rows = []
+    for r in att.results:
+        a = r.assessment
+        colour = "var(--ok)" if r.effective else "var(--crit)"
+        verdict = "EFFECTIVE" if r.effective else (
+            "INCONCLUSIVE" if not a.sufficient else "DEFICIENT")
+        conditions = ", ".join(f"{k} ({v})" for k, v in r.by_perturbation.items())
+        rows.append(
+            f'<tr><td class="mono">{e(r.control.control_id)}</td>'
+            f'<td>{e(r.control.name)}<div class="sub">{e(_clip(r.control.objective, 96))}</div></td>'
+            f'<td class="num">{a.tested:,}</td>'
+            f'<td class="num">{a.deviations}</td>'
+            f'<td class="num">{a.upper_deviation_rate * 100:.1f}%</td>'
+            f'<td class="num">{a.tolerable_rate * 100:.0f}%</td>'
+            f'<td style="color:{colour};font-weight:600">{verdict}'
+            f'{f"<div class=sub>{e(conditions)}</div>" if conditions else ""}</td>'
+            f'</tr>')
+
+    # exceptions, itemised. A rate with no attached transactions cannot be worked.
+    exc = []
+    for r in att.deficiencies:
+        items = "".join(
+            f'<li><a class="mono" href="/runs/{e(run["run_id"])}/trace/'
+            f'{e(d.trial_id)}">{e(d.trial_id)}</a> '
+            f'<span class="sub">{e(d.detail[:90])}</span></li>'
+            for d in r.deviations[:8])
+        more = (f'<li class="sub">and {len(r.deviations) - 8} further'
+                f'</li>' if len(r.deviations) > 8 else "")
+        exc.append(
+            f'<div class="panel"><h3>{e(r.control.control_id)} '
+            f'{e(r.control.name)}</h3>'
+            f'<p class="sub">Risk: {e(r.control.risk)}</p>'
+            f'<p><b>{e(r.assessment.conclusion())}</b></p>'
+            f'<p class="sub">Route to {e(r.control.remediation_owner)} '
+            f'within {r.control.sla_days} business days</p>'
+            f'<ul class="ex">{items}{more}</ul></div>')
+
+    conditions = "".join(
+        f'<tr><td>{e(k)}</td><td class="num">{v:,}</td></tr>'
+        for k, v in att.conditions.items())
+
+    # Two arms in one population are two different controls. Saying so is the
+    # difference between a workpaper and a chart.
+    if len(att.arms) > 1:
+        mixed = (
+            '<p style="color:var(--high)"><b>Qualified.</b> This population '
+            'spans ' + str(len(att.arms)) + ' implementations of the control ('
+            + e(", ".join(f"{k}: {v:,}" for k, v in att.arms.items()))
+            + '). They are not the same control and a single conclusion is not '
+              'attributable to any one of them. Filter to one implementation '
+              'before relying on this.</p>'
+            + " ".join(
+                f'<a href="?arm={e(k)}">test {e(k)} alone &rarr;</a>'
+                for k in att.arms))
+    elif att.arms:
+        mixed = (f'<p class="sub">implementation: '
+                 f'{e(next(iter(att.arms)))}</p>')
+    else:
+        mixed = ""
+
+    limits = "".join(
+        f'<tr><td class="mono">{e(c.control_id)}</td><td>{e(c.name)}</td>'
+        f'<td class="sub">{e(why_)}</td></tr>'
+        for c, why_ in att.not_tested)
+
+    body = f"""
+<h1>Control operating effectiveness</h1>
+<p class="sub">{e(att.framework.name)} v{e(att.framework.version)} ·
+period {e(att.period)} · operator {e(att.operator)} ({e(att.model)})
+{f"· arm {e(arm)}" if arm else ""}</p>
+<div class="cards">{card_html}</div>
+
+<div class="panel warn">
+  <h3>Reliance approach</h3>
+  <p>{e(why)}</p>
+</div>
+
+<div class="panel">
+  <h3>Basis of preparation</h3>
+  <p class="sub">Conclusions extend to the population below and no further. A
+  control evidenced here is evidenced against this variation only.</p>
+  {mixed}
+  <table class="tight"><tbody>{conditions}</tbody></table>
+</div>
+
+<table>
+  <thead><tr><th>Control</th><th>Name</th><th class="num">Pop</th>
+  <th class="num">Dev</th><th class="num">UDR</th><th class="num">Tol</th>
+  <th>Conclusion</th></tr></thead>
+  <tbody>{"".join(rows)}</tbody>
+</table>
+
+<h2>Exceptions</h2>
+{"".join(exc) if exc else '<p class="sub">None. Every tested control operated without deviation on this population.</p>'}
+
+{f'<h2>Scope limitation</h2><p class="sub">No conclusion is drawn on the following. They are neither effective nor deficient on this evidence.</p><table><tbody>{limits}</tbody></table>' if limits else ''}
+
+<p class="sub" style="margin-top:26px">
+Evidence hash <span class="mono">{e(att.evidence_hash)}</span> over
+{att.population:,} stored trajectories. This attestation regenerates from those
+trajectories with no model calls.
+<a href="/api/runs/{e(run["run_id"])}/attestation{f"?arm={e(arm)}" if arm else ""}">JSON</a>
+</p>"""
+    return _page("Control attestation", body,
+                 crumb=f'<a href="/runs/{e(run["run_id"])}">&larr; run</a>')
 
 
 def error_page(code: int, detail: str) -> str:

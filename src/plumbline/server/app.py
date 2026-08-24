@@ -201,6 +201,40 @@ def _comparable(store: Store, run_id: str, t) -> list[dict]:
     return out
 
 
+@app.get("/runs/{run_id}/controls", response_class=HTMLResponse)
+def page_controls(run_id: str, arm: str | None = None,
+                  operator: str = "llm_agent"):
+    """The control-testing workpaper, for the reader who will never open a
+    terminal. Same computation as `plumbline attest`."""
+    run, att = _attestation(run_id, arm, operator)
+    return views.control_attestation(run, att, arm, operator)
+
+
+@app.get("/api/runs/{run_id}/attestation")
+def api_attestation(run_id: str, arm: str | None = None,
+                    operator: str = "llm_agent"):
+    _, att = _attestation(run_id, arm, operator)
+    return att.to_dict()
+
+
+def _attestation(run_id: str, arm: str | None, operator: str):
+    from ..compliance import P2P_FRAMEWORK, attest
+    from ..cli import _policy_and_contexts
+
+    s = _store()
+    run = s.run(run_id)
+    if not run:
+        raise HTTPException(404, f"no run {run_id}")
+    trajs = s.all_trajectories(run_id)
+    if arm:
+        trajs = [t for t in trajs if t.arm == arm]
+    if not trajs:
+        raise HTTPException(404, f"no trajectories for arm {arm!r}")
+    spec, contexts = _policy_and_contexts()
+    return run, attest(trajs, spec, contexts, P2P_FRAMEWORK,
+                       operator=operator, period=run.get("started_at", "")[:7])
+
+
 @app.get("/robots.txt", response_class=PlainTextResponse)
 def robots():
     return "User-agent: *\nDisallow: /\n"
