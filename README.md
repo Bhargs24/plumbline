@@ -60,7 +60,7 @@ post_audit_log                          schedule_payment £4,500 ✓
 held a clean invoice                    paid correctly
 ```
 
-📄 **[Full report](https://bhargs24.github.io/plumbline/report.html)** · 📘 **[Companion, 55pp](https://bhargs24.github.io/plumbline/companion.html)** · 📐 **[Method and prior art](DESIGN.md)**
+📄 **[Full report](https://bhargs24.github.io/plumbline/report.html)** · 📐 **[Method and prior art](DESIGN.md)**
 
 ---
 
@@ -244,11 +244,6 @@ makes.
 **Outcome equivalence is computed on ledger state**, which is exact because the
 specimen writes to a database. Agents whose output is prose need semantic
 comparison, deliberately left unimplemented rather than implemented badly.
-
-**Every defect found while building this is documented**, with the reasoning,
-in [the Companion, Chapter 50](https://bhargs24.github.io/plumbline/companion.html).
-Each produced plausible output and none raised at top level, which is the
-failure class this instrument exists to detect.
 
 ---
 

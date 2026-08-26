@@ -18,3 +18,8 @@ plumbline.db*
 
 # local spend ledger; personal and resets the cap on a fresh clone
 .plumbline-spend.json
+
+# personal study material, not a published deliverable
+docs/companion.html
+docs/The-Plumbline-Companion.pdf
+docs/src/
