@@ -13,7 +13,9 @@ venv/
 # every number in the README and the report re-derives from these files,
 # which is the property that makes the result checkable rather than asserted.
 runs/*
+!runs/determinism-study/
 !runs/parity-study/
+!runs/retry-study/
 plumbline.db*
 
 # local spend ledger; personal and resets the cap on a fresh clone

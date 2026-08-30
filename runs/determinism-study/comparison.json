@@ -1,0 +1,324 @@
+[
+  {
+    "scope": "overall",
+    "a": "react",
+    "b": "plan_execute",
+    "a_stats": {
+      "successes": 183,
+      "total": 192,
+      "value": 0.953125,
+      "ci_low": 0.913328,
+      "ci_high": 0.975146
+    },
+    "b_stats": {
+      "successes": 167,
+      "total": 192,
+      "value": 0.869792,
+      "ci_low": 0.814851,
+      "ci_high": 0.910226
+    },
+    "diff_pts": -8.333,
+    "p_value": 0.006,
+    "significant_at_05": true,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "baseline",
+    "a": "react",
+    "b": "plan_execute",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 0.0,
+    "p_value": 1.0,
+    "significant_at_05": false,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "paraphrase",
+    "a": "react",
+    "b": "plan_execute",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 0.0,
+    "p_value": 1.0,
+    "significant_at_05": false,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "distractor",
+    "a": "react",
+    "b": "plan_execute",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 7,
+      "total": 32,
+      "value": 0.21875,
+      "ci_low": 0.110238,
+      "ci_high": 0.38755
+    },
+    "diff_pts": -78.125,
+    "p_value": 5e-05,
+    "significant_at_05": true,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "tool_fault",
+    "a": "react",
+    "b": "plan_execute",
+    "a_stats": {
+      "successes": 25,
+      "total": 32,
+      "value": 0.78125,
+      "ci_low": 0.61245,
+      "ci_high": 0.889762
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 21.875,
+    "p_value": 0.010649,
+    "significant_at_05": true,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "decoy_tools",
+    "a": "react",
+    "b": "plan_execute",
+    "a_stats": {
+      "successes": 30,
+      "total": 32,
+      "value": 0.9375,
+      "ci_low": 0.798529,
+      "ci_high": 0.982689
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 6.25,
+    "p_value": 0.490825,
+    "significant_at_05": false,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "sampling",
+    "a": "react",
+    "b": "plan_execute",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 0.0,
+    "p_value": 1.0,
+    "significant_at_05": false,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "overall",
+    "a": "react",
+    "b": "guarded",
+    "a_stats": {
+      "successes": 183,
+      "total": 192,
+      "value": 0.953125,
+      "ci_low": 0.913328,
+      "ci_high": 0.975146
+    },
+    "b_stats": {
+      "successes": 137,
+      "total": 192,
+      "value": 0.713542,
+      "ci_low": 0.645895,
+      "ci_high": 0.772811
+    },
+    "diff_pts": -23.958,
+    "p_value": 5e-05,
+    "significant_at_05": true,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "baseline",
+    "a": "react",
+    "b": "guarded",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 0.0,
+    "p_value": 1.0,
+    "significant_at_05": false,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "paraphrase",
+    "a": "react",
+    "b": "guarded",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 0.0,
+    "p_value": 1.0,
+    "significant_at_05": false,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "distractor",
+    "a": "react",
+    "b": "guarded",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 0,
+      "total": 32,
+      "value": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.107179
+    },
+    "diff_pts": -100.0,
+    "p_value": 5e-05,
+    "significant_at_05": true,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "tool_fault",
+    "a": "react",
+    "b": "guarded",
+    "a_stats": {
+      "successes": 25,
+      "total": 32,
+      "value": 0.78125,
+      "ci_low": 0.61245,
+      "ci_high": 0.889762
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 21.875,
+    "p_value": 0.010649,
+    "significant_at_05": true,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "decoy_tools",
+    "a": "react",
+    "b": "guarded",
+    "a_stats": {
+      "successes": 30,
+      "total": 32,
+      "value": 0.9375,
+      "ci_low": 0.798529,
+      "ci_high": 0.982689
+    },
+    "b_stats": {
+      "successes": 9,
+      "total": 32,
+      "value": 0.28125,
+      "ci_low": 0.155646,
+      "ci_high": 0.453745
+    },
+    "diff_pts": -65.625,
+    "p_value": 5e-05,
+    "significant_at_05": true,
+    "n_permutations": 20000
+  },
+  {
+    "scope": "sampling",
+    "a": "react",
+    "b": "guarded",
+    "a_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "b_stats": {
+      "successes": 32,
+      "total": 32,
+      "value": 1.0,
+      "ci_low": 0.892821,
+      "ci_high": 1.0
+    },
+    "diff_pts": 0.0,
+    "p_value": 1.0,
+    "significant_at_05": false,
+    "n_permutations": 20000
+  }
+]

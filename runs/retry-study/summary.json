@@ -1,0 +1,58 @@
+{
+  "certified_bound": {
+    "plan_execute": 0.9433759402071946,
+    "react": 0.41072087051471007
+  },
+  "grade": {
+    "plan_execute": "B",
+    "react": "F"
+  },
+  "critical_conformance": {
+    "plan_execute": {
+      "successes": 384,
+      "total": 384,
+      "value": 1.0,
+      "ci_low": 0.990095,
+      "ci_high": 1.0
+    },
+    "react": {
+      "successes": 332,
+      "total": 384,
+      "value": 0.864583,
+      "ci_low": 0.826728,
+      "ci_high": 0.895217
+    }
+  },
+  "outcome_correctness": {
+    "plan_execute": {
+      "successes": 384,
+      "total": 384,
+      "value": 1.0,
+      "ci_low": 0.990095,
+      "ci_high": 1.0
+    },
+    "react": {
+      "successes": 331,
+      "total": 384,
+      "value": 0.861979,
+      "ci_low": 0.82388,
+      "ci_high": 0.892908
+    }
+  },
+  "cost_usd_this_run": 0.0,
+  "cost_usd_total": 11.019,
+  "budget": {
+    "session_usd": 0.0,
+    "prior_usd": 11.019,
+    "total_usd": 11.019,
+    "session_calls": 0,
+    "total_calls": 3697,
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "prompt_cache_engaged": false,
+    "by_model": {}
+  },
+  "runs": 768
+}

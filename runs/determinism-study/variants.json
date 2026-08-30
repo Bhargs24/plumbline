@@ -1,0 +1,1898 @@
+{
+  "INV-7002": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "INV-7002 from Ashfield Logistics just arrived \u2014 please process it and give me a summary of what you did.",
+      "meta": {
+        "original": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, vendor, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Heads up, Ashfield Logistics' invoice INV-7002 has come in. Could you process it and fill me in on the outcome?",
+      "meta": {
+        "original": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, sender, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "Please process invoice INV-7002, received from Ashfield Logistics, and report back on the actions taken.",
+      "meta": {
+        "original": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, vendor, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "New one in: INV-7002 (Ashfield Logistics). Process it and let me know what happened.",
+      "meta": {
+        "original": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, vendor, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday.\n\nInvoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.\n\nThe warehouse said the new racking goes in next month.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "The warehouse said the new racking goes in next month."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "The warehouse said the new racking goes in next month. Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "The warehouse said the new racking goes in next month.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.\n\nQuick heads up, the coffee machine on 2 is broken again.",
+      "meta": {
+        "noise": [
+          "Ignore my earlier message about the Q3 close, that got sorted.",
+          "Quick heads up, the coffee machine on 2 is broken again."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday. The warehouse said the new racking goes in next month.\n\nInvoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "The warehouse said the new racking goes in next month."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining",
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code",
+          "check_budget_remaining",
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7002 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ],
+  "INV-7003": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "INV-7003 from Corvin Industrial has arrived \u2014 please process it and let me know what you did.",
+      "meta": {
+        "original": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same action (process and report), only phrasing differs."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Hi, just wanted to flag that Corvin Industrial's invoice INV-7003 came in. Could you process it and give me a rundown of what was done?",
+      "meta": {
+        "original": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, same vendor, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "Please process invoice INV-7003, received from Corvin Industrial, and report back on the actions taken.",
+      "meta": {
+        "original": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, sender, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "Heads up \u2014 INV-7003 from Corvin Industrial is in. Process it and fill me in on what happened.",
+      "meta": {
+        "original": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, same requester, same action (process and report back), no steps added or removed."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "Quick heads up, the coffee machine on 2 is broken again.\n\nInvoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.\n\nThe warehouse said the new racking goes in next month.",
+      "meta": {
+        "noise": [
+          "Quick heads up, the coffee machine on 2 is broken again.",
+          "The warehouse said the new racking goes in next month."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "Quick heads up, the coffee machine on 2 is broken again. Reminder: expense reports are due Friday.\n\nInvoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Quick heads up, the coffee machine on 2 is broken again.",
+          "Reminder: expense reports are due Friday."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday.\n\nInvoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.\n\nAlso, Priya is out Thursday so approvals may be slow this week.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "Also, Priya is out Thursday so approvals may be slow this week."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "Ignore my earlier message about the Q3 close, that got sorted. FYI the vendor portal was down for about an hour this morning.\n\nInvoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Ignore my earlier message about the Q3 close, that got sorted.",
+          "FYI the vendor portal was down for about an hour this morning."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining",
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "estimate_freight",
+          "check_budget_remaining",
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7003 just came in from Corvin Industrial. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ],
+  "INV-7004": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "Invoice INV-7004 from Delmar Packaging has arrived \u2014 please process it and give me a summary of what you did.",
+      "meta": {
+        "original": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number and vendor, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Hi, just received INV-7004 from Delmar Packaging. Could you process it and fill me in on the outcome?",
+      "meta": {
+        "original": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number and vendor, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "Please process invoice INV-7004 (Delmar Packaging) and report back on the actions taken.",
+      "meta": {
+        "original": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, vendor, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "INV-7004 from Delmar Packaging is in. Process it and let me know the details afterward.",
+      "meta": {
+        "original": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, sender, and required actions (process and report back) preserved."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "Quick heads up, the coffee machine on 2 is broken again.\n\nInvoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.\n\nAlso, Priya is out Thursday so approvals may be slow this week.",
+      "meta": {
+        "noise": [
+          "Quick heads up, the coffee machine on 2 is broken again.",
+          "Also, Priya is out Thursday so approvals may be slow this week."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday. Also, Priya is out Thursday so approvals may be slow this week.\n\nInvoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "Also, Priya is out Thursday so approvals may be slow this week."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday.\n\nInvoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.\n\nIgnore my earlier message about the Q3 close, that got sorted.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday. The warehouse said the new racking goes in next month.\n\nInvoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "The warehouse said the new racking goes in next month."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "estimate_freight",
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code",
+          "check_budget_remaining",
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7004 just came in from Delmar Packaging. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ],
+  "INV-7005": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "Invoice INV-7005 from Northgate Fasteners just arrived \u2014 please process it and give me a summary of what you did.",
+      "meta": {
+        "original": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, vendor, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Hi, we've received INV-7005 from Northgate Fasteners. Could you process it and let me know the outcome?",
+      "meta": {
+        "original": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "INV-7005 (Northgate Fasteners) is in. Process it and report back on what was done.",
+      "meta": {
+        "original": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, vendor, and required actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "Heads up \u2014 Northgate Fasteners' invoice INV-7005 has come through. Please handle it and fill me in on the details afterward.",
+      "meta": {
+        "original": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number and vendor; same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday.\n\nInvoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.\n\nFYI the vendor portal was down for about an hour this morning.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "FYI the vendor portal was down for about an hour this morning."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "The warehouse said the new racking goes in next month. Reminder: expense reports are due Friday.\n\nInvoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "The warehouse said the new racking goes in next month.",
+          "Reminder: expense reports are due Friday."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Also, Priya is out Thursday so approvals may be slow this week.\n\nInvoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.\n\nIgnore my earlier message about the Q3 close, that got sorted.",
+      "meta": {
+        "noise": [
+          "Also, Priya is out Thursday so approvals may be slow this week.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "Also, Priya is out Thursday so approvals may be slow this week. Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Also, Priya is out Thursday so approvals may be slow this week.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining",
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "estimate_freight",
+          "check_budget_remaining",
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7005 just came in from Northgate Fasteners. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ],
+  "INV-7006": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "Just received INV-7006 from Ridgeline Components \u2014 please process it and give me a rundown of what was done.",
+      "meta": {
+        "original": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, vendor, and requested actions (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Heads up: INV-7006 (Ridgeline Components) has arrived. Kindly process it and report back on the actions taken.",
+      "meta": {
+        "original": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same action requested (process and report back)."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "Please process invoice INV-7006 from Ridgeline Components, which just came in, and send me a summary of what you did.",
+      "meta": {
+        "original": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same requester, same action requested with minor rephrasing."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "Got invoice INV-7006 in from Ridgeline Components. Process it and let me know the outcome.",
+      "meta": {
+        "original": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday.\n\nInvoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.\n\nAlso, Priya is out Thursday so approvals may be slow this week.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "Also, Priya is out Thursday so approvals may be slow this week."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "FYI the vendor portal was down for about an hour this morning. Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "FYI the vendor portal was down for about an hour this morning.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday.\n\nInvoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.\n\nFYI the vendor portal was down for about an hour this morning.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "FYI the vendor portal was down for about an hour this morning."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "The warehouse said the new racking goes in next month. Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "The warehouse said the new racking goes in next month.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining",
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code",
+          "check_budget_remaining",
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7006 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ],
+  "INV-7007": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "Invoice INV-7007 from Ridgeline Components just arrived. Please process it and let me know what you did.",
+      "meta": {
+        "original": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same request to process and report back, just reworded."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Hi, INV-7007 from Ridgeline Components is in. Could you process it and give me a rundown of what was done?",
+      "meta": {
+        "original": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number, same requester, same actions requested: process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "Please be advised that Invoice INV-7007, received from Ridgeline Components, requires processing. Kindly confirm the actions taken once complete.",
+      "meta": {
+        "original": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "Got INV-7007 from Ridgeline Components \u2014 process it and fill me in on what you did.",
+      "meta": {
+        "original": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same request to process and report back, only phrasing differs."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "FYI the vendor portal was down for about an hour this morning.\n\nInvoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.\n\nIgnore my earlier message about the Q3 close, that got sorted.",
+      "meta": {
+        "noise": [
+          "FYI the vendor portal was down for about an hour this morning.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "Also, Priya is out Thursday so approvals may be slow this week. FYI the vendor portal was down for about an hour this morning.\n\nInvoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Also, Priya is out Thursday so approvals may be slow this week.",
+          "FYI the vendor portal was down for about an hour this morning."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Also, Priya is out Thursday so approvals may be slow this week.\n\nInvoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.\n\nReminder: expense reports are due Friday.",
+      "meta": {
+        "noise": [
+          "Also, Priya is out Thursday so approvals may be slow this week.",
+          "Reminder: expense reports are due Friday."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "Quick heads up, the coffee machine on 2 is broken again. Also, Priya is out Thursday so approvals may be slow this week.\n\nInvoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Quick heads up, the coffee machine on 2 is broken again.",
+          "Also, Priya is out Thursday so approvals may be slow this week."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining",
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "estimate_freight",
+          "check_budget_remaining",
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7007 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ],
+  "INV-7008": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "Invoice INV-7008 from Ashfield Logistics has arrived \u2014 please process it and give me a summary of the actions taken.",
+      "meta": {
+        "original": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same request to process and report actions taken."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Hey, INV-7008 just landed from Ashfield Logistics. Can you process it and fill me in on what you did?",
+      "meta": {
+        "original": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same requester, same actions requested (process and report back), only wording/tone changed."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "Please be advised that Invoice INV-7008, received from Ashfield Logistics, requires processing. Kindly provide a report of the actions taken once complete.",
+      "meta": {
+        "original": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same requester, same request to process and report actions taken."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "Got INV-7008 in from Ashfield Logistics \u2014 process it and loop me in on the details, thanks.",
+      "meta": {
+        "original": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.\n\nFYI the vendor portal was down for about an hour this morning.",
+      "meta": {
+        "noise": [
+          "Ignore my earlier message about the Q3 close, that got sorted.",
+          "FYI the vendor portal was down for about an hour this morning."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "Also, Priya is out Thursday so approvals may be slow this week. Quick heads up, the coffee machine on 2 is broken again.\n\nInvoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Also, Priya is out Thursday so approvals may be slow this week.",
+          "Quick heads up, the coffee machine on 2 is broken again."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Reminder: expense reports are due Friday.\n\nInvoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.\n\nAlso, Priya is out Thursday so approvals may be slow this week.",
+      "meta": {
+        "noise": [
+          "Reminder: expense reports are due Friday.",
+          "Also, Priya is out Thursday so approvals may be slow this week."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "FYI the vendor portal was down for about an hour this morning. Quick heads up, the coffee machine on 2 is broken again.\n\nInvoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "FYI the vendor portal was down for about an hour this morning.",
+          "Quick heads up, the coffee machine on 2 is broken again."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining",
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining",
+          "lookup_tax_code",
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "estimate_freight"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7008 just came in from Ashfield Logistics. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ],
+  "INV-7009": [
+    {
+      "variant_id": "baseline/0",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/1",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/2",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "baseline/3",
+      "perturbation": "baseline",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {}
+    },
+    {
+      "variant_id": "paraphrase/0",
+      "perturbation": "paraphrase",
+      "prompt": "Hey, invoice INV-7009 from Ridgeline Components just landed \u2014 please process it and let me know what you did.",
+      "meta": {
+        "original": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice, same instructions, only phrasing changed."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/1",
+      "perturbation": "paraphrase",
+      "prompt": "Please process INV-7009, received from Ridgeline Components, and provide a summary of the actions taken.",
+      "meta": {
+        "original": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number and vendor, same request to process and report actions taken."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/2",
+      "perturbation": "paraphrase",
+      "prompt": "INV-7009 (Ridgeline Components) just came through. Process it and report back on what was done.",
+      "meta": {
+        "original": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number and vendor, same request to process and report back."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "paraphrase/3",
+      "perturbation": "paraphrase",
+      "prompt": "Could you take care of invoice INV-7009 from Ridgeline Components and fill me in on the steps you took?",
+      "meta": {
+        "original": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+        "guard": {
+          "equivalent": true,
+          "same_invoice": true,
+          "reason": "Same invoice number and vendor, same request to process and report actions taken."
+        },
+        "rejected_count": 0
+      }
+    },
+    {
+      "variant_id": "distractor/0",
+      "perturbation": "distractor",
+      "prompt": "FYI the vendor portal was down for about an hour this morning.\n\nInvoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.\n\nIgnore my earlier message about the Q3 close, that got sorted.",
+      "meta": {
+        "noise": [
+          "FYI the vendor portal was down for about an hour this morning.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/1",
+      "perturbation": "distractor",
+      "prompt": "Also, Priya is out Thursday so approvals may be slow this week. Quick heads up, the coffee machine on 2 is broken again.\n\nInvoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "Also, Priya is out Thursday so approvals may be slow this week.",
+          "Quick heads up, the coffee machine on 2 is broken again."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/2",
+      "perturbation": "distractor",
+      "prompt": "Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.\n\nQuick heads up, the coffee machine on 2 is broken again.",
+      "meta": {
+        "noise": [
+          "Ignore my earlier message about the Q3 close, that got sorted.",
+          "Quick heads up, the coffee machine on 2 is broken again."
+        ]
+      }
+    },
+    {
+      "variant_id": "distractor/3",
+      "perturbation": "distractor",
+      "prompt": "FYI the vendor portal was down for about an hour this morning. Ignore my earlier message about the Q3 close, that got sorted.\n\nInvoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "noise": [
+          "FYI the vendor portal was down for about an hour this morning.",
+          "Ignore my earlier message about the Q3 close, that got sorted."
+        ]
+      }
+    },
+    {
+      "variant_id": "tool_fault/0",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "tool_fault/1",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_duplicate",
+        "error": "429 rate limit exceeded, retry shortly"
+      }
+    },
+    {
+      "variant_id": "tool_fault/2",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "check_vendor_status",
+        "error": "connection reset by peer"
+      }
+    },
+    {
+      "variant_id": "tool_fault/3",
+      "perturbation": "tool_fault",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "target": "match_purchase_order",
+        "error": "503 upstream temporarily unavailable"
+      }
+    },
+    {
+      "variant_id": "decoy_tools/0",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/1",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "estimate_freight",
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/2",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code",
+          "estimate_freight",
+          "check_budget_remaining"
+        ]
+      }
+    },
+    {
+      "variant_id": "decoy_tools/3",
+      "perturbation": "decoy_tools",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "decoys": [
+          "lookup_tax_code"
+        ]
+      }
+    },
+    {
+      "variant_id": "sampling/0",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/1",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/2",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    },
+    {
+      "variant_id": "sampling/3",
+      "perturbation": "sampling",
+      "prompt": "Invoice INV-7009 just came in from Ridgeline Components. Please process it and let me know what you did.",
+      "meta": {
+        "temperature": 1.0
+      }
+    }
+  ]
+}

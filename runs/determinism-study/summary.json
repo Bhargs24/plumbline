@@ -1,0 +1,60 @@
+{
+  "certified_bound": {
+    "react": 0.6124500635075647,
+    "plan_execute": 0.11023836252604186,
+    "guarded": 0.0
+  },
+  "grade": {
+    "react": "D",
+    "plan_execute": "F",
+    "guarded": "F"
+  },
+  "critical_conformance": {
+    "react": {
+      "successes": 183,
+      "total": 192,
+      "value": 0.953125,
+      "ci_low": 0.913328,
+      "ci_high": 0.975146
+    },
+    "plan_execute": {
+      "successes": 167,
+      "total": 192,
+      "value": 0.869792,
+      "ci_low": 0.814851,
+      "ci_high": 0.910226
+    },
+    "guarded": {
+      "successes": 137,
+      "total": 192,
+      "value": 0.713542,
+      "ci_low": 0.645895,
+      "ci_high": 0.772811
+    }
+  },
+  "outcome_correctness": {
+    "react": {
+      "successes": 191,
+      "total": 192,
+      "value": 0.994792,
+      "ci_low": 0.971093,
+      "ci_high": 0.99908
+    },
+    "plan_execute": {
+      "successes": 167,
+      "total": 192,
+      "value": 0.869792,
+      "ci_low": 0.814851,
+      "ci_high": 0.910226
+    },
+    "guarded": {
+      "successes": 137,
+      "total": 192,
+      "value": 0.713542,
+      "ci_low": 0.645895,
+      "ci_high": 0.772811
+    }
+  },
+  "cost_usd": 0.6858,
+  "runs": 576
+}
