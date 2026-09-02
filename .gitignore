@@ -29,3 +29,5 @@ docs/src/
 # local build/venv artifacts
 build/
 .claude/
+dist/
+dist/
