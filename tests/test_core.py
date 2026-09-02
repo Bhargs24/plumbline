@@ -322,11 +322,12 @@ def test_summary_separates_session_from_total(tmp_path):
 def test_tests_never_touch_the_real_ledger():
     """Guard against the mistake above recurring: a Budget with no explicit
     ledger writes to the shared default, so any test using one must opt out."""
-    import inspect
     import re
+    from pathlib import Path
 
-    import tests.test_core as mod
-    src = inspect.getsource(mod)
+    # Read by path, not by import: the tests directory is not a package and
+    # must not need to be one for this guard to run.
+    src = Path(__file__).read_text(encoding="utf-8")
     for m in re.finditer(r"Budget\((max_usd[^)]*)\)", src):
         assert "ledger_path" in m.group(1), (
             "every constructed budget in the suite must set ledger_path, "
