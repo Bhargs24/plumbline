@@ -16,8 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
 
-from plumbline.analysis.stats import wilson              # noqa: E402
-from plumbline.core.trajectory import TrajectoryStore    # noqa: E402
+from plumbline.analysis.stats import wilson  # noqa: E402
+from plumbline.core.trajectory import TrajectoryStore  # noqa: E402
 
 BLUE, ORANGE = "#2a78d6", "#eb6834"
 GREY, MUTED, RULE = "#6b7280", "#9aa1a9", "#c9ced4"
@@ -37,16 +37,17 @@ SERIES = [
 
 def _series_flags():
     """Outcome correctness per perturbation for each of the three series."""
-    from agents.ap.tasks import build_tasks, expected_outcome
+    from plumbline.domains.ap.tasks import build_tasks, expected_outcome
     ctx = {t.task_id: t.context for t in build_tasks()}
     out = {}
-    for key, run, arm, colour, label in SERIES:
+    for key, run, arm, _colour, _label in SERIES:
         led = json.loads((ROOT / run / "ledger_states.json").read_text(encoding="utf-8"))
         trajs = [t for t in TrajectoryStore(ROOT / run / "trajectories.jsonl").load()
                  if not t.error and t.arm == arm]
 
         def ok(t, led=led):
-            w = expected_outcome(ctx[t.task_id]); g = led.get(t.trial_id) or {}
+            w = expected_outcome(ctx[t.task_id])
+            g = led.get(t.trial_id) or {}
             return (bool(g.get("paid")) == w["paid"]
                     and int(g.get("payment_count", 0)) == w["payment_count"]
                     and abs(float(g.get("amount_paid", 0)) - w["amount_paid"]) < 0.005
@@ -61,7 +62,8 @@ def results_svg() -> str:
     W, H, PAD_L, PAD_R, ROW, TOP = 900, 400, 160, 90, 54, 40
     plot = W - PAD_L - PAD_R
     xmin = 0.60
-    x = lambda v: PAD_L + (max(v, xmin) - xmin) / (1 - xmin) * plot
+    def x(v):
+        return PAD_L + (max(v, xmin) - xmin) / (1 - xmin) * plot
 
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" '
          f'height="{H}" font-family="system-ui,-apple-system,Segoe UI,sans-serif">']
@@ -74,7 +76,7 @@ def results_svg() -> str:
         cy = TOP + i * ROW + ROW / 2
         o.append(f'<text x="{PAD_L-14}" y="{cy+4:.0f}" text-anchor="end" font-size="13" '
                  f'fill="{GREY}">{p.replace("_", " ")}</text>')
-        for (key, _run, _arm, colour, _lbl), dy in zip(SERIES, (-13, 0, 13)):
+        for (key, _run, _arm, colour, _lbl), dy in zip(SERIES, (-13, 0, 13), strict=False):
             f = flags[key][p]
             if not f:
                 continue

@@ -23,13 +23,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
 
-from agents.ap.policy import AP_POLICY                           # noqa: E402
-from agents.ap.tasks import build_tasks, expected_outcome        # noqa: E402
-from plumbline.analysis.stats import compare, wilson             # noqa: E402
-from plumbline.cli import _load, _policy_and_contexts, main      # noqa: E402
-from plumbline.compliance import P2P_FRAMEWORK, attest           # noqa: E402
-from plumbline.compliance.sampling import required_sample_size   # noqa: E402
-from plumbline.core.align import align                           # noqa: E402
+from plumbline.analysis.stats import compare, wilson  # noqa: E402
+from plumbline.cli import _load, main  # noqa: E402
+from plumbline.compliance import P2P_FRAMEWORK, attest  # noqa: E402
+from plumbline.compliance.sampling import required_sample_size  # noqa: E402
+from plumbline.core.align import align  # noqa: E402
+from plumbline.domains import get_domain  # noqa: E402
+from plumbline.domains.ap.policy import AP_POLICY  # noqa: E402
+from plumbline.domains.ap.tasks import build_tasks, expected_outcome  # noqa: E402
 
 W, H = 1080, 1350
 # A printed-workpaper palette rather than a terminal one. The subject is a
@@ -52,7 +53,8 @@ def sh(*argv: str) -> str:
 
 
 CTX = {t.task_id: t.context for t in build_tasks()}
-SPEC, CONTEXTS = _policy_and_contexts()
+_DOMAIN = get_domain("ap")
+SPEC, CONTEXTS = _DOMAIN.policy, _DOMAIN.contexts
 
 
 def checker(run: str):
@@ -123,6 +125,7 @@ SKIP_RUNS = sum(1 for x in REACT if x.task_id == SKIP_TASK)
 SCENARIOS = len({t.task_id for t in REACT})
 
 from plumbline.compliance.sampling import clopper_pearson_upper  # noqa: E402
+
 BOUND1 = clopper_pearson_upper(0, 1, 0.95) * 100
 BOUND30 = clopper_pearson_upper(0, 30, 0.95) * 100
 N99 = required_sample_size(0.01, 0.95)
@@ -261,7 +264,7 @@ def bar(pct: float, width: int = 10) -> str:
     filled = max(0, min(width, round((pct - lo) / (100 - lo) * width)))
     col = GRN if pct >= 99.9 else (RED if pct < 90 else YEL)
     return (f'<span style="color:{col}">' + "\u2588" * filled + "</span>"
-            + f'<span style="color:#1b1f24">' + "\u2588" * (width - filled)
+            + '<span style="color:#1b1f24">' + "\u2588" * (width - filled)
             + "</span>")
 
 
@@ -372,7 +375,7 @@ S.append(f"""{top(5, 'the method')}
 ROWS = "\n".join(
     f'  {f:<12}' + bar(a.pct) + f'<span class="f">{a.pct:6.1f}%</span>'
     + " " + bar(b.pct) + f'<span class="f">{b.pct:6.1f}%</span>'
-    + ("  <span class=\"r\">p=%.3f</span>" % pv if pv < 0.05
+    + (f'  <span class="r">p={pv:.3f}</span>' if pv < 0.05
        else '  <span class="f">n.s.</span>')
     for f, a, b, pv in MATRIX)
 S.append(f"""{top(6, 'results')}
@@ -412,9 +415,10 @@ att_rows = "\n".join(
     f"{r.assessment.deviations:>5}  "
     + ("EFFECTIVE" if r.effective else "DEFICIENT")
     for r in ATT.results)
+ATT_BLOCK = "  CONTROL  NAME                      POP  DEV  CONCLUSION\n" + att_rows
 S.append(f"""{top(8, 'the output')}
 <h1>Out comes a control test, not<br>a dashboard.</h1>
-{pane(colour("  CONTROL  NAME                      POP  DEV  CONCLUSION\n" + att_rows),
+{pane(colour(ATT_BLOCK),
       'procure-to-pay key controls &middot; operator = llm_agent')}
 <div class="pane"><pre>  every deviation names the <b>run, the transaction and</b>
   <b>the condition</b>, and routes to an owner with an SLA.
@@ -472,7 +476,7 @@ if __name__ == "__main__":
                 "  gap=f.getBoundingClientRect().top"
                 "      - f.previousElementSibling.getBoundingClientRect()"
                 "        .bottom;}"
-                "return {over:over, gap:gap};})('s%d')" % (i + 1))
+                "return {over:over, gap:gap};})" f"('s{i + 1}')")
             if m["over"] > 2:
                 # panes no longer shrink, so this is real spill, not clipping
                 note = f"   OVERFLOW +{m['over']:.0f}px  TRIM THIS SLIDE"
@@ -485,7 +489,7 @@ if __name__ == "__main__":
                 "document.querySelectorAll('#'+id+' pre').forEach(el=>{"
                 "  if(el.scrollWidth > el.clientWidth + 1){"
                 "    out.push(el.scrollWidth - el.clientWidth);}});"
-                "return out;})('s%d')" % (i + 1))
+                "return out;})" f"('s{i + 1}')")
             if wide:
                 note += f"   CLIPPED +{max(wide):.0f}px WIDE"
             print(f"wrote {f.name} {f.stat().st_size // 1024}KB{note}")

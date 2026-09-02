@@ -30,7 +30,7 @@ def main() -> int:
 
     failed = False
     names = ["post body", "first comment", "short version"]
-    for name, b in zip(names, bs):
+    for name, b in zip(names, bs, strict=False):
         n = len(b)
         over = n - LIMIT
         status = "OK" if n <= LIMIT else f"OVER by {over}"
@@ -38,16 +38,21 @@ def main() -> int:
             failed = True
         print(f"  {name:<16}{n:>6} chars   {status}")
 
-    # a dash the house style does not use, and which marks text as machine
-    # written to a lot of readers
     # The runs came from a domain with no sanctions data. Saying "sanctions
     # screen" against this evidence is falsifiable by anyone who opens the
-    # repo, so it is barred outright rather than left to judgement.
-    for block in bs:
-        if "sanctions screen" in block.lower():
-            print("\n  BARRED: 'sanctions screen' claims evidence this "
-                  "study does not have", file=sys.stderr)
-            failed = True
+    # repo, so it is barred outright rather than left to judgement -- and it
+    # is barred EVERYWHERE the project publishes, not only in the post: the
+    # live landing page once carried it while this guard only read the kit.
+    published = [("the kit", md),
+                 ("docs/index.html", (ROOT / "docs" / "index.html")
+                  .read_text(encoding="utf-8")),
+                 ("README.md", (ROOT / "README.md").read_text(encoding="utf-8"))]
+    for where, text in published:
+        for phrase in ("sanctions screen", "sanctioned party"):
+            if phrase in text.lower():
+                print(f"\n  BARRED: {phrase!r} in {where} claims evidence "
+                      "this study does not have", file=sys.stderr)
+                failed = True
 
     if "—" in md:
         print("\n  em-dash found in the kit", file=sys.stderr)
@@ -57,12 +62,25 @@ def main() -> int:
     # slides follow and these do not, so they are checked rather than trusted.
     sys.path.insert(0, str(ROOT / "src"))
     sys.path.insert(0, str(ROOT))
-    from make_social import (ALL_RUNS, BOUND1, BOUND30,  # noqa: E402
-                             CMP_A, CMP_B, N99, PE_A, PE_B, RE_B,
-                             P2P03, REACT_OUT, SKIP_N, SKIP_RUNS, TOTAL)
-    from agents.ap.arms import POLICY_PROSE  # noqa: E402
+    from make_social import (  # noqa: E402
+        ALL_RUNS,
+        BOUND1,
+        BOUND30,
+        CMP_A,
+        CMP_B,
+        N99,
+        P2P03,
+        PE_A,
+        PE_B,
+        RE_B,
+        REACT_OUT,
+        SKIP_N,
+        SKIP_RUNS,
+        TOTAL,
+    )
 
-    FAULT_BEFORE, FAULT_AFTER = CMP_B, CMP_A
+    from plumbline.domains.ap.arms import POLICY_PROSE  # noqa: E402
+
     # the post quotes the policy verbatim. if the prompt is ever
     # reworded the quote silently becomes a misquote, so check it
     # against the string the agent is actually handed.

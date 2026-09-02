@@ -188,10 +188,13 @@ format is what it is, not a claim of legal compliance.
 4. Perturbation engine with equivalence guard. **done**
 5. Statistics: Wilson intervals, permutation tests. **done**
 6. Certificate, provenance, CLI, tests. **done**
-7. The determinism study against a live model. **needs an API key**
+7. The determinism study against a live model. **done** — three studies,
+   2,082 committed trajectories, and a retraction (see the README)
 8. OpenTelemetry / OpenInference span ingestion, so the harness attaches to an
-   existing agent stack with no integration work. **not started**
-9. Second domain and second model provider. **not started**
+   existing agent stack with no integration work. **done** — `adapters/otel.py`,
+   `POST /ingest/traces`, with coverage honestly reported
+9. Second domain **built** (`plumbline.domains.accounts_payable`, not yet run
+   against a model); second model provider **not started**
 
 ## 9. Origin
 

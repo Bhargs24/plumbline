@@ -3,8 +3,7 @@
 **Metamorphic conformance testing for LLM agents.** Declare the invariants an agent must never violate; try to break them with input changes that preserve meaning; localise every violation to a named step with a confidence interval.
 
 [![tests](https://github.com/Bhargs24/plumbline/actions/workflows/tests.yml/badge.svg)](https://github.com/Bhargs24/plumbline/actions/workflows/tests.yml)
-![python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-blue)
-![tests](https://img.shields.io/badge/tests-118-brightgreen)
+![python](https://img.shields.io/badge/python-3.10%E2%80%933.13-blue)
 ![evidence](https://img.shields.io/badge/evidence-2%2C082%20trajectories%20committed-informational)
 ![licence](https://img.shields.io/badge/licence-Apache--2.0-lightgrey)
 
@@ -16,7 +15,12 @@ I built this to measure what moving an agent's control flow out of the model act
 
 That result does not survive contact with how these systems are actually built. **No production finance system treats a single 503 as fatal.** Every RPA platform has a retry policy; every payments integration has backoff. The executor under test had neither.
 
-Adding one and re-running the identical 768 trials settles it.
+Adding one and re-running the same 768 trials settles it. (The retry study
+replays the first study's recorded model responses offline — the executor's
+single interpretation call is byte-identical by construction, so only the
+error-handling differs. 52 of the free-form agent's 768 replays had no
+recorded response to replay and are excluded as missing data; every cell's
+n is in the report's tooltips.)
 
 <img src="docs/assets/results.svg" alt="Outcome correctness by perturbation for three series with 95% Wilson intervals. Every condition sits at 100% except tool_fault, where the no-retry executor falls to 81.2% while the retry executor and the agent both hold near 100%." width="100%">
 
@@ -88,7 +92,7 @@ plumbline show    runs/parity-study --trial tool_fault
 plumbline gate    <run_id> --min-bound 0.95     # exits non-zero for CI
 ```
 
-CI runs `certify` and `parity` against the committed evidence on every push. If the traces stop reproducing the published numbers, the build goes red.
+CI recomputes the published numbers from the committed traces on every push — the certified bounds and the headline percentages are pinned in the test suite, so if the evidence stops reproducing them, the build goes red.
 
 ---
 
@@ -137,9 +141,9 @@ A measuring instrument is only as interesting as what you point it at. The first
 | Duplicate vendor | a second record sharing an established vendor's bank account |
 | Sanctioned counterparty, expired PO, invoice predating its PO, unauthorised freight, no-PO invoices | |
 
-Ground truth is **derived from the system of record by the same tools the agent uses**, so the grader cannot drift from the data. The deterministic executor scores 20/20 on it.
+Ground truth is **derived from the system of record by the same tools the agent uses**, so the grader cannot drift from the data.
 
-> **Scope note.** The published findings above come from the first domain. This one is verified end to end by the deterministic executor, which confirms the tasks and the policy are correct, and is ready to run against a live model.
+> **Scope note.** The published findings above come from the first domain only. This one is built and ready to run against a live model; no model has been run against it yet, so it has no scores to report.
 
 ---
 

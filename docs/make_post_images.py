@@ -198,8 +198,8 @@ if __name__ == "__main__":
                 "e.querySelectorAll('pre').forEach(el=>{"
                 " if(el.scrollWidth>el.clientWidth+1)"
                 "   wide.push(el.scrollWidth-el.clientWidth);});"
-                "return {over:over, wide:wide.length?Math.max(...wide):0};})('i%d')"
-                % (i + 1))
+                "return {over:over, wide:wide.length?Math.max(...wide):0};})"
+                f"('i{i + 1}')")
             flags = ""
             if m["over"] > 2:
                 flags += f"  OVERFLOW +{m['over']:.0f}px"
