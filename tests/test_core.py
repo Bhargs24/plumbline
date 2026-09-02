@@ -7,13 +7,25 @@ from __future__ import annotations
 
 import pytest
 
+from plumbline.analysis.stats import permutation_test, wilson
 from plumbline.core.align import EXTRA, MATCH, SKIPPED, SUBSTITUTE, align, first_divergence
-from plumbline.core.compare import (EXACT, IGNORE, NUMERIC, TEXT, ArgSchema,
-                                     FieldPolicy, compare_args)
+from plumbline.core.compare import (
+    EXACT,
+    IGNORE,
+    NUMERIC,
+    ArgSchema,
+    FieldPolicy,
+    compare_args,
+)
 from plumbline.core.trajectory import Step, Trajectory
-from plumbline.analysis.stats import compare, permutation_test, wilson
-from plumbline.spec.invariants import (ArgEquals, CallAtMost, MustCall,
-                                        MustNotCall, Ordering, PolicySpec)
+from plumbline.spec.invariants import (
+    ArgEquals,
+    CallAtMost,
+    MustCall,
+    MustNotCall,
+    Ordering,
+    PolicySpec,
+)
 
 REF = (("tool_call", "fetch"), ("tool_call", "match"),
        ("tool_call", "dup"), ("tool_call", "pay"))
@@ -187,15 +199,17 @@ def test_dated_model_id_still_prices():
 
 
 def test_unknown_model_raises_rather_than_costing_nothing():
-    from plumbline.runtime.budget import UnknownModelPrice, resolve_price
     import pytest as _pytest
+
+    from plumbline.runtime.budget import UnknownModelPrice, resolve_price
     with _pytest.raises(UnknownModelPrice):
         resolve_price("gpt-does-not-exist")
 
 
 def test_budget_cap_actually_fires():
-    from plumbline.runtime.budget import Budget, BudgetExceeded
     import pytest as _pytest
+
+    from plumbline.runtime.budget import Budget, BudgetExceeded
     # ledger_path=None: a test must never journal fake spend into the real
     # ledger, which would inflate the production cap.
     b = Budget(max_usd=0.01, ledger_path=None)
@@ -249,9 +263,10 @@ def test_failed_call_with_wrong_amount_is_not_an_arg_violation():
 def test_sampling_perturbation_rejects_models_that_cannot_sample():
     """The 4.7+ family removed sampling params. Fail at startup, not with a 400
     four hundred calls into a study."""
+    import pytest as _pytest
+
     from plumbline.adapters.llm import LLMClient
     from plumbline.runtime.cache import ResponseCache
-    import pytest as _pytest
     c = LLMClient(model="claude-sonnet-5", cache=ResponseCache(enabled=False), offline=True)
     with _pytest.raises(ValueError, match="sampling"):
         c.complete(system="x", messages=[{"role": "user", "content": "y"}],
@@ -262,8 +277,9 @@ def test_sampling_perturbation_rejects_models_that_cannot_sample():
 def test_spend_cap_is_cumulative_across_processes(tmp_path):
     """A cap held only in memory is not a cap. Running the same study twice
     used to give you twice the ceiling."""
-    from plumbline.runtime.budget import Budget, BudgetExceeded
     import pytest as _pytest
+
+    from plumbline.runtime.budget import Budget, BudgetExceeded
     ledger = tmp_path / "spend.json"
 
     first = Budget(max_usd=1.00, ledger_path=ledger)
@@ -306,7 +322,9 @@ def test_summary_separates_session_from_total(tmp_path):
 def test_tests_never_touch_the_real_ledger():
     """Guard against the mistake above recurring: a Budget with no explicit
     ledger writes to the shared default, so any test using one must opt out."""
-    import inspect, re
+    import inspect
+    import re
+
     import tests.test_core as mod
     src = inspect.getsource(mod)
     for m in re.finditer(r"Budget\((max_usd[^)]*)\)", src):
@@ -318,7 +336,8 @@ def test_tests_never_touch_the_real_ledger():
 def test_equivalence_guard_cache_key_is_stable_across_processes():
     """Python randomises str hashing per process, so hash() as a cache key
     misses every run and silently re-pays for identical work."""
-    import subprocess, sys
+    import subprocess
+    import sys
     code = ("import sys; sys.path.insert(0,'src');"
             "from plumbline.perturb.library import _stable_id;"
             "print(_stable_id('Invoice INV-7002 just came in.'))")

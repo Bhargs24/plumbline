@@ -12,11 +12,11 @@ live model.
 """
 from __future__ import annotations
 
-from plumbline.certify import certify as _certify, compare_arms
+from plumbline.certify import certify as _certify
+from plumbline.certify import compare_arms
 from plumbline.core.trajectory import Step, Trajectory
-
-from agents.ap.policy import AP_POLICY
-from agents.ap.tasks import build_tasks, expected_outcome
+from plumbline.domains.ap.policy import AP_POLICY
+from plumbline.domains.ap.tasks import build_tasks, expected_outcome
 
 
 def _outcome_matches(ctx, ledger):
@@ -364,8 +364,9 @@ def test_divergence_only_under_perturbation_is_localized_to_it():
 
 
 def test_parity_needs_both_sides_and_says_so():
-    from plumbline.certify import prove_parity
     import pytest as _pytest
+
+    from plumbline.certify import prove_parity
     t = good_pay("only", CLEAN, "baseline", 4500.00)
     t.arm = "incumbent"
     with _pytest.raises(ValueError, match="both"):
@@ -374,7 +375,7 @@ def test_parity_needs_both_sides_and_says_so():
 
 
 def test_unpaired_runs_are_excluded_not_counted_as_divergences():
-    """An API outage killed 82 runs in the first study and they were scored as
+    """Credit exhaustion killed 82 runs in the first study (the API refused every call once the account balance hit zero) and they were scored as
     total behavioral divergence. A run with no counterpart is missing data, not
     evidence."""
     from plumbline.certify import prove_parity
@@ -401,6 +402,7 @@ def test_report_uses_only_tokens_the_stylesheet_defines():
     palette was renamed. Undefined custom properties fail silently: gridlines
     and tick labels simply stop having a color."""
     import re
+
     from plumbline.report.html import CSS, dot_plot
     defined = set(re.findall(r"(--[a-z0-9-]+)\s*:", CSS))
     svg = dot_plot([("baseline", [(0, 1.0, .94, 1.0, 64), (1, .98, .91, .99, 56)]),
@@ -424,6 +426,7 @@ def test_every_color_token_is_defined_in_all_three_theme_scopes():
     """A token defined only inside the dark blocks renders unstyled in the
     default un-stamped state, which is the classic unreadable-artifact bug."""
     import re
+
     from plumbline.report.html import CSS
 
     def block_at(marker: str) -> str:
@@ -440,7 +443,8 @@ def test_every_color_token_is_defined_in_all_three_theme_scopes():
                     return CSS[start:j + 1]
         raise AssertionError(f"unbalanced braces after {marker!r}")
 
-    tokens = lambda s: set(re.findall(r"(--[a-z0-9-]+)\s*:", s))
+    def tokens(s):
+        return set(re.findall(r"(--[a-z0-9-]+)\s*:", s))
     base = tokens(CSS.split("@media")[0])
     assert base, ":root must define the complete light palette"
     for marker in ("@media (prefers-color-scheme: dark)",

@@ -1,8 +1,6 @@
 """The store and the server surface."""
 from __future__ import annotations
 
-import json
-
 import pytest
 
 from plumbline.core.trajectory import Step, Trajectory

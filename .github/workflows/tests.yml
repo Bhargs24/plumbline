@@ -5,13 +5,16 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -19,11 +22,17 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install
         run: pip install -e ".[dev]"
-      - name: Test
+      - name: Lint (ruff)
+        run: ruff check src tests experiments docs
+      - name: Test (includes the published-numbers pin)
+        # tests/test_published_numbers.py recomputes every figure the README
+        # and the site quote from the committed traces. No API key, no
+        # network. If the evidence stops reproducing the published numbers,
+        # this fails and the claim is retracted by CI.
         run: pytest -q
-      - name: Rebuild the published certificate from stored traces
-        # No API key, no network. If the committed evidence stops reproducing
-        # the published numbers, this fails and the claim is retracted by CI.
+      - name: Rebuild the published certificates from stored traces
         run: |
           plumbline certify runs/parity-study --arm react
           plumbline parity  runs/parity-study plan_execute react
+      - name: Publication guard (barred claims, quoted figures)
+        run: python docs/check_post.py

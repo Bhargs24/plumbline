@@ -8,9 +8,15 @@ from __future__ import annotations
 
 import pytest
 
-from plumbline.compliance import (P2P_FRAMEWORK, assess, attest,
-                                  hold_category, render_text,
-                                  required_sample_size, assess_test_of_one)
+from plumbline.compliance import (
+    P2P_FRAMEWORK,
+    assess,
+    assess_test_of_one,
+    attest,
+    hold_category,
+    render_text,
+    required_sample_size,
+)
 from plumbline.compliance.sampling import clopper_pearson_upper
 from plumbline.core.trajectory import Step, Trajectory
 from plumbline.spec.invariants import MustCall, Ordering, PolicySpec

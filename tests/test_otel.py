@@ -6,8 +6,12 @@ the flatter OpenInference shape with `openinference.span.kind` and `tool.*`.
 """
 from __future__ import annotations
 
-from plumbline.adapters.otel import (TraceIngestError, describe_coverage,
-                                     load_trace_file, spans_to_trajectories)
+from plumbline.adapters.otel import (
+    TraceIngestError,
+    describe_coverage,
+    load_trace_file,
+    spans_to_trajectories,
+)
 
 
 def otlp_span(trace, span_id, name, tool=None, args=None, error=None,
