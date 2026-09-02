@@ -25,3 +25,7 @@ plumbline.db*
 docs/companion.html
 docs/The-Plumbline-Companion.pdf
 docs/src/
+
+# local build/venv artifacts
+build/
+.claude/
