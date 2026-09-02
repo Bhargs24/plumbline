@@ -3,7 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "plumbline"
+# Distribution name; the import package and CLI are both `plumbline`.
+# (The bare name `plumbline` on PyPI belongs to an unrelated project.)
+name = "plumbline-harness"
 version = "0.3.0"
 description = "Conformance-under-perturbation testing for LLM agents."
 readme = "README.md"

@@ -58,6 +58,9 @@ numbers are pinned to the committed evidence in CI.
   committed traces on every push.
 - Ruff (clean across src, tests, experiments, docs), Python 3.13 in CI, the
   publication guard as a CI step, CHANGELOG, CONTRIBUTING, SECURITY policy.
+- First PyPI release, as `plumbline-harness` (the bare name belongs to an
+  unrelated project; the CLI and import name are `plumbline` either way),
+  published via Trusted Publishing on GitHub release.
 
 ## 0.2.0 — 2026-08-30
 
