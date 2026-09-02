@@ -22,7 +22,6 @@ from __future__ import annotations
 import json
 import time
 
-from plumbline.adapters.llm import LLMClient
 from plumbline.core.trajectory import Step, Trajectory
 
 from .schema import APPROVAL_MATRIX, REASON_CODES

@@ -24,13 +24,20 @@ from __future__ import annotations
 
 import re
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import date
-from typing import Callable
 
-from .schema import (APPROVAL_MATRIX, BASE_CURRENCY, DISCOUNT_TERMS, FX_RATES,
-                     FX_TOLERANCE_PCT, REASON_CODES, TAX_CODES,
-                     TOLERANCE_POLICY, fresh_db)
+from .schema import (
+    APPROVAL_MATRIX,
+    BASE_CURRENCY,
+    DISCOUNT_TERMS,
+    FX_RATES,
+    FX_TOLERANCE_PCT,
+    REASON_CODES,
+    TAX_CODES,
+    TOLERANCE_POLICY,
+    fresh_db,
+)
 
 
 class ToolError(Exception):
@@ -129,9 +136,9 @@ class APToolbox:
         """
         inv = self._invoice(invoice_id)
         lines = self._lines(invoice_id)
-        net = sum(l["unit_price"] * l["qty"] for l in lines)
-        tax = sum(l["unit_price"] * l["qty"]
-                  * TAX_CODES.get(l["tax_code"], ("", 0.0))[1] / 100 for l in lines)
+        net = sum(ln["unit_price"] * ln["qty"] for ln in lines)
+        tax = sum(ln["unit_price"] * ln["qty"]
+                  * TAX_CODES.get(ln["tax_code"], ("", 0.0))[1] / 100 for ln in lines)
         freight = float(inv["freight"] or 0)
         vend = self._q("SELECT payment_terms FROM vendors WHERE vendor_id = ?",
                        (inv["vendor_id"],))
@@ -152,7 +159,7 @@ class APToolbox:
     def _t_fetch_invoice(self, invoice_id: str) -> dict:
         inv = self._invoice(invoice_id)
         lines = self._lines(invoice_id)
-        net = round(sum(l["unit_price"] * l["qty"] for l in lines), 2)
+        net = round(sum(ln["unit_price"] * ln["qty"] for ln in lines), 2)
         return {"invoice": inv, "line_count": len(lines),
                 "net_amount": net, "currency": inv["currency"],
                 "doc_type": inv["doc_type"]}
@@ -177,7 +184,7 @@ class APToolbox:
         category = po["category"]
         price_pct, qty_pct, abs_tol = TOLERANCE_POLICY.get(category, (0.0, 0.0, 0.0))
 
-        po_lines = {l["sku"]: l for l in
+        po_lines = {row["sku"]: row for row in
                     self._q("SELECT * FROM po_lines WHERE po_id = ?", (inv["po_id"],))}
         receipts: dict[int, int] = {}
         for g in self._q("SELECT * FROM goods_receipts WHERE po_id = ?", (inv["po_id"],)):
@@ -315,7 +322,7 @@ class APToolbox:
         inv = self._invoice(invoice_id)
         po_lines = {}
         if inv["po_id"]:
-            po_lines = {l["sku"]: l for l in self._q(
+            po_lines = {row["sku"]: row for row in self._q(
                 "SELECT * FROM po_lines WHERE po_id = ?", (inv["po_id"],))}
         issues, detail = [], []
         for line in self._lines(invoice_id):
@@ -377,10 +384,10 @@ class APToolbox:
         """Net, tax, freight, settlement discount, and the base-currency total."""
         inv = self._invoice(invoice_id)
         lines = self._lines(invoice_id)
-        net = round(sum(l["unit_price"] * l["qty"] for l in lines), 2)
-        tax = round(sum(l["unit_price"] * l["qty"]
-                        * TAX_CODES.get(l["tax_code"], ("", 0.0))[1] / 100
-                        for l in lines), 2)
+        net = round(sum(ln["unit_price"] * ln["qty"] for ln in lines), 2)
+        tax = round(sum(ln["unit_price"] * ln["qty"]
+                        * TAX_CODES.get(ln["tax_code"], ("", 0.0))[1] / 100
+                        for ln in lines), 2)
         freight = float(inv["freight"] or 0)
         gross = round(net + tax + freight, 2)
         vend = self._q("SELECT payment_terms FROM vendors WHERE vendor_id = ?",

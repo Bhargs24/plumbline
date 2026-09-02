@@ -9,8 +9,8 @@ the number themselves.
 from __future__ import annotations
 
 from .analysis.conformance import analyze_conformance, outcome_correctness
-from .analysis.equivalence import EquivalenceReport, analyze_equivalence
 from .analysis.consistency import analyze_consistency
+from .analysis.equivalence import EquivalenceReport, analyze_equivalence
 from .analysis.stats import compare
 from .core.trajectory import Trajectory
 from .report.certificate import Certificate

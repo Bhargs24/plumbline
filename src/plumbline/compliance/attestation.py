@@ -24,7 +24,6 @@ individual trace.
 from __future__ import annotations
 
 import hashlib
-import json
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

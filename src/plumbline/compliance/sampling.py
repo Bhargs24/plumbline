@@ -39,8 +39,6 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from ..analysis.stats import Proportion, wilson
-
 
 def _binom_cdf(k: int, n: int, p: float) -> float:
     """P(X <= k) for X ~ Binomial(n, p), by direct summation.

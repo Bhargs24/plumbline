@@ -23,8 +23,9 @@ check are not the same event, and any scoring that averages them is lying.
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any
 
 from ..core.trajectory import Trajectory
 

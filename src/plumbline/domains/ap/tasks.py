@@ -106,6 +106,19 @@ def expected_outcome(context: dict) -> dict:
     }
 
 
+def outcome_matches(context: dict, ledger: dict | None) -> bool:
+    """Whether a run's final ledger equals the derived ground truth, to the cent."""
+    if not context or ledger is None:
+        return False
+    want = expected_outcome(context)
+    return (
+        bool(ledger.get("paid")) == want["paid"]
+        and int(ledger.get("payment_count", 0)) == want["payment_count"]
+        and abs(float(ledger.get("amount_paid", 0)) - want["amount_paid"]) < 0.005
+        and bool(ledger.get("exception_raised")) == want["exception_raised"]
+    )
+
+
 def summarize() -> str:
     lines = []
     for t in build_tasks():

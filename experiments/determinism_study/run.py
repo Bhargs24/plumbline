@@ -26,19 +26,27 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
 
-from plumbline.adapters.llm import (DEFAULT_AGENT_MODEL, DEFAULT_PERTURB_MODEL,
-                                     LLMClient, have_credentials)
+from plumbline.adapters.llm import (
+    DEFAULT_AGENT_MODEL,
+    DEFAULT_PERTURB_MODEL,
+    LLMClient,
+    have_credentials,
+)
 from plumbline.certify import certify, compare_arms
-from plumbline.perturb.library import (Baseline, DecoyTools, Distractor,
-                                        ParaphraseWithGuard, SamplingSweep,
-                                        TransientToolFault)
+from plumbline.domains.ap.arms import ARMS
+from plumbline.domains.ap.policy import AP_POLICY
+from plumbline.domains.ap.tasks import build_tasks
+from plumbline.perturb.library import (
+    Baseline,
+    DecoyTools,
+    Distractor,
+    ParaphraseWithGuard,
+    SamplingSweep,
+    TransientToolFault,
+)
 from plumbline.runtime.budget import Budget
 from plumbline.runtime.cache import ResponseCache
 from plumbline.runtime.runner import RunConfig, run_study
-
-from agents.ap.arms import ARMS
-from agents.ap.policy import AP_POLICY
-from agents.ap.tasks import build_tasks
 
 
 def build_suite(temperature: float):
@@ -89,7 +97,7 @@ def main() -> int:
     perturb_llm = LLMClient(model=args.perturb_model, cache=cache, budget=budget,
                             max_tokens=2048, offline=args.offline)
 
-    from agents.ap.tools import APToolbox
+    from plumbline.domains.ap.tools import APToolbox
     cfg = RunConfig(toolbox_factory=APToolbox,
                     ledger_of=lambda tb, task: tb.ledger_state(task.invoice_id),
                     arms=arms, tasks=tasks, perturbations=suite,

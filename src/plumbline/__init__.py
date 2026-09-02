@@ -5,7 +5,7 @@ break them using input changes that preserve meaning, then reports which
 invariant broke, under which perturbation, at which named step, how often, and
 with what confidence interval.
 """
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 from .core.trajectory import Step, Trajectory, TrajectoryStore
 

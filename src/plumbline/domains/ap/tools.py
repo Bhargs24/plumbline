@@ -13,8 +13,8 @@ this invoice twice" is answered by the ledger, not by parsing the agent's prose.
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
-from typing import Any, Callable
+from collections.abc import Callable
+from dataclasses import dataclass
 
 from .data import APPROVAL_THRESHOLD, PRICE_TOLERANCE, fresh_db
 

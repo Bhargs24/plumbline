@@ -213,7 +213,7 @@ class LLMClient:
         import anthropic
         delay = 2.0
         last = None
-        for i in range(attempts):
+        for _attempt in range(attempts):
             try:
                 return self._client.messages.create(**kwargs)
             except anthropic.RateLimitError as exc:

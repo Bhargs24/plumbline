@@ -18,6 +18,7 @@ that crashes is itself a result worth keeping.
 from __future__ import annotations
 
 import json
+import re
 import time
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -37,13 +38,24 @@ class RunConfig:
     #: Maps a task to its observable end state, for outcome scoring.
     ledger_of: object = None
     arms: list = None                # list[Arm]
-    tasks: list                      # list[Task]
-    perturbations: list              # list[Perturbation]
+    tasks: list = None               # list[Task]
+    perturbations: list = None       # list[Perturbation]
     trials_per_variant: int = 1
     variants_per_perturbation: int = 5
     max_workers: int = 8
     out_dir: str = "runs/latest"
     seed: int = 7
+
+
+_PATH_PREFIX = re.compile(
+    r'[A-Za-z]:[\\/](?:[^\\/\n"]+[\\/])*?(?=(?:plumbline|src|experiments)[\\/])'
+)
+
+
+def _scrub_paths(text: str) -> str:
+    """Error traces are committed as evidence; the operator's drive letters
+    and home directory are not evidence, so they never leave this machine."""
+    return _PATH_PREFIX.sub("<checkout>/", text)
 
 
 @dataclass
@@ -68,9 +80,10 @@ def load_variants(run_dir) -> dict:
     Fault hooks and decoy tool lists are reconstructed from the recorded
     metadata, since a callable cannot be serialised.
     """
+    from pathlib import Path as _P
+
     from ..perturb.base import Variant
     from ..perturb.library import DECOYS, _fail_once
-    from pathlib import Path as _P
     raw = json.loads((_P(run_dir) / "variants.json").read_text(encoding="utf-8"))
     out: dict[str, list] = {}
     for task_id, entries in raw.items():
@@ -93,11 +106,17 @@ def load_variants(run_dir) -> dict:
 
 def generate_variants(cfg: RunConfig, perturb_llm) -> tuple[dict, int]:
     """Build the variant set once, shared by every arm."""
+    import hashlib
     import random
     out: dict[str, list] = {}
     discarded = 0
     for task in cfg.tasks:
-        rng = random.Random(cfg.seed + hash(task.task_id) % 10_000)
+        # hash() is salted per process (PYTHONHASHSEED); a stable digest keeps
+        # variant generation reproducible across runs and machines.
+        rng = random.Random(
+            cfg.seed
+            + int(hashlib.sha256(task.task_id.encode()).hexdigest()[:8], 16) % 10_000
+        )
         variants = []
         for p in cfg.perturbations:
             got = p.variants(task, n=cfg.variants_per_perturbation,
@@ -118,6 +137,9 @@ def run_study(cfg: RunConfig, agent_llm, perturb_llm, *,
     if cfg.toolbox_factory is None:
         raise ValueError("RunConfig.toolbox_factory is required: the runner "
                          "does not know what tools your domain has")
+    for req in ("arms", "tasks", "perturbations"):
+        if not getattr(cfg, req):
+            raise ValueError(f"RunConfig.{req} is required")
     started = time.perf_counter()
     result = RunResult(budget=agent_llm.budget)
     if reuse_variants:
@@ -155,7 +177,8 @@ def run_study(cfg: RunConfig, agent_llm, perturb_llm, *,
                               model=agent_llm.model,
                               error=f"{type(exc).__name__}: {exc}")
             result.errors.append({"trial": trial_key, "error": str(exc),
-                                  "trace": traceback.format_exc(limit=3)})
+                                  "trace": _scrub_paths(
+                                      traceback.format_exc(limit=3))})
         ledger = (cfg.ledger_of(toolbox, task) if cfg.ledger_of
                   else toolbox.ledger_state(task.task_id))
         return traj, ledger

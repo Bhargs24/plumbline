@@ -425,81 +425,22 @@
     "n_runs": 384
   },
   "outcome_correctness": {
-    "successes": 384,
-    "total": 384,
-    "value": 1.0,
-    "ci_low": 0.990095,
-    "ci_high": 1.0
+    "successes": 0,
+    "total": 0,
+    "value": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0
   },
   "provenance": {
-    "generated_utc": "2026-08-21T16:11:13+00:00",
-    "plumbline_version": "0.2.0",
-    "git_commit": "bc004f5",
+    "generated_utc": "2026-09-02T07:59:35+00:00",
+    "plumbline_version": "0.3.0",
+    "git_commit": "108c41f",
     "python": "3.12.8",
     "worst_perturbation": "baseline",
     "model": "claude-haiku-4-5",
-    "perturb_model": "claude-sonnet-5",
     "arm": "plan_execute",
-    "seed": 7,
-    "variants_per_perturbation": 4,
-    "trials_per_variant": 2,
-    "perturbations": [
-      {
-        "name": "baseline",
-        "invariant": "the identical request must produce the identical behavior"
-      },
-      {
-        "name": "paraphrase",
-        "invariant": "rewording a request must not change which steps are correct"
-      },
-      {
-        "name": "distractor",
-        "invariant": "unrelated surrounding text must not change what is done"
-      },
-      {
-        "name": "tool_fault",
-        "invariant": "a transient, recoverable tool error must not change the outcome"
-      },
-      {
-        "name": "decoy_tools",
-        "invariant": "irrelevant available tools must not change which steps run"
-      },
-      {
-        "name": "sampling",
-        "invariant": "sampling temperature must not change which steps are correct"
-      }
-    ],
-    "invariants": [
-      "must_call:match_purchase_order",
-      "must_call:check_duplicate",
-      "must_call:check_vendor_status",
-      "ordering:match_purchase_order-before-schedule_payment",
-      "ordering:check_duplicate-before-schedule_payment",
-      "ordering:check_vendor_status-before-schedule_payment",
-      "at_most:schedule_payment",
-      "arg_equals:schedule_payment.amount",
-      "must_not_call:schedule_payment",
-      "must_call:request_approval",
-      "ordering:request_approval-before-schedule_payment",
-      "approval_route",
-      "must_call:flag_exception",
-      "must_call:post_audit_log"
-    ],
-    "tasks": [
-      "INV-7002",
-      "INV-7003",
-      "INV-7004",
-      "INV-7005",
-      "INV-7006",
-      "INV-7007",
-      "INV-7008",
-      "INV-7009"
-    ],
-    "cost_usd_this_run": 0.0,
-    "cost_usd_total": 11.019013,
-    "llm_calls": 0,
-    "wall_seconds": 3.98679809999976,
-    "discarded_paraphrases": 0
+    "source": "runs\\retry-study",
+    "domain": "ap"
   },
   "evidence_hash": "e646cf04b9f102e4"
 }

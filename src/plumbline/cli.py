@@ -28,28 +28,54 @@ def _load(run_dir: Path):
     return trajs, ledgers
 
 
-def _policy_and_contexts():
-    """The AP policy ships as the worked example. A different agent supplies its
-    own PolicySpec; this is the default so the CLI is useful out of the box."""
-    from agents.ap.policy import AP_POLICY
-    from agents.ap.tasks import build_tasks
-    return AP_POLICY, {t.task_id: t.context for t in build_tasks()}
+def _repo_root() -> Path | None:
+    """The checkout this package runs from, if it runs from one: the nearest
+    ancestor of the working directory or the package holding a runs/ folder."""
+    for start in (Path.cwd(), Path(__file__).resolve()):
+        for cand in (start, *start.parents):
+            if (cand / "runs").is_dir() and (cand / "pyproject.toml").exists():
+                return cand
+    return None
+
+
+def _domain(args):
+    """Resolve the domain whose policy scores this run, loudly and by name."""
+    from .domains import get_domain
+    d = get_domain(getattr(args, "domain", "ap"))
+    print(f"scoring against domain {d.name!r} ({d.summary})", file=sys.stderr)
+    return d
+
+
+def _scoreable(trajs, args):
+    """One scoring rule everywhere: a run that never completed is missing
+    data, not evidence. Excluded runs are disclosed, never silently priced
+    as violations -- and never silently dropped either."""
+    if getattr(args, "include_errors", False):
+        return trajs
+    complete = [t for t in trajs if not t.error]
+    dropped = len(trajs) - len(complete)
+    if dropped:
+        print(f"excluded {dropped} run(s) that did not complete -- missing "
+              "data, not evidence (pass --include-errors to score them "
+              "as violations)", file=sys.stderr)
+    return complete
 
 
 def cmd_certify(args) -> int:
     from .certify import certify
     run_dir = Path(args.run_dir)
     trajs, ledgers = _load(run_dir)
-    spec, contexts = _policy_and_contexts()
+    d = _domain(args)
+    trajs = _scoreable(trajs, args)
     arms = sorted({t.arm for t in trajs}) if args.arm is None else [args.arm]
     for arm in arms:
         subset = [t for t in trajs if t.arm == arm]
         if not subset:
             print(f"no runs for arm {arm!r}", file=sys.stderr)
             continue
-        cert = certify(subset, spec, contexts, ledgers, subject=f"{arm} arm",
+        cert = certify(subset, d.policy, d.contexts, ledgers, subject=f"{arm} arm",
                        provenance={"model": subset[0].model, "arm": arm,
-                                   "source": str(run_dir)})
+                                   "source": str(run_dir), "domain": d.name})
         if args.json:
             print(json.dumps(cert.to_dict(), indent=2))
         else:
@@ -63,11 +89,12 @@ def cmd_certify(args) -> int:
 def cmd_compare(args) -> int:
     from .certify import compare_arms
     trajs, _ = _load(Path(args.run_dir))
-    spec, contexts = _policy_and_contexts()
-    overall = compare_arms(trajs, spec, contexts, args.arm_a, args.arm_b)
+    d = _domain(args)
+    trajs = _scoreable(trajs, args)
+    overall = compare_arms(trajs, d.policy, d.contexts, args.arm_a, args.arm_b)
     print(f"overall   {overall.describe()}")
     for pert in sorted({t.perturbation for t in trajs}):
-        c = compare_arms(trajs, spec, contexts, args.arm_a, args.arm_b,
+        c = compare_arms(trajs, d.policy, d.contexts, args.arm_a, args.arm_b,
                          perturbation=pert)
         if c.a.total and c.b.total:
             print(f"  {pert:<14} {c.describe()}")
@@ -79,19 +106,12 @@ def cmd_parity(args) -> int:
     from .certify import prove_parity
     run_dir = Path(args.run_dir)
     trajs, ledgers = _load(run_dir)
-    spec, _ = _policy_and_contexts()
-
-    if args.exclude_errors:
-        before = len(trajs)
-        trajs = [t for t in trajs if not t.error]
-        dropped = before - len(trajs)
-        if dropped:
-            print(f"excluded {dropped} run(s) that did not complete\n",
-                  file=sys.stderr)
+    d = _domain(args)
+    trajs = _scoreable(trajs, args)
 
     report = prove_parity(trajs, incumbent=args.incumbent,
                           replacement=args.replacement,
-                          ledger_states=ledgers, spec=spec)
+                          ledger_states=ledgers, spec=d.policy)
     if args.json:
         print(json.dumps(report.to_dict(), indent=2))
     else:
@@ -111,16 +131,16 @@ def cmd_attest(args) -> int:
     control owner and their auditor actually work in: deviation rates against a
     tolerable rate, at a sample size chosen for a stated confidence level.
     """
-    from .compliance import (P2P_FRAMEWORK, attest, exception_routing,
-                             render_text)
+    from .compliance import P2P_FRAMEWORK, attest, exception_routing, render_text
     trajs, _ = _load(Path(args.run_dir))
-    spec, contexts = _policy_and_contexts()
+    d = _domain(args)
+    trajs = _scoreable(trajs, args)
     if args.arm:
         trajs = [t for t in trajs if t.arm == args.arm]
         if not trajs:
             print(f"no trajectories for arm {args.arm!r}", file=sys.stderr)
             return 2
-    a = attest(trajs, spec, contexts, P2P_FRAMEWORK,
+    a = attest(trajs, d.policy, d.contexts, P2P_FRAMEWORK,
                operator=args.operator, period=args.period,
                itgc_effective=not args.itgc_failed, confidence=args.confidence)
 
@@ -157,24 +177,21 @@ def cmd_demo(args) -> int:
     repository ships its trajectories, so a stranger can see the whole tool
     working on real data thirty seconds after cloning.
     """
+    from .domains import get_domain
     from .store import Store
     from .store.importer import import_run
-    from agents.ap.policy import AP_POLICY
-    from agents.ap.tasks import build_tasks, expected_outcome
 
-    contexts = {t.task_id: t.context for t in build_tasks()}
+    dom = get_domain("ap")
 
-    def outcome_ok(ctx, ledger):
-        if not ctx or ledger is None:
-            return False
-        w = expected_outcome(ctx)
-        return (bool(ledger.get("paid")) == w["paid"]
-                and int(ledger.get("payment_count", 0)) == w["payment_count"]
-                and abs(float(ledger.get("amount_paid", 0))
-                        - w["amount_paid"]) < 0.005
-                and bool(ledger.get("exception_raised")) == w["exception_raised"])
-
-    root = Path(__file__).resolve().parents[2]
+    # The committed studies live in the repository, next to this package in a
+    # checkout. A pip-installed plumbline has no studies to replay.
+    root = _repo_root()
+    if root is None:
+        print("demo replays the repository's committed studies, so it needs a "
+              "checkout:\n  git clone https://github.com/Bhargs24/plumbline && "
+              "cd plumbline && pip install -e . && plumbline demo",
+              file=sys.stderr)
+        return 2
     db = Path(args.db)
     if db.exists() and not args.reset:
         print(f"store already exists at {db}; pass --reset to rebuild it")
@@ -191,9 +208,9 @@ def cmd_demo(args) -> int:
             if not (path / "trajectories.jsonl").exists():
                 continue
             rid = import_run(store, path, project="AP controls",
-                             domain="accounts_payable", label=label,
-                             policy=AP_POLICY, contexts=contexts,
-                             outcome_fn=outcome_ok)
+                             domain="ap", label=label,
+                             policy=dom.policy, contexts=dom.contexts,
+                             outcome_fn=dom.outcome_matches)
             print(f"  seeded {label}  ->  {rid}")
             seeded += 1
         if not seeded:
@@ -223,14 +240,16 @@ def cmd_import(args) -> int:
     from .store import Store
     from .store.importer import import_run
     policy = contexts = outcome_fn = None
-    if args.domain == "accounts_payable":
-        from domains.accounts_payable.policy import AP_POLICY
-        from domains.accounts_payable.tasks import build_tasks, outcome_matches
-        policy = AP_POLICY
-        contexts = {t.task_id: t.context for t in build_tasks()}
-        outcome_fn = outcome_matches
+    domain = args.domain
+    if domain != "none":
+        from .domains import get_domain
+        dom = get_domain(domain)
+        policy, contexts, outcome_fn = dom.policy, dom.contexts, dom.outcome_matches
+        domain = dom.name
+        print(f"scoring against domain {dom.name!r} ({dom.summary})",
+              file=sys.stderr)
     rid = import_run(Store(args.db), args.run_dir, project=args.project,
-                     domain=args.domain, label=args.label or "",
+                     domain=domain, label=args.label or "",
                      policy=policy, contexts=contexts, outcome_fn=outcome_fn)
     print(f"imported {args.run_dir} as {rid}")
     return 0
@@ -300,10 +319,16 @@ def _force_utf8() -> None:
             pass
 
 
-def main(argv=None) -> int:
-    root = Path(__file__).resolve().parents[2]
-    sys.path.insert(0, str(root))
+def _scoring_flags(parser) -> None:
+    parser.add_argument("--domain", default="ap",
+                        help="which built-in domain's policy scores this run "
+                             "(default: ap). Unknown names fail loudly.")
+    parser.add_argument("--include-errors", action="store_true",
+                        help="score runs that never completed as violations "
+                             "instead of excluding them as missing data")
 
+
+def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="plumbline",
                                  description="Conformance-under-perturbation "
                                              "testing for LLM agents.")
@@ -314,12 +339,14 @@ def main(argv=None) -> int:
     c.add_argument("--arm", default=None)
     c.add_argument("--json", action="store_true")
     c.add_argument("--out", default=None)
+    _scoring_flags(c)
     c.set_defaults(fn=cmd_certify)
 
     p = sub.add_parser("compare", help="test two arms against each other")
     p.add_argument("run_dir")
     p.add_argument("arm_a")
     p.add_argument("arm_b")
+    _scoring_flags(p)
     p.set_defaults(fn=cmd_compare)
 
     q = sub.add_parser("parity",
@@ -328,11 +355,9 @@ def main(argv=None) -> int:
     q.add_argument("run_dir")
     q.add_argument("incumbent", help="the system being replaced")
     q.add_argument("replacement", help="the system replacing it")
-    q.add_argument("--exclude-errors", action="store_true",
-                   help="drop runs that did not complete, e.g. after an API "
-                        "outage, rather than scoring them as divergences")
     q.add_argument("--json", action="store_true")
     q.add_argument("--out", default=None)
+    _scoring_flags(q)
     q.set_defaults(fn=cmd_parity)
 
     w = sub.add_parser("report", help="render the study into a self-contained "
@@ -360,6 +385,7 @@ def main(argv=None) -> int:
                         "reliance cannot be taken")
     t.add_argument("--json", action="store_true")
     t.add_argument("--out", default=None, help="also write the workpaper as JSON")
+    _scoring_flags(t)
     t.set_defaults(fn=cmd_attest)
 
     d = sub.add_parser("demo", help="seed the store from committed runs and "
@@ -379,7 +405,9 @@ def main(argv=None) -> int:
     m = sub.add_parser("import", help="load a run directory into the store")
     m.add_argument("run_dir")
     m.add_argument("--project", required=True)
-    m.add_argument("--domain", default="accounts_payable")
+    m.add_argument("--domain", default="ap",
+                   help="built-in domain to score against, or 'none' to store "
+                        "raw trajectories without certificates")
     m.add_argument("--label", default=None)
     m.add_argument("--db", default="plumbline.db")
     m.set_defaults(fn=cmd_import)

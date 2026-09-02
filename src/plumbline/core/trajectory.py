@@ -22,8 +22,9 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass, field, asdict
-from typing import Any, Iterator
+from collections.abc import Iterator
+from dataclasses import asdict, dataclass, field
+from typing import Any
 
 # Step kinds. Only CONTROL_KINDS participate in path comparison; message and
 # thought steps are recorded for debugging but do not define control flow,
@@ -72,7 +73,7 @@ class Step:
         return d
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Step":
+    def from_dict(cls, d: dict) -> Step:
         known = {f for f in cls.__dataclass_fields__}
         return cls(**{k: v for k, v in d.items() if k in known})
 
@@ -175,7 +176,7 @@ class Trajectory:
         return d
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Trajectory":
+    def from_dict(cls, d: dict) -> Trajectory:
         d = dict(d)
         steps = [Step.from_dict(s) for s in d.pop("steps", [])]
         known = {f for f in cls.__dataclass_fields__}

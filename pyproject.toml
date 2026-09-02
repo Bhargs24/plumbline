@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "plumbline"
-version = "0.2.0"
+version = "0.3.0"
 description = "Conformance-under-perturbation testing for LLM agents."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -13,9 +13,12 @@ authors = [{ name = "Bhargav Raghavendra" }]
 dependencies = []
 
 [project.optional-dependencies]
-anthropic = ["anthropic>=0.40"]
+# The adapter passes cache_control as a top-level messages.create parameter,
+# which exists from the 1.x SDK onward -- an older floor would import fine
+# and fail at the first call.
+anthropic = ["anthropic>=1.0"]
 server = ["fastapi>=0.110", "uvicorn>=0.27"]
-dev = ["pytest>=7.4", "anthropic>=0.40", "fastapi>=0.110", "uvicorn>=0.27"]
+dev = ["pytest>=7.4", "ruff", "anthropic>=1.0", "fastapi>=0.110", "uvicorn>=0.27"]
 
 [project.scripts]
 plumbline = "plumbline.cli:main"
@@ -25,4 +28,16 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src", "."]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# Standalone scripts that must shim sys.path before importing the package.
+"experiments/**" = ["E402"]
+"docs/*.py" = ["E402"]

@@ -20,13 +20,23 @@ give it is, from an audit standpoint, the same as having no approval.
 """
 from __future__ import annotations
 
-from plumbline.core.compare import (EXACT, IGNORE, NUMERIC, TEXT, ArgSchema,
-                                    FieldPolicy)
-from plumbline.spec.invariants import (CRITICAL, HIGH, LOW, MEDIUM, ArgEquals,
-                                       ArgSatisfies, CallAtMost, MustCall,
-                                       MustNotCall, Ordering, PolicySpec)
+from plumbline.core.compare import EXACT, IGNORE, NUMERIC, TEXT, ArgSchema, FieldPolicy
+from plumbline.spec.invariants import (
+    CRITICAL,
+    HIGH,
+    LOW,
+    MEDIUM,
+    ArgEquals,
+    ArgSatisfies,
+    CallAtMost,
+    MustCall,
+    MustNotCall,
+    Ordering,
+    PolicySpec,
+)
 
 from .schema import APPROVAL_MATRIX
+
 
 # --- conditions -----------------------------------------------------------
 def _payable(c):        return bool(c.get("should_pay"))

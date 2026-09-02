@@ -33,7 +33,7 @@ PERTURBATION is the bar.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from ..core.align import EXTRA, SKIPPED, SUBSTITUTE, align
 from ..core.compare import ArgSchema, compare_args
@@ -125,7 +125,7 @@ class EquivalenceReport:
     def render(self, width: int = 74) -> str:
         L, bar = [], "=" * width
         L.append(bar)
-        L.append(f"  PLUMBLINE PARITY CERTIFICATE")
+        L.append("  PLUMBLINE PARITY CERTIFICATE")
         L.append(f"  incumbent: {self.incumbent}    replacement: {self.replacement}")
         L.append(bar)
         L.append(f"  Retirement confidence : {100 * self.retirement_bound:5.1f}%")
@@ -268,7 +268,7 @@ def analyze_equivalence(trajectories: list[Trajectory], *,
         else:
             ref_steps, rep_steps = ref.effect_steps(), rep.effect_steps()
             clean = True
-            for i, (a, b) in enumerate(zip(ref_steps, rep_steps)):
+            for i, (a, b) in enumerate(zip(ref_steps, rep_steps, strict=False)):
                 schema = arg_schemas.get(b.name, ArgSchema())
                 for d in compare_args(b.name, a.args, b.args, schema):
                     if d.severity == "low":

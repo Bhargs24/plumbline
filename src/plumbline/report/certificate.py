@@ -38,10 +38,14 @@ from ..analysis.stats import Proportion
 
 
 def _grade(bound: float) -> str:
-    if bound >= 0.95: return "A"
-    if bound >= 0.85: return "B"
-    if bound >= 0.70: return "C"
-    if bound >= 0.50: return "D"
+    if bound >= 0.95:
+        return "A"
+    if bound >= 0.85:
+        return "B"
+    if bound >= 0.70:
+        return "C"
+    if bound >= 0.50:
+        return "D"
     return "F"
 
 
@@ -54,13 +58,19 @@ VERDICTS = {
 }
 
 
-def _git_commit() -> str:
+def _git_commit(anchor: str | None = None) -> str:
+    """The commit of the repository holding the EVIDENCE, never the caller's
+    working directory -- a certificate stamped with whatever repo the operator
+    happened to be standing in is false provenance. With no anchor, or an
+    anchor outside any repository, the honest answer is that there isn't one."""
+    if not anchor:
+        return "(no repository)"
     try:
         return subprocess.check_output(
-            ["git", "rev-parse", "--short", "HEAD"],
+            ["git", "-C", str(anchor), "rev-parse", "--short", "HEAD"],
             stderr=subprocess.DEVNULL, text=True).strip()
     except (subprocess.CalledProcessError, FileNotFoundError, OSError):
-        return "unknown"
+        return "(no repository)"
 
 
 @dataclass
@@ -79,7 +89,7 @@ class Certificate:
     @classmethod
     def build(cls, *, subject: str, policy_name: str,
               conformance: ConformanceReport, consistency: ConsistencyReport,
-              outcome: Proportion, trajectories: list, provenance: dict) -> "Certificate":
+              outcome: Proportion, trajectories: list, provenance: dict) -> Certificate:
         worst_name, worst = conformance.worst_perturbation
         bound = worst.lo
         payload = json.dumps([t.trial_id + "|" + t.path_str() for t in
@@ -88,7 +98,7 @@ class Certificate:
         prov = {
             "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "plumbline_version": _version(),
-            "git_commit": _git_commit(),
+            "git_commit": _git_commit(provenance.get("source")),
             "python": platform.python_version(),
             "worst_perturbation": worst_name,
             **provenance,

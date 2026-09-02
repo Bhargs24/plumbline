@@ -22,11 +22,19 @@ already suspect a problem is not a control.
 """
 from __future__ import annotations
 
-from plumbline.core.compare import (EXACT, IGNORE, NUMERIC, TEXT,
-                                     ArgSchema, FieldPolicy)
-from plumbline.spec.invariants import (CRITICAL, HIGH, MEDIUM, ArgEquals,
-                                        ArgSatisfies, CallAtMost, MustCall,
-                                        MustNotCall, Ordering, PolicySpec)
+from plumbline.core.compare import EXACT, IGNORE, NUMERIC, TEXT, ArgSchema, FieldPolicy
+from plumbline.spec.invariants import (
+    CRITICAL,
+    HIGH,
+    MEDIUM,
+    ArgEquals,
+    ArgSatisfies,
+    CallAtMost,
+    MustCall,
+    MustNotCall,
+    Ordering,
+    PolicySpec,
+)
 
 
 def _not_payable(ctx: dict) -> bool:

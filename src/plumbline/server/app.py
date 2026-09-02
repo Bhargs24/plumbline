@@ -25,10 +25,12 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 
+from plumbline import __version__
+
 from ..store.db import Store
 from . import views
 
-app = FastAPI(title="Plumbline", version="0.3.0",
+app = FastAPI(title="Plumbline", version=__version__,
               description="Metamorphic conformance testing for LLM agents.")
 
 #: Resolved at import so a deployment can point at a shared database
@@ -219,19 +221,24 @@ def api_attestation(run_id: str, arm: str | None = None,
 
 def _attestation(run_id: str, arm: str | None, operator: str):
     from ..compliance import P2P_FRAMEWORK, attest
-    from ..cli import _policy_and_contexts
+    from ..domains import get_domain
 
     s = _store()
     run = s.run(run_id)
     if not run:
         raise HTTPException(404, f"no run {run_id}")
+    try:
+        dom = get_domain(run.get("domain") or "ap")
+    except SystemExit as e:
+        # A run recorded under a domain this build doesn't know must not be
+        # scored with someone else's policy.
+        raise HTTPException(409, str(e)) from None
     trajs = s.all_trajectories(run_id)
     if arm:
         trajs = [t for t in trajs if t.arm == arm]
     if not trajs:
         raise HTTPException(404, f"no trajectories for arm {arm!r}")
-    spec, contexts = _policy_and_contexts()
-    return run, attest(trajs, spec, contexts, P2P_FRAMEWORK,
+    return run, attest(trajs, dom.policy, dom.contexts, P2P_FRAMEWORK,
                        operator=operator, period=run.get("started_at", "")[:7])
 
 

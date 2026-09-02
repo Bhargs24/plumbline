@@ -27,7 +27,6 @@ from __future__ import annotations
 
 import html
 import json
-from pathlib import Path
 
 # Validated categorical slots 1 and 2. See the module docstring.
 SERIES = [
@@ -225,7 +224,7 @@ def dot_plot(rows, *, x_min=0.60, width=760, row_h=44, pad_l=132, pad_r=64,
                    f'font-size="12.5" fill="var(--ink-2)">{_e(cat)}</text>')
         # two series offset vertically so overlapping intervals stay readable
         offsets = {1: (0,), 2: (-7, 7), 3: (-11, 0, 11)}.get(len(points), (0,))
-        for (si, val, lo, hi, n), dy in zip(points, offsets):
+        for (si, val, lo, hi, n), dy in zip(points, offsets, strict=False):
             colour = f"var(--series-{si + 1})"
             y = cy + dy
             out.append(

@@ -35,10 +35,11 @@ reported as missing.
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
-from ..core.trajectory import DECISION, FINAL, TOOL_CALL, Step, Trajectory
+from ..core.trajectory import TOOL_CALL, Step, Trajectory
 
 # --- attribute names, in preference order ----------------------------------
 TOOL_NAME = ("gen_ai.tool.name", "tool.name", "gen_ai.tool.call.name")

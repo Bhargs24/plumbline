@@ -154,9 +154,12 @@ def _pct_bar(value: float | None, colour: str = "var(--accent)") -> str:
 def _grade_colour(bound: float | None) -> str:
     if bound is None:
         return "var(--ink-3)"
-    if bound >= 0.95: return "var(--ok)"
-    if bound >= 0.85: return "var(--med)"
-    if bound >= 0.60: return "var(--high)"
+    if bound >= 0.95:
+        return "var(--ok)"
+    if bound >= 0.85:
+        return "var(--med)"
+    if bound >= 0.60:
+        return "var(--high)"
     return "var(--crit)"
 
 

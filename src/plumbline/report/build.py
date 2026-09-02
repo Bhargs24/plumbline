@@ -10,12 +10,11 @@ agent benchmark.
 from __future__ import annotations
 
 import json
-from collections import defaultdict
 from pathlib import Path
 
 from ..analysis.stats import compare, wilson
 from ..core.trajectory import TrajectoryStore
-from .html import CSS, dot_plot, trajectory_diff, wrap_standalone, _e
+from .html import CSS, _e, dot_plot, trajectory_diff, wrap_standalone
 
 PAGE_TITLE = "The Baseline Was the Result"
 
@@ -54,7 +53,7 @@ def _find_pair(naive_trajs, retry_trajs, contexts, naive_led, retry_led, matches
 
 
 def build(root: str | Path = ".", *, standalone: bool = True) -> str:
-    from agents.ap.tasks import build_tasks, expected_outcome
+    from plumbline.domains.ap.tasks import build_tasks, expected_outcome
 
     root = Path(root)
     contexts = {t.task_id: t.context for t in build_tasks()}
@@ -69,7 +68,7 @@ def build(root: str | Path = ".", *, standalone: bool = True) -> str:
                 and bool(led.get("exception_raised")) == w["exception_raised"])
 
     data = {}
-    for key, run, arm, label in SERIES:
+    for key, run, arm, _label in SERIES:
         data[key] = _load(root, run, arm, contexts, matches)
 
     naive_f = data["naive"][2]
@@ -118,8 +117,8 @@ def build(root: str | Path = ".", *, standalone: bool = True) -> str:
 
     B.append('<p class="eyebrow">The correction</p>')
     B.append('<h2>Three lines of retry logic closed the entire gap</h2>')
-    B.append(f'<p>The identical 768 trials, re-run with the error handling a '
-             f'real integration has:</p>')
+    B.append('<p>The identical 768 trials, re-run with the error handling a '
+             'real integration has:</p>')
     B.append(f'<div class="hero"><p class="ci" style="margin:0;font-size:.95rem;'
              f'line-height:2">'
              f'naive &rarr; retry &nbsp;&nbsp;{cmp_fix.diff:+.1f} pts&nbsp;&nbsp;'
