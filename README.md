@@ -133,7 +133,7 @@ The last two are the ones a simpler harness cannot express. An exception filed u
 
 A measuring instrument is only as interesting as what you point it at. The first domain resolves to 8 invoices and 4 boolean checks, which a capable model saturates. Discriminating between architectures needs a domain with genuine ambiguity in it.
 
-`domains/accounts_payable/` is built so failure lives where it really lives in AP — in **ambiguity**, not arithmetic. 11 tables, 16 tools, 20 invoices, 13 distinct exception classes:
+`plumbline.domains.accounts_payable` is built so failure lives where it really lives in AP — in **ambiguity**, not arithmetic. 11 tables, 16 tools, 20 invoices, 13 distinct exception classes:
 
 | | |
 |---|---|
@@ -167,8 +167,9 @@ src/plumbline/
 ├── analysis/      conformance · consistency · equivalence · Wilson · permutation
 ├── store/         SQLite: projects, runs, trajectories, certificates, violations
 ├── server/        REST API, OTLP ingest, and a server-rendered console
-└── report/        certificate and self-contained HTML report
-domains/accounts_payable/   11 tables · 16 tools · 20-case taxonomy · policy · 3 arms
+├── report/        certificate and self-contained HTML report
+└── domains/       worked examples: ap (the studied 8-invoice domain) ·
+                   accounts_payable (11 tables · 16 tools · 20-case taxonomy · 3 arms)
 ```
 
 Three analyses that are easy to conflate and must not be:
