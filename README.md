@@ -68,9 +68,15 @@ held a clean invoice                    paid correctly
 
 ---
 
-## 2 · Recheck the published numbers in 30 seconds
+## 2 · Install, and recheck the published numbers in 30 seconds
 
-All 2,082 trajectories from all three studies are committed. Everything below reads those stored traces and makes **no model calls**, so the published numbers can be rechecked for free.
+The tool itself installs from PyPI — the distribution is `plumbline-harness` (the bare name belongs to an unrelated project); the CLI and import name are `plumbline` either way:
+
+```bash
+pip install "plumbline-harness[server]"
+```
+
+To recheck the published numbers you want the checkout: all 2,082 trajectories from all three studies are committed, and everything below reads those stored traces and makes **no model calls**, so the numbers can be rechecked for free.
 
 ```bash
 git clone https://github.com/Bhargs24/plumbline && cd plumbline
