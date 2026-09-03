@@ -7,6 +7,24 @@
 ![evidence](https://img.shields.io/badge/evidence-2%2C082%20trajectories%20committed-informational)
 ![licence](https://img.shields.io/badge/licence-Apache--2.0-lightgrey)
 
+**In plain words:** your agent can get the right answer every time and still skip
+the control that was the whole point — an output eval cannot see that, a control
+test can. Plumbline records what an agent actually *did*, checks every step
+against the controls you declare, tries to break them by rewording the request
+and injecting faults, and reports what broke, where, with a confidence interval
+— down to a SOX-style control-testing workpaper an auditor recognises.
+
+**Two ways in:**
+
+- **See it working in 30 seconds, no API key** — clone this repo and run
+  `plumbline demo`: it replays the committed studies below and opens the console.
+- **Point it at your own agent** — `pip install "plumbline-harness[server]"`
+  (the CLI and import name are `plumbline`), then declare your invariants and
+  feed it trajectories or OpenTelemetry traces: [section 7](#7--point-it-at-your-own-agent).
+
+What follows is the study this instrument was built on — including the result
+it retracted, which is the best demonstration of what it does.
+
 ---
 
 ## 1 · The finding: a significant result that was entirely baseline artifact
